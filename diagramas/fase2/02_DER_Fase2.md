@@ -46,7 +46,7 @@ erDiagram
         SERIAL id PK
         VARCHAR(100) nombre "UNIQUE, NOT NULL"
         TEXT descripcion
-        DECIMAL(10,2) precio_metro
+        DECIMAL precio_metro
     }
 
     años ||--o{ colecciones : "FK año_id"
@@ -81,7 +81,7 @@ erDiagram
         SERIAL id PK
         VARCHAR(200) nombre "NOT NULL"
         VARCHAR(100) tipo "NOT NULL"
-        DECIMAL(10,2) precio_chamana "NOT NULL, CHECK > 0"
+        DECIMAL precio_chamana "NOT NULL"
         INTEGER categoria_id "FK, NOT NULL"
         INTEGER diseno_id "FK, NOT NULL"
         INTEGER tela_id "FK, NOT NULL"
@@ -90,8 +90,8 @@ erDiagram
         TIMESTAMP fecha_creacion "DEFAULT NOW()"
         TIMESTAMP fecha_ultima_venta
         BOOLEAN activa "DEFAULT true"
-        INTEGER stock_inicial "DEFAULT 0, CHECK >= 0"
-        INTEGER stock_vendido "DEFAULT 0, CHECK >= 0"
+        INTEGER stock_inicial "DEFAULT 0"
+        INTEGER stock_vendido "DEFAULT 0"
         INTEGER stock_disponible "GENERATED ALWAYS AS (stock_inicial - stock_vendido) STORED"
     }
 
@@ -103,10 +103,10 @@ erDiagram
         SERIAL id PK
         INTEGER cliente_id "FK, NOT NULL"
         TIMESTAMP fecha_pedido "DEFAULT NOW(), NOT NULL"
-        VARCHAR(20) estado "CHECK IN (pendiente, completado, cancelado), DEFAULT pendiente"
-        DECIMAL(10,2) subtotal "NOT NULL, CHECK >= 0"
-        DECIMAL(10,2) descuento "DEFAULT 0, CHECK >= 0"
-        DECIMAL(10,2) total "NOT NULL, CHECK >= 0"
+        VARCHAR(20) estado "DEFAULT pendiente"
+        DECIMAL subtotal "NOT NULL"
+        DECIMAL descuento "DEFAULT 0"
+        DECIMAL total "NOT NULL"
         TIMESTAMP fecha_completado
         TIMESTAMP fecha_cancelado
         TEXT notas
@@ -116,10 +116,9 @@ erDiagram
         SERIAL id PK
         INTEGER pedido_id "FK, NOT NULL"
         INTEGER prenda_id "FK, NOT NULL"
-        INTEGER cantidad "NOT NULL, CHECK > 0"
-        DECIMAL(10,2) precio_unitario "NOT NULL, CHECK > 0"
-        DECIMAL(10,2) subtotal "NOT NULL, CHECK >= 0"
-        UNIQUE (pedido_id, prenda_id)
+        INTEGER cantidad "NOT NULL"
+        DECIMAL precio_unitario "NOT NULL"
+        DECIMAL subtotal "NOT NULL"
     }
 
     telas ||--o{ telas_temporadas : "FK tela_id"
@@ -132,16 +131,15 @@ erDiagram
         INTEGER año_id "FK, NOT NULL"
         BOOLEAN activo "DEFAULT true"
         TIMESTAMP fecha_registro "DEFAULT NOW()"
-        UNIQUE (tela_id, temporada_id, año_id)
     }
 
     movimientos_inventario {
         SERIAL id PK
         INTEGER prenda_id "FK, NOT NULL"
-        VARCHAR(20) tipo "CHECK IN (venta, ajuste, devolucion), NOT NULL"
+        VARCHAR(20) tipo "NOT NULL"
         INTEGER cantidad "NOT NULL"
-        INTEGER stock_anterior "NOT NULL, CHECK >= 0"
-        INTEGER stock_nuevo "NOT NULL, CHECK >= 0"
+        INTEGER stock_anterior "NOT NULL"
+        INTEGER stock_nuevo "NOT NULL"
         INTEGER pedido_id "FK, NULLABLE"
         TEXT motivo "NOT NULL"
         TIMESTAMP fecha "DEFAULT NOW(), NOT NULL"
