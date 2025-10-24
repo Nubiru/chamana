@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Agent Observability Metrics (session-specific)
+.context/2.development/metrics/agent_metrics_*.json
+.context/2.development/metrics/agent_summary.json
+
+# Generated dashboards
+.dashboard/
+
+# Logs
+*.log
+logs/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage
+coverage/
+.nyc_output
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+#
+.human/
+.claude/
+.context/
+.cursor/
+.snapshots/

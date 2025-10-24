@@ -1,0 +1,23 @@
+{
+  "name": "chamana-fase2-scripts",
+  "version": "1.0.0",
+  "description": "Migration scripts for CHAMANA Phase 2 (2NF) database implementation",
+  "main": "index.js",
+  "scripts": {
+    "migrate": "node 01_crear_database.js && node 02_crear_tablas.js && node 03_crear_indices.js && node 04_migrar_datos_fase1.js && node 05_inicializar_telas_temporadas.js && node 06_generar_pedidos_prueba.js",
+    "verify": "node 07_verificar.js",
+    "all": "npm run migrate && npm run verify"
+  },
+  "keywords": [
+    "database",
+    "migration",
+    "postgresql",
+    "2nf",
+    "normalization"
+  ],
+  "author": "Gabriel Osemberg",
+  "license": "MIT",
+  "dependencies": {
+    "pg": "^8.11.3"
+  }
+}

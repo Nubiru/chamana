@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clientes - CHAMANA E-commerce</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <style>
+      .users-container {
+        margin-top: 40px;
+      }
+
+      .users-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .search-container {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .search-input {
+        padding: 10px 15px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        min-width: 250px;
+      }
+
+      .users-table-container {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+      }
+
+      .users-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .scrollable {
+        overflow-y: auto !important;
+        max-height: calc(100vh - 80px);
+      }
+
+      .users-table th {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 0.5rem 0.75rem;
+        text-align: left;
+        font-weight: 600;
+        font-size: 0.875rem;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .users-table td {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .users-table tr:hover {
+        background-color: #f8f9fa;
+      }
+
+      .user-id {
+        font-weight: 600;
+        color: var(--secondary-color);
+      }
+
+      .user-name {
+        font-weight: 500;
+        color: var(--primary-color);
+      }
+
+      .user-email {
+        color: var(--text-light);
+      }
+
+      .user-date {
+        color: var(--text-light);
+        font-size: 0.9rem;
+      }
+
+      .user-actions {
+        display: flex;
+        gap: 5px;
+      }
+
+      .btn-small {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 40px;
+        color: var(--text-light);
+      }
+
+      .error {
+        text-align: center;
+        padding: 40px;
+        color: var(--accent-color);
+      }
+
+      .no-users {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--text-light);
+      }
+
+      .no-users h3 {
+        margin-bottom: 10px;
+        color: var(--primary-color);
+      }
+
+      .stats-bar {
+        background: white;
+        padding: 20px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        margin-bottom: 30px;
+        border: 1px solid var(--border-color);
+      }
+
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 20px;
+      }
+
+      .stat-item {
+        text-align: center;
+      }
+
+      .stat-number {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--secondary-color);
+        margin-bottom: 5px;
+      }
+
+      .stat-label {
+        color: var(--text-light);
+        font-size: 0.9rem;
+      }
+
+      .add-user-section {
+        background: white;
+        padding: 20px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        margin-bottom: 30px;
+        border: 1px solid var(--border-color);
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-label {
+        margin-bottom: 5px;
+        font-weight: 500;
+        color: var(--primary-color);
+      }
+
+      .form-input {
+        padding: 10px 15px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+      }
+
+      .form-error {
+        color: var(--accent-color);
+        font-size: 0.9rem;
+        margin-top: 5px;
+      }
+
+      @media (max-width: 768px) {
+        .users-header {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .search-container {
+          justify-content: center;
+        }
+
+        .search-input {
+          min-width: 200px;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .users-table-container {
+          overflow-x: auto;
+        }
+
+        .users-table {
+          min-width: 600px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="nav-container">
+          <h1 class="nav-title">🏪 Sistema de Productos</h1>
+          <ul class="nav-menu">
+            <li class="nav-item">
+              <a href="/" class="nav-link">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a href="/productos" class="nav-link">Productos</a>
+            </li>
+            <li class="nav-item">
+              <a href="/clientes" class="nav-link active">Usuarios</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main class="main-content scrollable">
+      <div class="container">
+        <div class="users-container">
+          <div class="users-header">
+            <h2>Gestión de Usuarios</h2>
+            <div class="search-container">
+              <input
+                type="text"
+                id="searchInput"
+                class="search-input"
+                placeholder="Buscar usuarios..."
+              />
+              <button class="btn btn-primary" onclick="loadUsers()">
+                Buscar
+              </button>
+            </div>
+          </div>
+
+          <div class="stats-bar">
+            <div class="stats-row">
+              <div class="stat-item">
+                <div class="stat-number" id="totalUsers">-</div>
+                <div class="stat-label">Total Usuarios</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number" id="recentUsers">-</div>
+                <div class="stat-label">Registrados Hoy</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number" id="thisWeek">-</div>
+                <div class="stat-label">Esta Semana</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number" id="thisMonth">-</div>
+                <div class="stat-label">Este Mes</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="add-user-section">
+            <h3>Agregar Nuevo Usuario</h3>
+            <form id="userForm">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="userName" class="form-label"
+                    >Nombre Completo *</label
+                  >
+                  <input
+                    type="text"
+                    id="userName"
+                    name="nombre"
+                    class="form-input"
+                    required
+                  />
+                  <div id="userNameError" class="form-error"></div>
+                </div>
+                <div class="form-group">
+                  <label for="userEmail" class="form-label"
+                    >Correo Electrónico *</label
+                  >
+                  <input
+                    type="email"
+                    id="userEmail"
+                    name="email"
+                    class="form-input"
+                    required
+                  />
+                  <div id="userEmailError" class="form-error"></div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">
+                Agregar Usuario
+              </button>
+            </form>
+          </div>
+
+          <div id="usersContent">
+            <div class="loading">
+              <p>🔄 Cargando usuarios...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <p>
+          &copy; 2025 Proyecto de Base de Datos - Universidad. Fase 0: Comienzo
+        </p>
+        <p>
+          Desarrollado por Gabriel | Tecnologías: PostgreSQL + Node.js +
+          Express.js
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Variables globales
+      let allUsers = [];
+      let filteredUsers = [];
+
+      // Inicializar página
+      document.addEventListener('DOMContentLoaded', () => {
+        loadUsers();
+        setupEventListeners();
+      });
+
+      // Configurar event listeners
+      function setupEventListeners() {
+        const searchInput = document.getElementById('searchInput');
+        const userForm = document.getElementById('userForm');
+
+        searchInput.addEventListener('input', filterUsers);
+        userForm.addEventListener('submit', handleUserSubmit);
+      }
+
+      // Cargar usuarios
+      async function loadUsers() {
+        const content = document.getElementById('usersContent');
+        content.innerHTML =
+          '<div class="loading"><p>🔄 Cargando usuarios...</p></div>';
+
+        try {
+          const response = await fetch('/api/clientes');
+          const data = await response.json();
+
+          if (data.success) {
+            allUsers = data.data;
+            filteredUsers = [...allUsers];
+            displayUsers();
+            updateStats();
+          } else {
+            throw new Error(data.error || 'Error al cargar clientes');
+          }
+        } catch (error) {
+          console.error('Error al cargar clientes:', error);
+          content.innerHTML =
+            '<div class="error"><p>❌ Error al cargar clientes</p></div>';
+        }
+      }
+
+      // Filtrar usuarios
+      function filterUsers() {
+        const searchTerm = document
+          .getElementById('searchInput')
+          .value.toLowerCase();
+
+        filteredUsers = allUsers.filter((user) => {
+          const fullName = `${user.nombre || ''} ${
+            user.apellido || ''
+          }`.toLowerCase();
+          return (
+            fullName.includes(searchTerm) ||
+            (user.email && user.email.toLowerCase().includes(searchTerm))
+          );
+        });
+
+        displayUsers();
+      }
+
+      // Mostrar usuarios
+      function displayUsers() {
+        const content = document.getElementById('usersContent');
+
+        if (filteredUsers.length === 0) {
+          content.innerHTML = `
+                    <div class="no-users">
+                        <h3>No se encontraron usuarios</h3>
+                        <p>Intenta ajustar el término de búsqueda</p>
+                    </div>
+                `;
+          return;
+        }
+
+        const usersHTML = `
+                <div class="users-table-container">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Fecha de Registro</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${filteredUsers
+                              .map((user) => createUserRow(user))
+                              .join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+        content.innerHTML = usersHTML;
+      }
+
+      // Crear fila de usuario
+      function createUserRow(user) {
+        const registrationDate = formatDate(user.fecha_registro);
+        const fullName = `${user.nombre || ''} ${user.apellido || ''}`.trim();
+
+        return `
+                <tr>
+                    <td class="user-id">#${user.id}</td>
+                    <td class="user-name">${fullName || 'Sin nombre'}</td>
+                    <td class="user-email">${user.email || 'Sin email'}</td>
+                    <td class="user-date">${registrationDate}</td>
+                    <td class="user-actions">
+                        <button class="btn btn-primary btn-small" onclick="viewUser(${
+                          user.id
+                        })">
+                            Ver
+                        </button>
+                        <button class="btn btn-secondary btn-small" onclick="editUser(${
+                          user.id
+                        })">
+                            Editar
+                        </button>
+                    </td>
+                </tr>
+            `;
+      }
+
+      // Actualizar estadísticas
+      function updateStats() {
+        const now = new Date();
+        const today = new Date(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate()
+        );
+        const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+        const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+        const totalUsers = filteredUsers.length;
+        const recentUsers = filteredUsers.filter((user) => {
+          const userDate = new Date(user.fecha_registro);
+          return userDate >= today;
+        }).length;
+
+        const thisWeek = filteredUsers.filter((user) => {
+          const userDate = new Date(user.fecha_registro);
+          return userDate >= weekAgo;
+        }).length;
+
+        const thisMonth = filteredUsers.filter((user) => {
+          const userDate = new Date(user.fecha_registro);
+          return userDate >= monthAgo;
+        }).length;
+
+        document.getElementById('totalUsers').textContent = totalUsers;
+        document.getElementById('recentUsers').textContent = recentUsers;
+        document.getElementById('thisWeek').textContent = thisWeek;
+        document.getElementById('thisMonth').textContent = thisMonth;
+      }
+
+      // Manejar envío de formulario
+      async function handleUserSubmit(event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const userData = {
+          nombre: formData.get('nombre'),
+          email: formData.get('email')
+        };
+
+        // Validar datos
+        const validation = validateUserData(userData);
+        if (!validation.isValid) {
+          showValidationErrors(validation.errors);
+          return;
+        }
+
+        try {
+          const response = await fetch('/api/clientes', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            showNotification('Cliente creado exitosamente', 'success');
+            event.target.reset();
+            clearValidationErrors();
+            loadUsers();
+          } else {
+            throw new Error(data.error || 'Error al crear cliente');
+          }
+        } catch (error) {
+          console.error('Error al crear cliente:', error);
+          showNotification('Error al crear cliente: ' + error.message, 'error');
+        }
+      }
+
+      // Validar datos de usuario
+      function validateUserData(data) {
+        const errors = {};
+
+        if (!data.nombre || data.nombre.trim() === '') {
+          errors.nombre = 'El nombre es requerido';
+        } else if (data.nombre.length < 2) {
+          errors.nombre = 'El nombre debe tener al menos 2 caracteres';
+        }
+
+        if (!data.email || data.email.trim() === '') {
+          errors.email = 'El email es requerido';
+        } else if (!isValidEmail(data.email)) {
+          errors.email = 'El formato del email no es válido';
+        }
+
+        return {
+          isValid: Object.keys(errors).length === 0,
+          errors
+        };
+      }
+
+      // Mostrar errores de validación
+      function showValidationErrors(errors) {
+        Object.keys(errors).forEach((field) => {
+          const errorElement = document.getElementById(field + 'Error');
+          if (errorElement) {
+            errorElement.textContent = errors[field];
+          }
+        });
+      }
+
+      // Limpiar errores de validación
+      function clearValidationErrors() {
+        const errorElements = document.querySelectorAll('.form-error');
+        errorElements.forEach((element) => {
+          element.textContent = '';
+        });
+      }
+
+      // Ver usuario
+      function viewUser(id) {
+        const user = allUsers.find((u) => u.id === id);
+        if (user) {
+          const fullName = `${user.nombre || ''} ${user.apellido || ''}`.trim();
+          alert(
+            `Cliente: ${fullName}\nEmail: ${
+              user.email || 'Sin email'
+            }\nTeléfono: ${
+              user.telefono || 'Sin teléfono'
+            }\nRegistrado: ${formatDate(user.fecha_registro)}`
+          );
+        }
+      }
+
+      // Editar usuario
+      function editUser(id) {
+        alert('Función de edición en desarrollo');
+      }
+
+      // Validar email
+      function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+
+      // Formatear fecha
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('es-MX', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      }
+
+      // Mostrar notificación
+      function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.textContent = message;
+
+        notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                z-index: 3000;
+                animation: slideIn 0.3s ease-out;
+                max-width: 300px;
+                word-wrap: break-word;
+            `;
+
+        const colors = {
+          success: '#27ae60',
+          error: '#e74c3c',
+          warning: '#f39c12',
+          info: '#3498db'
+        };
+
+        notification.style.backgroundColor = colors[type] || colors.info;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.style.animation = 'slideOut 0.3s ease-in';
+          setTimeout(() => {
+            if (notification.parentNode) {
+              notification.parentNode.removeChild(notification);
+            }
+          }, 300);
+        }, 5000);
+      }
+    </script>
+
+    <style>
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideOut {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+      }
+
+      .notification {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+    </style>
+  </body>
+</html>

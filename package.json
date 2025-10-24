@@ -1,0 +1,27 @@
+{
+  "name": "gabriel-db-final",
+  "version": "1.0.0",
+  "description": "Project with agent-context",
+  "main": "index.js",
+  "scripts": {
+    "usage": "node .cursor/scripts/usage_report.js",
+    "processes": "node .cursor/scripts/process_monitor.js",
+    "dashboard": "node .cursor/scripts/dashboard_launcher.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "uuid": "^9.0.1",
+    "ps-list": "^8.1.1",
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.11.0",
+    "express": "^4.18.2",
+    "pg": "^8.11.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
