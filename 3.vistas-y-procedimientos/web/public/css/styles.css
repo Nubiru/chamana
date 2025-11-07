@@ -1,66 +1,151 @@
 /* =====================================================
-   Custom Styles - Phase 3 Web Application
-   Proyecto: CHAMANA - E-commerce de Ropa Femenina
+   CHAMANA - Phase 3 Custom Styles
+   Brand Colors Applied (Opal, Lily, Meadow, Forest)
    ===================================================== */
 
 :root {
-  --chamana-primary: #2c3e50;
-  --chamana-secondary: #e74c3c;
-  --chamana-accent: #3498db;
+  /* CHAMANA Brand Palette */
+  --opal: #EFEFE9;
+  --lily: #E8D9CD;
+  --lily-dark: #BBA58F;
+  --meadow: #959D90;
+  --forest: #223030;
+  --forest-light: #523D35;
 }
 
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
+  background-color: var(--opal);
+  color: var(--forest);
+}
+
+/* Navbar */
+.navbar-dark {
+  background-color: var(--forest) !important;
 }
 
 .navbar-brand {
   font-weight: bold;
   font-size: 1.5rem;
+  letter-spacing: 0.05em;
 }
 
+.nav-link.active {
+  color: var(--lily) !important;
+  border-bottom: 2px solid var(--lily);
+}
+
+/* Cards */
 .card {
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(34, 48, 48, 0.1);
   transition: transform 0.2s;
+  border: 1px solid var(--lily-dark);
+  background-color: white;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(34, 48, 48, 0.15);
 }
 
 .card-header {
-  font-weight: bold;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  font-weight: 600;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
+/* KPI Cards with CHAMANA colors */
+.card.bg-primary {
+  background: linear-gradient(135deg, var(--forest) 0%, var(--forest-light) 100%) !important;
+  border: none;
+}
+
+.card.bg-success {
+  background: linear-gradient(135deg, var(--meadow) 0%, #7a8574 100%) !important;
+  border: none;
+}
+
+.card.bg-warning {
+  background: linear-gradient(135deg, var(--lily-dark) 0%, #a08973 100%) !important;
+  border: none;
+}
+
+.card.bg-info {
+  background: linear-gradient(135deg, var(--lily) 0%, var(--lily-dark) 100%) !important;
+  border: none;
+  color: var(--forest) !important;
+}
+
+.card.bg-info * {
+  color: var(--forest) !important;
+}
+
+/* Tables */
 .table thead {
-  background-color: var(--chamana-primary);
+  background-color: var(--forest);
   color: white;
 }
 
+.table-hover tbody tr:hover {
+  background-color: rgba(232, 217, 205, 0.3);
+}
+
+/* Buttons */
 .btn-primary {
-  background-color: var(--chamana-primary);
-  border-color: var(--chamana-primary);
+  background-color: var(--forest);
+  border-color: var(--forest);
 }
 
 .btn-primary:hover {
-  background-color: #1a252f;
-  border-color: #1a252f;
+  background-color: var(--forest-light);
+  border-color: var(--forest-light);
 }
 
+.btn-success {
+  background-color: var(--meadow);
+  border-color: var(--meadow);
+}
+
+.btn-warning {
+  background-color: var(--lily-dark);
+  border-color: var(--lily-dark);
+}
+
+.btn-info {
+  background-color: var(--lily);
+  border-color: var(--lily);
+  color: var(--forest);
+}
+
+/* Badges */
 .badge {
-  font-size: 0.9rem;
-  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
 }
 
+.badge.bg-success {
+  background-color: var(--meadow) !important;
+}
+
+.badge.bg-warning {
+  background-color: var(--lily-dark) !important;
+}
+
+.badge.bg-danger {
+  background-color: var(--forest-light) !important;
+}
+
+/* Headings */
 h1 {
-  color: var(--chamana-primary);
+  color: var(--forest);
+  font-weight: 600;
 }
 
+/* Spinner */
 .spinner-border {
   width: 3rem;
   height: 3rem;
+  color: var(--forest);
 }

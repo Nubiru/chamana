@@ -6,6 +6,24 @@
 const API_URL = 'http://localhost:3003/api';
 const historial = [];
 
+// Fetch with timeout helper
+async function fetchWithTimeout(url, options = {}, timeout = 10000) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    const response = await fetch(url, { ...options, signal: controller.signal });
+    clearTimeout(id);
+    return response;
+  } catch (error) {
+    clearTimeout(id);
+    if (error.name === 'AbortError') {
+      throw new Error('La solicitud tardó demasiado tiempo. Verifica tu conexión.');
+    }
+    throw error;
+  }
+}
+
 // Cargar datos al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
   loadPedidos();
@@ -49,11 +67,15 @@ async function procesarPedido(e) {
   resultDiv.classList.add('alert', 'alert-info');
 
   try {
-    const response = await fetch(`${API_URL}/procedures/procesar-pedido`, {
+    const response = await fetchWithTimeout(`${API_URL}/procedures/procesar-pedido`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ pedido_id: pedidoId }),
     });
+
+    if (!response.ok) {
+      throw new Error(`Error del servidor: ${response.status}`);
+    }
 
     const result = await response.json();
 
@@ -87,7 +109,12 @@ async function procesarPedido(e) {
 
 async function loadPrendas() {
   try {
-    const response = await fetch(`${API_URL}/views/inventario-critico`);
+    const response = await fetchWithTimeout(`${API_URL}/views/inventario-critico`);
+
+    if (!response.ok) {
+      throw new Error(`Error del servidor: ${response.status}`);
+    }
+
     const result = await response.json();
 
     if (result.success) {
@@ -99,7 +126,7 @@ async function loadPrendas() {
         const prendaId = prenda.id || Math.floor(Math.random() * 100);
         select.innerHTML += `
           <option value="${prendaId}">
-            ${prenda.nombre_prenda} (Stock: ${prenda.stock_actual})
+            ${prenda.nombre} (Stock: ${prenda.stock_disponible})
           </option>
         `;
       });
@@ -127,7 +154,7 @@ async function reabastecerInventario(e) {
   resultDiv.classList.add('alert', 'alert-info');
 
   try {
-    const response = await fetch(`${API_URL}/procedures/reabastecer-inventario`, {
+    const response = await fetchWithTimeout(`${API_URL}/procedures/reabastecer-inventario`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -135,6 +162,10 @@ async function reabastecerInventario(e) {
         cantidad: parseInt(cantidad, 10),
       }),
     });
+
+    if (!response.ok) {
+      throw new Error(`Error del servidor: ${response.status}`);
+    }
 
     const result = await response.json();
 
@@ -187,7 +218,7 @@ async function calcularComision(e) {
   resultDiv.classList.add('alert', 'alert-info');
 
   try {
-    const response = await fetch(`${API_URL}/procedures/calcular-comision`, {
+    const response = await fetchWithTimeout(`${API_URL}/procedures/calcular-comision`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -196,6 +227,10 @@ async function calcularComision(e) {
         año: parseInt(año, 10),
       }),
     });
+
+    if (!response.ok) {
+      throw new Error(`Error del servidor: ${response.status}`);
+    }
 
     const result = await response.json();
 

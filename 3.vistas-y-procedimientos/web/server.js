@@ -21,6 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.use('/api/views', require('./routes/views'));
 app.use('/api/procedures', require('./routes/procedures'));
+app.use('/api/database-tests', require('./routes/database-tests'));
 
 // Start server
 app.listen(PORT, () => {
@@ -28,4 +29,7 @@ app.listen(PORT, () => {
   console.log(`📊 Dashboard: http://localhost:${PORT}`);
   console.log(`📈 Reports: http://localhost:${PORT}/reportes.html`);
   console.log(`⚙️  Processes: http://localhost:${PORT}/procesos.html`);
+  console.log(
+    `🧪 Database Tests: http://localhost:${PORT}/database-tests.html`
+  );
 });

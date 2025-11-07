@@ -346,22 +346,8 @@ async function seedRealData() {
     // 8. MÉTODOS DE PAGO (3NF)
     // ===================================================================
 
-    console.log('\n💳 Insertando métodos de pago (3NF)...');
-
-    await executeQuery(
-      client,
-      `
-      INSERT INTO metodos_pago (codigo, nombre, tipo, comision_porcentaje, dias_procesamiento) VALUES
-      ('efectivo', 'Efectivo', 'efectivo', 0, 0),
-      ('transferencia', 'Transferencia Bancaria', 'transferencia', 0, 1),
-      ('mp', 'Mercado Pago', 'mercado_pago', 5.99, 2),
-      ('tarjeta_debito', 'Tarjeta de Débito', 'tarjeta_debito', 2.5, 1),
-      ('tarjeta_credito', 'Tarjeta de Crédito', 'tarjeta_credito', 4.5, 1)
-      ON CONFLICT (codigo) DO NOTHING
-    `
-    );
-
-    console.log('   ✅ Métodos de pago insertados');
+    console.log('\n💳 Métodos de pago (3NF)...');
+    console.log('   ⏭️  Ya insertados por script 03 - saltando');
 
     // ===================================================================
     // 9. ESTADOS DE PEDIDO (3NF)

@@ -23,7 +23,7 @@ router.get('/ventas-mensuales', async (_req, res) => {
 router.get('/inventario-critico', async (_req, res) => {
   try {
     const result = await pool.query(
-      'SELECT * FROM vista_inventario_critico ORDER BY stock_actual ASC'
+      'SELECT * FROM vista_inventario_critico ORDER BY stock_disponible ASC'
     );
     res.json({ success: true, data: result.rows });
   } catch (error) {
@@ -35,7 +35,7 @@ router.get('/inventario-critico', async (_req, res) => {
 router.get('/top-productos', async (_req, res) => {
   try {
     const result = await pool.query(
-      'SELECT * FROM vista_top_productos ORDER BY total_vendido DESC LIMIT 10'
+      'SELECT * FROM vista_top_productos ORDER BY ingresos_generados DESC LIMIT 10'
     );
     res.json({ success: true, data: result.rows });
   } catch (error) {
@@ -59,7 +59,7 @@ router.get('/analisis-clientes', async (_req, res) => {
 router.get('/rotacion-inventario', async (_req, res) => {
   try {
     const result = await pool.query(
-      'SELECT * FROM vista_rotacion_inventario ORDER BY rotacion DESC'
+      'SELECT * FROM vista_rotacion_inventario ORDER BY porcentaje_vendido DESC'
     );
     res.json({ success: true, data: result.rows });
   } catch (error) {
