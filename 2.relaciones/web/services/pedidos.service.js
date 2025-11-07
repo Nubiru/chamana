@@ -5,11 +5,7 @@
 
 const BaseService = require('./base.service');
 const { ValidationError, NotFoundError } = require('../utils/errors');
-const {
-  required,
-  isPositive,
-  isNonEmptyArray
-} = require('../utils/validation');
+const { required, isPositive, isNonEmptyArray } = require('../utils/validation');
 const logger = require('../config/logger');
 
 class PedidosService extends BaseService {
@@ -37,10 +33,7 @@ class PedidosService extends BaseService {
 
     return this.executeInTransaction(async (client) => {
       // Calcular subtotal
-      const subtotal = items.reduce(
-        (sum, item) => sum + item.cantidad * item.precio_unitario,
-        0
-      );
+      const subtotal = items.reduce((sum, item) => sum + item.cantidad * item.precio_unitario, 0);
       const total = subtotal - descuento;
 
       logger.info('Creando pedido', {
@@ -48,7 +41,7 @@ class PedidosService extends BaseService {
         items_count: items.length,
         subtotal,
         descuento,
-        total
+        total,
       });
 
       // Crear pedido
@@ -75,9 +68,7 @@ class PedidosService extends BaseService {
         );
 
         if (stockCheck.rows.length === 0) {
-          throw new NotFoundError(
-            `Prenda ${item.prenda_id} no existe o está inactiva`
-          );
+          throw new NotFoundError(`Prenda ${item.prenda_id} no existe o está inactiva`);
         }
 
         const stockDisponible = stockCheck.rows[0].stock_disponible;
@@ -94,20 +85,14 @@ class PedidosService extends BaseService {
           `INSERT INTO pedidos_prendas 
            (pedido_id, prenda_id, cantidad, precio_unitario, subtotal)
            VALUES ($1, $2, $3, $4, $5)`,
-          [
-            pedido_id,
-            item.prenda_id,
-            item.cantidad,
-            item.precio_unitario,
-            itemSubtotal
-          ]
+          [pedido_id, item.prenda_id, item.cantidad, item.precio_unitario, itemSubtotal]
         );
 
         logger.info('Item agregado al pedido', {
           pedido_id,
           prenda_id: item.prenda_id,
           cantidad: item.cantidad,
-          precio_unitario: item.precio_unitario
+          precio_unitario: item.precio_unitario,
         });
       }
 
@@ -129,10 +114,7 @@ class PedidosService extends BaseService {
 
     return this.executeInTransaction(async (client) => {
       // Verificar que el pedido está en estado pendiente
-      const orderCheck = await client.query(
-        'SELECT estado FROM pedidos WHERE id = $1',
-        [pedidoId]
-      );
+      const orderCheck = await client.query('SELECT estado FROM pedidos WHERE id = $1', [pedidoId]);
 
       if (orderCheck.rows[0].estado !== 'pendiente') {
         throw new ValidationError(
@@ -149,7 +131,7 @@ class PedidosService extends BaseService {
 
       logger.info('Completando pedido', {
         pedido_id: pedidoId,
-        items_count: items.rows.length
+        items_count: items.rows.length,
       });
 
       // Actualizar stock para cada item
@@ -192,7 +174,7 @@ class PedidosService extends BaseService {
         logger.info('Stock actualizado', {
           prenda_id: item.prenda_id,
           stock_anterior: stockAnterior,
-          stock_nuevo: stockNuevo
+          stock_nuevo: stockNuevo,
         });
       }
 
@@ -227,9 +209,7 @@ class PedidosService extends BaseService {
     );
 
     if (result.rows.length === 0) {
-      throw new ValidationError(
-        'Solo se pueden cancelar pedidos en estado pendiente'
-      );
+      throw new ValidationError('Solo se pueden cancelar pedidos en estado pendiente');
     }
 
     logger.info('Pedido cancelado', { pedido_id: pedidoId });

@@ -23,7 +23,6 @@ const telaMap = {
   GabAer: 'Gabardina Aereo',
   GabVer: 'Gabardina Verde',
   GabNeg: 'Gabardina Negro',
-  FriVer: 'Frisa Verde'
 };
 
 // Productos reales de CHAMANA (extraídos de prendas.png)
@@ -71,7 +70,7 @@ const prendas = [
   ['Raiz', 'FriBor', 'Pantalón', 2, 40000.0, 34000.0],
   ['Raiz', 'FriVer', 'Pantalón', 2, 40000.0, 34000.0],
   ['Raiz', 'FriNeg', 'Pantalón', 2, 40000.0, 34000.0],
-  ['Raiz', 'PluNeg', 'Pantalón', 1, 40000.0, 34000.0]
+  ['Raiz', 'PluNeg', 'Pantalón', 1, 40000.0, 34000.0],
 
   // === NOTA PARA AGREGAR MÁS PRODUCTOS ===
   // Formato: ['Diseño', 'TelaCode', 'Tipo', stock, precio_chamana, precio_arro],
@@ -85,7 +84,7 @@ const categoriaMap = {
   Remera: 2,
   Vestido: 3,
   Palazzo: 4,
-  Pantalón: 5
+  Pantalón: 5,
 };
 
 async function insertarPrendas() {
@@ -94,21 +93,12 @@ async function insertarPrendas() {
   console.log('=====================================================\n');
 
   try {
-    console.log(
-      `📌 Insertando ${prendas.length} prendas del catálogo real...\n`
-    );
+    console.log(`📌 Insertando ${prendas.length} prendas del catálogo real...\n`);
 
     let insertadas = 0;
     let errores = 0;
 
-    for (const [
-      diseno,
-      telaCode,
-      tipo,
-      stock,
-      precioChamana,
-      precioArro
-    ] of prendas) {
+    for (const [diseno, telaCode, tipo, stock, precioChamana, precioArro] of prendas) {
       try {
         const telaNombre = telaMap[telaCode] || telaCode;
         const nombreCompleto = `${diseno} - ${telaNombre}`;
@@ -137,10 +127,10 @@ async function insertarPrendas() {
           precioArro,
           stock,
           categoriaId,
-          true
+          true,
         ];
 
-        const resultado = await pool.query(query, valores);
+        await pool.query(query, valores);
         insertadas++;
 
         if (insertadas % 10 === 0) {
@@ -148,10 +138,7 @@ async function insertarPrendas() {
         }
       } catch (error) {
         errores++;
-        console.error(
-          `❌ Error insertando "${diseno} - ${telaCode}":`,
-          error.message
-        );
+        console.error(`❌ Error insertando "${diseno} - ${telaCode}":`, error.message);
       }
     }
 

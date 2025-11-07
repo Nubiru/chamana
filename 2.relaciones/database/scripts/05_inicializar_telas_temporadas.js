@@ -27,34 +27,24 @@ async function inicializarTelasTemporadas() {
     console.log('🚀 Iniciando inicialización de telas por temporada...\n');
 
     // Get all fabrics
-    const telasResult = await client.query(
-      'SELECT id, nombre, tipo FROM telas ORDER BY id'
-    );
+    const telasResult = await client.query('SELECT id, nombre, tipo FROM telas ORDER BY id');
     const telas = telasResult.rows;
 
     // Get 2025 year ID
-    const añoResult = await client.query(
-      `SELECT id FROM años WHERE año = 2025`
-    );
+    const añoResult = await client.query(`SELECT id FROM años WHERE año = 2025`);
     if (añoResult.rows.length === 0) {
-      throw new Error(
-        'Año 2025 no encontrado. Asegúrese de que los datos estén migrados.'
-      );
+      throw new Error('Año 2025 no encontrado. Asegúrese de que los datos estén migrados.');
     }
     const año2025Id = añoResult.rows[0].id;
 
     // Get season IDs
-    const veranoResult = await client.query(
-      `SELECT id FROM temporadas WHERE nombre = 'Verano'`
-    );
+    const veranoResult = await client.query(`SELECT id FROM temporadas WHERE nombre = 'Verano'`);
     const inviernoResult = await client.query(
       `SELECT id FROM temporadas WHERE nombre = 'Invierno'`
     );
 
     if (veranoResult.rows.length === 0 || inviernoResult.rows.length === 0) {
-      throw new Error(
-        'Temporadas no encontradas. Asegúrese de que los datos estén migrados.'
-      );
+      throw new Error('Temporadas no encontradas. Asegúrese de que los datos estén migrados.');
     }
 
     const veranoId = veranoResult.rows[0].id;
@@ -127,7 +117,7 @@ async function inicializarTelasTemporadas() {
         'Solo Verano': veranoCount,
         'Solo Invierno': inviernoCount,
         'Ambas temporadas': ambosCount,
-        'Total registros creados': totalRegistros
+        'Total registros creados': totalRegistros,
       }
     );
 
@@ -138,11 +128,7 @@ async function inicializarTelasTemporadas() {
     console.log('   • Todas marcadas como activo=true\n');
   } catch (error) {
     await client.query('ROLLBACK');
-    logError(
-      '05_inicializar_telas_temporadas.js',
-      'Inicialización de Telas Temporadas',
-      error
-    );
+    logError('05_inicializar_telas_temporadas.js', 'Inicialización de Telas Temporadas', error);
     throw error;
   } finally {
     client.release();
@@ -156,7 +142,7 @@ inicializarTelasTemporadas()
     console.log('🎉 Script completado exitosamente\n');
     process.exit(0);
   })
-  .catch((error) => {
+  .catch((_error) => {
     console.error('💥 Script falló\n');
     process.exit(1);
   });

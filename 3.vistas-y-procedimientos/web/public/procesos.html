@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CHAMANA - Procesos Fase 3</title>
+
+    <!-- Bootstrap 5.3.2 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+          <i class="bi bi-shop"></i> CHAMANA
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="bi bi-speedometer2"></i> Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="reportes.html">
+                <i class="bi bi-file-earmark-bar-graph"></i> Reportes
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="procesos.html">
+                <i class="bi bi-gear"></i> Procesos
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid mt-4">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="mb-4">
+            <i class="bi bi-gear"></i> Procesos Almacenados - Fase 3
+            <span class="badge bg-success">3 Procedimientos</span>
+          </h1>
+        </div>
+      </div>
+
+      <!-- Process Cards -->
+      <div class="row">
+        <!-- 1. Procesar Pedido -->
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+              <i class="bi bi-cart-check"></i> Procesar Pedido
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                Ejecuta el procedimiento <code>procesar_pedido()</code> que
+                actualiza el estado del pedido y reduce el inventario de las
+                prendas vendidas.
+              </p>
+
+              <form id="form-procesar-pedido" class="mt-3">
+                <div class="mb-3">
+                  <label for="pedido-id" class="form-label">ID del Pedido</label>
+                  <select class="form-select" id="pedido-id" required>
+                    <option value="">Cargando pedidos...</option>
+                  </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                  <i class="bi bi-play-circle"></i> Procesar Pedido
+                </button>
+              </form>
+
+              <div id="resultado-pedido" class="mt-3 d-none"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Reabastecer Inventario -->
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <div class="card-header bg-success text-white">
+              <i class="bi bi-box-seam"></i> Reabastecer Inventario
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                Ejecuta el procedimiento <code>reabastecer_inventario()</code>
+                que aumenta el stock de una prenda y registra el movimiento en
+                el inventario.
+              </p>
+
+              <form id="form-reabastecer" class="mt-3">
+                <div class="mb-3">
+                  <label for="prenda-id" class="form-label">Prenda</label>
+                  <select class="form-select" id="prenda-id" required>
+                    <option value="">Cargando prendas...</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="cantidad" class="form-label">Cantidad</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="cantidad"
+                    min="1"
+                    value="10"
+                    required
+                  />
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">
+                  <i class="bi bi-plus-circle"></i> Reabastecer
+                </button>
+              </form>
+
+              <div id="resultado-reabastecer" class="mt-3 d-none"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Calcular Comisión -->
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <div class="card-header bg-info text-white">
+              <i class="bi bi-cash-coin"></i> Calcular Comisión Vendedor
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                Ejecuta el procedimiento <code>calcular_comision_vendedor()</code>
+                que calcula la comisión de un vendedor basado en sus ventas del
+                mes.
+              </p>
+
+              <form id="form-comision" class="mt-3">
+                <div class="mb-3">
+                  <label for="vendedor-id" class="form-label">Vendedor</label>
+                  <select class="form-select" id="vendedor-id" required>
+                    <option value="">Seleccionar vendedor...</option>
+                    <option value="1">Vendedor 1</option>
+                    <option value="2">Vendedor 2</option>
+                    <option value="3">Vendedor 3</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="mes" class="form-label">Mes</label>
+                  <select class="form-select" id="mes" required>
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11" selected>Noviembre</option>
+                    <option value="12">Diciembre</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="año" class="form-label">Año</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="año"
+                    value="2025"
+                    min="2020"
+                    max="2030"
+                    required
+                  />
+                </div>
+
+                <button type="submit" class="btn btn-info w-100">
+                  <i class="bi bi-calculator"></i> Calcular Comisión
+                </button>
+              </form>
+
+              <div id="resultado-comision" class="mt-3 d-none"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Execution History -->
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header bg-dark text-white">
+              <i class="bi bi-clock-history"></i> Historial de Ejecuciones
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th>Hora</th>
+                      <th>Procedimiento</th>
+                      <th>Parámetros</th>
+                      <th>Resultado</th>
+                    </tr>
+                  </thead>
+                  <tbody id="historial-body">
+                    <tr>
+                      <td colspan="4" class="text-center text-muted">
+                        No hay ejecuciones registradas
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+    <!-- Custom JS -->
+    <script src="js/procesos.js"></script>
+  </body>
+</html>
+

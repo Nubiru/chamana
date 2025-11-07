@@ -45,3 +45,22 @@ Thumbs.db
 .context/
 .cursor/
 .snapshots/
+gabriel_osemberg_trabajo_final_db_chamana/
+
+# Biome
+.biome/
+
+# Build
+dist/
+build/
+
+# Temporary
+*.tmp
+.cache/
+
+# Database files (backups, dumps)
+*.sql.backup
+*.dump
+*.db
+*.sqlite
+*.sqlite3

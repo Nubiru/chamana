@@ -17,7 +17,7 @@
 const ORDER_STATUS = {
   PENDING: 'pendiente',
   COMPLETED: 'completado',
-  CANCELLED: 'cancelado'
+  CANCELLED: 'cancelado',
 };
 
 // ==========================================
@@ -26,7 +26,7 @@ const ORDER_STATUS = {
 const INVENTORY_MOVEMENT_TYPES = {
   SALE: 'venta',
   ADJUSTMENT: 'ajuste',
-  RECEPTION: 'recepción'
+  RECEPTION: 'recepción',
 };
 
 // ==========================================
@@ -34,7 +34,7 @@ const INVENTORY_MOVEMENT_TYPES = {
 // ==========================================
 const SEASONS = {
   SUMMER: 'Verano',
-  WINTER: 'Invierno'
+  WINTER: 'Invierno',
 };
 
 // ==========================================
@@ -43,7 +43,7 @@ const SEASONS = {
 const PAGINATION = {
   DEFAULT_LIMIT: 50,
   MAX_LIMIT: 100,
-  DEFAULT_OFFSET: 0
+  DEFAULT_OFFSET: 0,
 };
 
 // ==========================================
@@ -52,7 +52,7 @@ const PAGINATION = {
 const STOCK_THRESHOLDS = {
   OUT_OF_STOCK: 0,
   LOW_STOCK: 10,
-  NORMAL_STOCK: 11
+  NORMAL_STOCK: 11,
 };
 
 // ==========================================
@@ -79,7 +79,7 @@ const ERROR_MESSAGES = {
   // Business Logic
   INSUFFICIENT_STOCK: 'Stock insuficiente',
   INVALID_STATE: 'Estado inválido',
-  CANNOT_CANCEL: 'No se puede cancelar'
+  CANNOT_CANCEL: 'No se puede cancelar',
 };
 
 // ==========================================
@@ -89,7 +89,7 @@ const SUCCESS_MESSAGES = {
   CREATED: 'Creado exitosamente',
   UPDATED: 'Actualizado exitosamente',
   DELETED: 'Eliminado exitosamente',
-  COMPLETED: 'Completado exitosamente'
+  COMPLETED: 'Completado exitosamente',
 };
 
 // ==========================================
@@ -104,7 +104,7 @@ const HTTP_STATUS = {
   FORBIDDEN: 403,
   NOT_FOUND: 404,
   CONFLICT: 409,
-  INTERNAL_SERVER_ERROR: 500
+  INTERNAL_SERVER_ERROR: 500,
 };
 
 // ==========================================
@@ -118,7 +118,7 @@ module.exports = {
   STOCK_THRESHOLDS,
   ERROR_MESSAGES,
   SUCCESS_MESSAGES,
-  HTTP_STATUS
+  HTTP_STATUS,
 };
 
 // =====================================================

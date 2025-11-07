@@ -14,9 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadOrders();
 
   // Setup form handler
-  document
-    .getElementById('crear-pedido-form')
-    .addEventListener('submit', createOrder);
+  document.getElementById('crear-pedido-form').addEventListener('submit', createOrder);
 });
 
 /**
@@ -26,9 +24,7 @@ async function loadClientes() {
   try {
     const response = await api.getClientes();
     // Handle both array and object with data property
-    clientesCache = Array.isArray(response)
-      ? response
-      : response.data || response;
+    clientesCache = Array.isArray(response) ? response : response.data || response;
     const select = document.getElementById('cliente-select');
 
     if (Array.isArray(clientesCache)) {
@@ -60,6 +56,7 @@ async function loadPrendas() {
 
 /**
  * Agregar item al pedido (dinámico)
+ * Used from HTML: onclick="addOrderItem()"
  */
 function addOrderItem() {
   itemCounter++;
@@ -106,9 +103,12 @@ function addOrderItem() {
   container.appendChild(itemDiv);
   updateOrderTotal();
 }
+// Expose to window for HTML access
+window.addOrderItem = addOrderItem;
 
 /**
  * Remover item del pedido
+ * Used from dynamically generated HTML: onclick="removeOrderItem(${itemCounter})"
  */
 function removeOrderItem(itemId) {
   const item = document.getElementById(`order-item-${itemId}`);
@@ -117,6 +117,8 @@ function removeOrderItem(itemId) {
     updateOrderTotal();
   }
 }
+// Expose to window for HTML access
+window.removeOrderItem = removeOrderItem;
 
 /**
  * Calcular y actualizar total del pedido
@@ -132,19 +134,16 @@ function updateOrderTotal() {
     if (select.value && cantidadInput.value) {
       const option = select.options[select.selectedIndex];
       const precio = parseFloat(option.dataset.precio);
-      const cantidad = parseInt(cantidadInput.value);
+      const cantidad = parseInt(cantidadInput.value, 10);
 
       total += precio * cantidad;
     }
   });
 
-  const descuento =
-    parseInt(document.getElementById('descuento-input').value) || 0;
+  const descuento = parseInt(document.getElementById('descuento-input').value, 10) || 0;
   total -= descuento;
 
-  document.getElementById('order-total').textContent = `$${total.toLocaleString(
-    'es-CL'
-  )}`;
+  document.getElementById('order-total').textContent = `$${total.toLocaleString('es-CL')}`;
 }
 
 /**
@@ -153,9 +152,8 @@ function updateOrderTotal() {
 async function createOrder(e) {
   e.preventDefault();
 
-  const clienteId = parseInt(document.getElementById('cliente-select').value);
-  const descuento =
-    parseInt(document.getElementById('descuento-input').value) || 0;
+  const clienteId = parseInt(document.getElementById('cliente-select').value, 10);
+  const descuento = parseInt(document.getElementById('descuento-input').value, 10) || 0;
   const notas = document.getElementById('notas-input').value.trim() || null;
 
   // Recolectar items
@@ -168,8 +166,8 @@ async function createOrder(e) {
 
     if (select.value && cantidadInput.value) {
       const option = select.options[select.selectedIndex];
-      const stock = parseInt(option.dataset.stock);
-      const cantidad = parseInt(cantidadInput.value);
+      const stock = parseInt(option.dataset.stock, 10);
+      const cantidad = parseInt(cantidadInput.value, 10);
 
       // Validar stock (frontend)
       if (cantidad > stock) {
@@ -178,9 +176,9 @@ async function createOrder(e) {
       }
 
       items.push({
-        prenda_id: parseInt(select.value),
+        prenda_id: parseInt(select.value, 10),
         cantidad: cantidad,
-        precio_unitario: parseFloat(option.dataset.precio)
+        precio_unitario: parseFloat(option.dataset.precio),
       });
     }
   }
@@ -198,8 +196,8 @@ async function createOrder(e) {
         cliente_id: clienteId,
         items,
         descuento,
-        notas
-      })
+        notas,
+      }),
     });
 
     const data = await result.json();
@@ -249,13 +247,9 @@ async function loadOrders() {
         <td>${order.cliente_nombre}</td>
         <td>${order.items_count}</td>
         <td>$${order.total.toLocaleString('es-CL')}</td>
-        <td><span class="badge badge-${order.estado}">${
-          order.estado
-        }</span></td>
+        <td><span class="badge badge-${order.estado}">${order.estado}</span></td>
         <td class="actions">
-          <button onclick="viewOrder(${
-            order.id
-          })" class="btn btn-sm">Ver</button>
+          <button onclick="viewOrder(${order.id})" class="btn btn-sm">Ver</button>
           ${
             order.estado === 'pendiente'
               ? `
@@ -277,13 +271,17 @@ async function loadOrders() {
 
 /**
  * Filtrar pedidos por estado
+ * Used from HTML: onchange="filterOrders()"
  */
 function filterOrders() {
   loadOrders();
 }
+// Expose to window for HTML access
+window.filterOrders = filterOrders;
 
 /**
  * Ver detalles de pedido (modal)
+ * Used from dynamically generated HTML: onclick="viewOrder(${order.id})"
  */
 async function viewOrder(orderId) {
   try {
@@ -303,12 +301,10 @@ async function viewOrder(orderId) {
         <p><strong>Teléfono:</strong> ${order.cliente_telefono || 'N/A'}</p>
 
         <h3>Información del Pedido</h3>
-        <p><strong>Fecha:</strong> ${new Date(
-          order.fecha_pedido
-        ).toLocaleString('es-CL')}</p>
+        <p><strong>Fecha:</strong> ${new Date(order.fecha_pedido).toLocaleString('es-CL')}</p>
         <p><strong>Estado:</strong> <span class="badge badge-${order.estado}">${
-      order.estado
-    }</span></p>
+          order.estado
+        }</span></p>
         ${order.notas ? `<p><strong>Notas:</strong> ${order.notas}</p>` : ''}
 
         <h3>Items del Pedido</h3>
@@ -340,15 +336,9 @@ async function viewOrder(orderId) {
         </table>
 
         <div class="totals">
-          <p><strong>Subtotal:</strong> $${order.subtotal.toLocaleString(
-            'es-CL'
-          )}</p>
-          <p><strong>Descuento:</strong> -$${order.descuento.toLocaleString(
-            'es-CL'
-          )}</p>
-          <h3><strong>Total:</strong> $${order.total.toLocaleString(
-            'es-CL'
-          )}</h3>
+          <p><strong>Subtotal:</strong> $${order.subtotal.toLocaleString('es-CL')}</p>
+          <p><strong>Descuento:</strong> -$${order.descuento.toLocaleString('es-CL')}</p>
+          <h3><strong>Total:</strong> $${order.total.toLocaleString('es-CL')}</h3>
         </div>
 
         ${
@@ -374,9 +364,12 @@ async function viewOrder(orderId) {
     alert('Error cargando detalles del pedido');
   }
 }
+// Expose to window for HTML access
+window.viewOrder = viewOrder;
 
 /**
  * Completar pedido
+ * Used from dynamically generated HTML: onclick="completarPedido(${order.id})"
  */
 async function completarPedido(orderId) {
   if (
@@ -389,7 +382,7 @@ async function completarPedido(orderId) {
 
   try {
     const response = await fetch(`/api/pedidos/${orderId}/completar`, {
-      method: 'PUT'
+      method: 'PUT',
     });
     const data = await response.json();
 
@@ -404,9 +397,12 @@ async function completarPedido(orderId) {
     alert('❌ Error completando pedido: ' + error.message);
   }
 }
+// Expose to window for HTML access
+window.completarPedido = completarPedido;
 
 /**
  * Cancelar pedido
+ * Used from dynamically generated HTML: onclick="cancelarPedido(${order.id})"
  */
 async function cancelarPedido(orderId) {
   if (!confirm('¿Cancelar este pedido?')) {
@@ -415,7 +411,7 @@ async function cancelarPedido(orderId) {
 
   try {
     const response = await fetch(`/api/pedidos/${orderId}/cancelar`, {
-      method: 'PUT'
+      method: 'PUT',
     });
     const data = await response.json();
 
@@ -430,18 +426,23 @@ async function cancelarPedido(orderId) {
     alert('❌ Error cancelando pedido: ' + error.message);
   }
 }
+// Expose to window for HTML access
+window.cancelarPedido = cancelarPedido;
 
 /**
  * Cerrar modal
+ * Used from HTML: onclick="closeOrderModal()"
  */
 function closeOrderModal() {
   document.getElementById('order-modal').style.display = 'none';
 }
+// Expose to window for HTML access
+window.closeOrderModal = closeOrderModal;
 
 // Cerrar modal al hacer click fuera
-window.onclick = function (event) {
+window.onclick = (event) => {
   const modal = document.getElementById('order-modal');
-  if (event.target == modal) {
+  if (event.target === modal) {
     modal.style.display = 'none';
   }
 };

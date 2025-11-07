@@ -123,7 +123,7 @@ module.exports = {
   DatabaseError,
   AuthorizationError,
   AuthenticationError,
-  ConflictError
+  ConflictError,
 };
 
 // =====================================================

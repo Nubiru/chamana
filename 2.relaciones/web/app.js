@@ -23,7 +23,7 @@
 
 require('dotenv').config();
 const express = require('express');
-const path = require('path');
+const path = require('node:path');
 const helmet = require('helmet');
 const cors = require('cors');
 
@@ -54,7 +54,7 @@ const PORT = process.env.PORT || 3000;
 // Helmet: Security headers
 app.use(
   helmet({
-    contentSecurityPolicy: false // Deshabilitado para desarrollo (activar en producción)
+    contentSecurityPolicy: false, // Deshabilitado para desarrollo (activar en producción)
   })
 );
 
@@ -63,7 +63,7 @@ app.use(
   cors({
     origin: process.env.CORS_ORIGIN || '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
 
@@ -87,32 +87,37 @@ app.use(express.static(path.join(__dirname, 'public')));
 // RUTAS PRINCIPALES (HTML PAGES)
 // =====================================================
 // Página principal
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'views', 'index.html'));
 });
 
 // Página de productos
-app.get('/productos', (req, res) => {
+app.get('/productos', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'views', 'productos.html'));
 });
 
 // Página de categorías
-app.get('/categorias', (req, res) => {
+app.get('/categorias', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'views', 'categorias.html'));
 });
 
+// Página de telas (filtrado por temporada)
+app.get('/telas', (_req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'views', 'telas.html'));
+});
+
 // Página de usuarios/clientes
-app.get('/usuarios', (req, res) => {
+app.get('/usuarios', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'views', 'usuarios.html'));
 });
 
 // Alias: /clientes también sirve usuarios.html
-app.get('/clientes', (req, res) => {
+app.get('/clientes', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'views', 'usuarios.html'));
 });
 
 // Página de pedidos
-app.get('/pedidos', (req, res) => {
+app.get('/pedidos', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'views', 'pedidos.html'));
 });
 
@@ -135,36 +140,36 @@ app.use('/api/pedidos', pedidosRoutes);
 app.use('/api/telas', telasRoutes);
 
 // Ruta de información del sistema
-app.get('/api/system/info', (req, res) => {
+app.get('/api/system/info', (_req, res) => {
   res.json({
     success: true,
     version: '2.0.0',
     database: {
       version: DB_VERSION,
-      name: `chamana_db_${DB_VERSION}`
+      name: `chamana_db_${DB_VERSION}`,
     },
     environment: process.env.NODE_ENV || 'development',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 
 // Ruta de prueba de conexión
-app.get('/api/test', (req, res) => {
+app.get('/api/test', (_req, res) => {
   res.json({
     success: true,
     message: '✅ CHAMANA E-commerce API funcionando correctamente',
     version: '2.0.0',
     database: `chamana_db_${DB_VERSION}`,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
   res.json({
     status: 'healthy',
     uptime: process.uptime(),
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 
@@ -176,7 +181,7 @@ app.use((req, res) => {
   res.status(404).json({
     success: false,
     error: 'Ruta no encontrada',
-    path: req.path
+    path: req.path,
   });
 });
 
@@ -215,7 +220,7 @@ async function startServer() {
       logger.info('Servidor iniciado', {
         port: PORT,
         database: `chamana_db_${DB_VERSION}`,
-        environment: process.env.NODE_ENV || 'development'
+        environment: process.env.NODE_ENV || 'development',
       });
     });
   } catch (error) {

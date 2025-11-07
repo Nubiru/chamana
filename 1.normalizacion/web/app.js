@@ -6,7 +6,7 @@
 // =====================================================
 
 const express = require('express');
-const path = require('path');
+const path = require('node:path');
 
 // Importar rutas modulares
 const prendasRoutes = require('./routes/productos');
@@ -31,31 +31,31 @@ app.set('views', path.join(__dirname, 'views'));
 // =====================================================
 
 // Página principal
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
 // Página de prendas
-app.get('/prendas', (req, res) => {
+app.get('/prendas', (_req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'productos.html'));
 });
 
 // Página de clientes
-app.get('/clientes', (req, res) => {
+app.get('/clientes', (_req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'usuarios.html'));
 });
 
 // Página de categorías
-app.get('/categorias', (req, res) => {
+app.get('/categorias', (_req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'categorias.html'));
 });
 
 // Redirecciones para compatibilidad
-app.get('/productos', (req, res) => {
+app.get('/productos', (_req, res) => {
   res.redirect('/prendas');
 });
 
-app.get('/usuarios', (req, res) => {
+app.get('/usuarios', (_req, res) => {
   res.redirect('/clientes');
 });
 
@@ -78,12 +78,12 @@ app.use('/api/usuarios', (req, res) => {
 });
 
 // Ruta de prueba de conexión
-app.get('/api/test', (req, res) => {
+app.get('/api/test', (_req, res) => {
   res.json({
     success: true,
     message: '✅ CHAMANA E-commerce API funcionando correctamente',
     timestamp: new Date().toISOString(),
-    version: '0.1.0'
+    version: '0.1.0',
   });
 });
 
@@ -96,17 +96,17 @@ app.use((req, res) => {
   res.status(404).json({
     success: false,
     error: 'Ruta no encontrada',
-    path: req.path
+    path: req.path,
   });
 });
 
 // Manejador de errores global
-app.use((err, req, res, next) => {
+app.use((err, _req, res, _next) => {
   console.error('❌ Error en la aplicación:', err);
   res.status(500).json({
     success: false,
     error: 'Error interno del servidor',
-    message: err.message
+    message: err.message,
   });
 });
 
@@ -129,12 +129,8 @@ async function startServer() {
       console.log('   GET  /clientes - Gestión de clientes');
       console.log('   GET  /api/test - Prueba de conexión');
       console.log('   /api/prendas - API de prendas (GET, POST, PUT, DELETE)');
-      console.log(
-        '   /api/clientes - API de clientes (GET, POST, PUT, DELETE)'
-      );
-      console.log(
-        '   /api/categorias - API de categorías (GET, POST, PUT, DELETE)'
-      );
+      console.log('   /api/clientes - API de clientes (GET, POST, PUT, DELETE)');
+      console.log('   /api/categorias - API de categorías (GET, POST, PUT, DELETE)');
       console.log('=====================================================');
       console.log('✨ CHAMANA E-commerce listo para operar');
       console.log('=====================================================');

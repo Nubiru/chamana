@@ -52,11 +52,11 @@ class BaseService {
       await client.query('ROLLBACK');
       logger.error('Transacción revertida', {
         error: error.message,
-        stack: error.stack
+        stack: error.stack,
       });
 
       throw new DatabaseError(`Error en transacción: ${error.message}`, {
-        originalError: error
+        originalError: error,
       });
     } finally {
       client.release();
@@ -89,7 +89,7 @@ class BaseService {
       logger.debug('Query ejecutada', {
         duration: `${duration}ms`,
         query: query.substring(0, 100), // Primeros 100 caracteres
-        rowCount: result.rowCount
+        rowCount: result.rowCount,
       });
 
       return result;
@@ -97,12 +97,12 @@ class BaseService {
       logger.error('Error ejecutando query', {
         error: error.message,
         query: query.substring(0, 100),
-        params
+        params,
       });
 
       throw new DatabaseError(`Error en query: ${error.message}`, {
         originalError: error,
-        query: query.substring(0, 100)
+        query: query.substring(0, 100),
       });
     }
   }
@@ -129,9 +129,7 @@ class BaseService {
     );
 
     if (result.rows.length === 0) {
-      throw new NotFoundError(
-        `Registro no encontrado en ${table} con ${idColumn} = ${id}`
-      );
+      throw new NotFoundError(`Registro no encontrado en ${table} con ${idColumn} = ${id}`);
     }
   }
 

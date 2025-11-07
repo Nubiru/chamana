@@ -9,7 +9,7 @@ const { pool } = require('./00_db');
 async function verificar() {
   try {
     console.log('🔍 Verificando Base de Datos chamana_db_fase1...\n');
-    console.log('=' .repeat(60));
+    console.log('='.repeat(60));
 
     // 1. Conteo de registros por tabla
     console.log('\n📊 RESUMEN DE TABLAS\n');
@@ -22,7 +22,7 @@ async function verificar() {
       'años',
       'temporadas',
       'colecciones',
-      'prendas'
+      'prendas',
     ];
 
     for (const tabla of tablas) {
@@ -39,7 +39,9 @@ async function verificar() {
              COUNT(DISTINCT categoria_id) as categorias_usadas
       FROM prendas
     `);
-    console.log(`   ✅ Prendas → Categorías: ${catCheck.rows[0].categorias_usadas} categorías referenciadas`);
+    console.log(
+      `   ✅ Prendas → Categorías: ${catCheck.rows[0].categorias_usadas} categorías referenciadas`
+    );
 
     // Verificar prendas -> disenos
     const disenoCheck = await pool.query(`
@@ -47,7 +49,9 @@ async function verificar() {
              COUNT(DISTINCT diseno_id) as disenos_usados
       FROM prendas
     `);
-    console.log(`   ✅ Prendas → Diseños: ${disenoCheck.rows[0].disenos_usados} diseños referenciados`);
+    console.log(
+      `   ✅ Prendas → Diseños: ${disenoCheck.rows[0].disenos_usados} diseños referenciados`
+    );
 
     // Verificar prendas -> telas
     const telaCheck = await pool.query(`
@@ -63,7 +67,9 @@ async function verificar() {
              COUNT(DISTINCT coleccion_id) as colecciones_usadas
       FROM prendas
     `);
-    console.log(`   ✅ Prendas → Colecciones: ${colCheck.rows[0].colecciones_usadas} colecciones referenciadas`);
+    console.log(
+      `   ✅ Prendas → Colecciones: ${colCheck.rows[0].colecciones_usadas} colecciones referenciadas`
+    );
 
     // Verificar colecciones -> años
     const añoCheck = await pool.query(`
@@ -77,7 +83,9 @@ async function verificar() {
       SELECT COUNT(DISTINCT temporada_id) as temporadas_usadas
       FROM colecciones
     `);
-    console.log(`   ✅ Colecciones → Temporadas: ${tempCheck.rows[0].temporadas_usadas} temporadas referenciadas`);
+    console.log(
+      `   ✅ Colecciones → Temporadas: ${tempCheck.rows[0].temporadas_usadas} temporadas referenciadas`
+    );
 
     // 3. Prueba de JOIN completo
     console.log('\n🔍 PRUEBA DE JOIN COMPLETO (Primera prenda)\n');
@@ -138,8 +146,10 @@ async function verificar() {
       ORDER BY c.nombre
     `);
 
-    distColeccion.rows.forEach(col => {
-      console.log(`   ${col.coleccion.padEnd(20)} ${col.total_prendas} prendas, ${col.stock_total || 0} unidades en stock`);
+    distColeccion.rows.forEach((col) => {
+      console.log(
+        `   ${col.coleccion.padEnd(20)} ${col.total_prendas} prendas, ${col.stock_total || 0} unidades en stock`
+      );
     });
 
     // 5. Diseños más utilizados
@@ -189,7 +199,6 @@ async function verificar() {
     console.log('   - JOINs funcionando correctamente');
     console.log('   - Datos migrados desde Fase 0');
     console.log('\n🎉 ¡chamana_db_fase1 lista para usar!\n');
-
   } catch (error) {
     console.error('❌ Error durante verificación:', error.message);
     throw error;
@@ -200,4 +209,3 @@ async function verificar() {
 
 // Ejecutar
 verificar();
-

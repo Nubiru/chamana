@@ -16,7 +16,7 @@ const dbConfig = {
   port: process.env.DB_PORT || 5432,
   max: 20, // Máximo número de clientes en el pool
   idleTimeoutMillis: 30000, // Tiempo de inactividad antes de cerrar conexión
-  connectionTimeoutMillis: 2000 // Tiempo de espera para conexión
+  connectionTimeoutMillis: 2000, // Tiempo de espera para conexión
 };
 
 // Crear pool de conexiones
@@ -38,9 +38,7 @@ const query = async (text, params) => {
   try {
     const res = await pool.query(text, params);
     const duration = Date.now() - start;
-    console.log(
-      `📊 Query ejecutada en ${duration}ms: ${text.substring(0, 50)}...`
-    );
+    console.log(`📊 Query ejecutada en ${duration}ms: ${text.substring(0, 50)}...`);
     return res;
   } catch (error) {
     console.error('❌ Error en consulta:', error);
@@ -75,9 +73,7 @@ const testConnection = async () => {
   try {
     const result = await query('SELECT NOW() as current_time');
     console.log('✅ Conexión a la base de datos exitosa');
-    console.log(
-      `🕐 Hora actual de la base de datos: ${result.rows[0].current_time}`
-    );
+    console.log(`🕐 Hora actual de la base de datos: ${result.rows[0].current_time}`);
     return true;
   } catch (error) {
     console.error('❌ Error al conectar con la base de datos:', error.message);
@@ -98,10 +94,7 @@ const getDatabaseInfo = async () => {
         `);
     return result.rows[0];
   } catch (error) {
-    console.error(
-      '❌ Error al obtener información de la base de datos:',
-      error
-    );
+    console.error('❌ Error al obtener información de la base de datos:', error);
     throw error;
   }
 };
@@ -112,5 +105,5 @@ module.exports = {
   getClient,
   closePool,
   testConnection,
-  getDatabaseInfo
+  getDatabaseInfo,
 };

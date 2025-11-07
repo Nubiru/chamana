@@ -13,7 +13,7 @@ const { query } = require('../config/database');
 // GET /api/categorias
 // Obtener todas las categorías con estadísticas
 // =====================================================
-router.get('/', async (req, res) => {
+router.get('/', async (_req, res) => {
   try {
     const result = await query(`
             SELECT 
@@ -34,14 +34,14 @@ router.get('/', async (req, res) => {
     res.json({
       success: true,
       data: result.rows,
-      count: result.rows.length
+      count: result.rows.length,
     });
   } catch (error) {
     console.error('Error al obtener categorías:', error);
     res.status(500).json({
       success: false,
       error: 'Error al obtener categorías',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -75,20 +75,20 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({
         success: false,
         error: 'Categoría no encontrada',
-        message: `No se encontró una categoría con ID ${id}`
+        message: `No se encontró una categoría con ID ${id}`,
       });
     }
 
     res.json({
       success: true,
-      data: result.rows[0]
+      data: result.rows[0],
     });
   } catch (error) {
     console.error('Error al obtener categoría:', error);
     res.status(500).json({
       success: false,
       error: 'Error al obtener categoría',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -106,7 +106,7 @@ router.post('/', async (req, res) => {
       return res.status(400).json({
         success: false,
         error: 'Datos requeridos faltantes',
-        message: 'El nombre es obligatorio'
+        message: 'El nombre es obligatorio',
       });
     }
 
@@ -122,7 +122,7 @@ router.post('/', async (req, res) => {
       return res.status(409).json({
         success: false,
         error: 'Categoría ya existe',
-        message: 'Ya existe una categoría con este nombre'
+        message: 'Ya existe una categoría con este nombre',
       });
     }
 
@@ -138,14 +138,14 @@ router.post('/', async (req, res) => {
     res.status(201).json({
       success: true,
       data: result.rows[0],
-      message: 'Categoría creada exitosamente'
+      message: 'Categoría creada exitosamente',
     });
   } catch (error) {
     console.error('Error al crear categoría:', error);
     res.status(500).json({
       success: false,
       error: 'Error al crear categoría',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -172,7 +172,7 @@ router.put('/:id', async (req, res) => {
         return res.status(409).json({
           success: false,
           error: 'Nombre ya existe',
-          message: 'Ya existe otra categoría con este nombre'
+          message: 'Ya existe otra categoría con este nombre',
         });
       }
     }
@@ -193,21 +193,21 @@ router.put('/:id', async (req, res) => {
       return res.status(404).json({
         success: false,
         error: 'Categoría no encontrada',
-        message: `No se encontró una categoría con ID ${id}`
+        message: `No se encontró una categoría con ID ${id}`,
       });
     }
 
     res.json({
       success: true,
       data: result.rows[0],
-      message: 'Categoría actualizada exitosamente'
+      message: 'Categoría actualizada exitosamente',
     });
   } catch (error) {
     console.error('Error al actualizar categoría:', error);
     res.status(500).json({
       success: false,
       error: 'Error al actualizar categoría',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -228,12 +228,11 @@ router.delete('/:id', async (req, res) => {
       [id]
     );
 
-    if (parseInt(productsInCategory.rows[0].count) > 0) {
+    if (parseInt(productsInCategory.rows[0].count, 10) > 0) {
       return res.status(409).json({
         success: false,
         error: 'No se puede eliminar la categoría',
-        message:
-          'La categoría tiene prendas asociados. Elimine los prendas primero.'
+        message: 'La categoría tiene prendas asociados. Elimine los prendas primero.',
       });
     }
 
@@ -250,21 +249,21 @@ router.delete('/:id', async (req, res) => {
       return res.status(404).json({
         success: false,
         error: 'Categoría no encontrada',
-        message: `No se encontró una categoría con ID ${id}`
+        message: `No se encontró una categoría con ID ${id}`,
       });
     }
 
     res.json({
       success: true,
       data: result.rows[0],
-      message: 'Categoría eliminada exitosamente'
+      message: 'Categoría eliminada exitosamente',
     });
   } catch (error) {
     console.error('Error al eliminar categoría:', error);
     res.status(500).json({
       success: false,
       error: 'Error al eliminar categoría',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -300,14 +299,14 @@ router.get('/:id/prendas', async (req, res) => {
     res.json({
       success: true,
       data: result.rows,
-      count: result.rows.length
+      count: result.rows.length,
     });
   } catch (error) {
     console.error('Error al obtener prendas de la categoría:', error);
     res.status(500).json({
       success: false,
       error: 'Error al obtener prendas de la categoría',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -340,14 +339,14 @@ router.get('/buscar/:termino', async (req, res) => {
       success: true,
       data: result.rows,
       count: result.rows.length,
-      termino: termino
+      termino: termino,
     });
   } catch (error) {
     console.error('Error al buscar categorías:', error);
     res.status(500).json({
       success: false,
       error: 'Error al buscar categorías',
-      message: error.message
+      message: error.message,
     });
   }
 });

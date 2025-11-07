@@ -16,9 +16,9 @@ class APIClient {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        ...options.headers
+        ...options.headers,
       },
-      ...options
+      ...options,
     };
 
     try {
@@ -26,9 +26,7 @@ class APIClient {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(
-          data.message || `HTTP error! status: ${response.status}`
-        );
+        throw new Error(data.message || `HTTP error! status: ${response.status}`);
       }
 
       return data;
@@ -50,20 +48,20 @@ class APIClient {
   async createPrenda(prenda) {
     return this.request('/prendas', {
       method: 'POST',
-      body: JSON.stringify(prenda)
+      body: JSON.stringify(prenda),
     });
   }
 
   async updatePrenda(id, prenda) {
     return this.request(`/prendas/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(prenda)
+      body: JSON.stringify(prenda),
     });
   }
 
   async deletePrenda(id) {
     return this.request(`/prendas/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
     });
   }
 
@@ -96,10 +94,6 @@ class APIClient {
     return this.searchPrendas(termino);
   }
 
-  async getProductosByCategoria(categoriaId) {
-    return this.request(`/productos/categoria/${categoriaId}`);
-  }
-
   // Métodos para Clientes
   async getClientes() {
     return this.request('/clientes');
@@ -112,20 +106,20 @@ class APIClient {
   async createCliente(usuario) {
     return this.request('/clientes', {
       method: 'POST',
-      body: JSON.stringify(usuario)
+      body: JSON.stringify(usuario),
     });
   }
 
   async updateCliente(id, usuario) {
     return this.request(`/clientes/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(usuario)
+      body: JSON.stringify(usuario),
     });
   }
 
   async deleteCliente(id) {
     return this.request(`/clientes/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
     });
   }
 
@@ -149,20 +143,20 @@ class APIClient {
   async createCategoria(categoria) {
     return this.request('/categorias', {
       method: 'POST',
-      body: JSON.stringify(categoria)
+      body: JSON.stringify(categoria),
     });
   }
 
   async updateCategoria(id, categoria) {
     return this.request(`/categorias/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(categoria)
+      body: JSON.stringify(categoria),
     });
   }
 
   async deleteCategoria(id) {
     return this.request(`/categorias/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
     });
   }
 
@@ -242,7 +236,7 @@ function hideLoading() {
 function formatCurrency(amount) {
   return new Intl.NumberFormat('es-MX', {
     style: 'currency',
-    currency: 'MXN'
+    currency: 'MXN',
   }).format(amount);
 }
 
@@ -254,7 +248,7 @@ function formatDate(dateString) {
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   });
 }
 
@@ -275,9 +269,7 @@ function validateRequired(data, requiredFields) {
   }
 
   if (missing.length > 0) {
-    throw new Error(
-      `Los siguientes campos son requeridos: ${missing.join(', ')}`
-    );
+    throw new Error(`Los siguientes campos son requeridos: ${missing.join(', ')}`);
   }
 }
 

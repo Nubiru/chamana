@@ -15,9 +15,7 @@ async function listarTodo() {
     // ===== CATEGORÍAS =====
     console.log('📁 CATEGORÍAS:');
     console.log('─────────────────────────────────────────────────────');
-    const categorias = await pool.query(
-      'SELECT * FROM categorias ORDER BY id;'
-    );
+    const categorias = await pool.query('SELECT * FROM categorias ORDER BY id;');
 
     categorias.rows.forEach((cat) => {
       console.log(`${cat.id}. ${cat.nombre}`);
@@ -51,14 +49,10 @@ async function listarTodo() {
       console.log(`${p.id}. ${p.nombre_completo}`);
       console.log(`   Tipo: ${p.tipo} | Categoría: ${p.categoria}`);
       console.log(`   Tela: ${p.tela_nombre}`);
-      console.log(
-        `   Precio CHAMANA: $${p.precio_chamana.toLocaleString('es-MX')}`
-      );
+      console.log(`   Precio CHAMANA: $${p.precio_chamana.toLocaleString('es-MX')}`);
       if (p.precio_arro) {
         console.log(
-          `   Precio Arro: $${p.precio_arro.toLocaleString(
-            'es-MX'
-          )} (${descuento}% desc)`
+          `   Precio Arro: $${p.precio_arro.toLocaleString('es-MX')} (${descuento}% desc)`
         );
       }
       console.log(`   Stock: ${p.stock} unidades\n`);
@@ -94,15 +88,9 @@ async function listarTodo() {
     console.log('─────────────────────────────────────────────────────');
 
     // Total por tabla
-    const totalCategorias = await pool.query(
-      'SELECT COUNT(*) as total FROM categorias;'
-    );
-    const totalPrendas = await pool.query(
-      'SELECT COUNT(*) as total FROM prendas;'
-    );
-    const totalClientes = await pool.query(
-      'SELECT COUNT(*) as total FROM clientes;'
-    );
+    const totalCategorias = await pool.query('SELECT COUNT(*) as total FROM categorias;');
+    const totalPrendas = await pool.query('SELECT COUNT(*) as total FROM prendas;');
+    const totalClientes = await pool.query('SELECT COUNT(*) as total FROM clientes;');
 
     console.log(`📁 Categorías: ${totalCategorias.rows[0].total}`);
     console.log(`👗 Prendas: ${totalPrendas.rows[0].total}`);
@@ -120,17 +108,9 @@ async function listarTodo() {
 
     const stats = estadsPrendas.rows[0];
     console.log(`\n📦 Stock total: ${stats.stock_total} unidades`);
-    console.log(
-      `💰 Precio promedio: $${
-        stats.precio_promedio?.toLocaleString('es-MX') || 0
-      }`
-    );
-    console.log(
-      `💵 Precio mínimo: $${stats.precio_minimo?.toLocaleString('es-MX') || 0}`
-    );
-    console.log(
-      `💎 Precio máximo: $${stats.precio_maximo?.toLocaleString('es-MX') || 0}`
-    );
+    console.log(`💰 Precio promedio: $${stats.precio_promedio?.toLocaleString('es-MX') || 0}`);
+    console.log(`💵 Precio mínimo: $${stats.precio_minimo?.toLocaleString('es-MX') || 0}`);
+    console.log(`💎 Precio máximo: $${stats.precio_maximo?.toLocaleString('es-MX') || 0}`);
 
     // Prendas por categoría
     console.log('\n📊 Distribución por categoría:');
@@ -146,9 +126,7 @@ async function listarTodo() {
     `);
 
     distribucion.rows.forEach((d) => {
-      console.log(
-        `   ${d.nombre}: ${d.cantidad} productos (${d.stock_categoria} unidades)`
-      );
+      console.log(`   ${d.nombre}: ${d.cantidad} productos (${d.stock_categoria} unidades)`);
     });
 
     console.log('\n=====================================================');
@@ -156,9 +134,7 @@ async function listarTodo() {
     console.log('=====================================================');
     console.log('📌 Próximos pasos:');
     console.log('   1. Conectar con pgAdmin para explorar visualmente');
-    console.log(
-      '   2. Iniciar servidor web: cd ../../web && npm install && npm run dev'
-    );
+    console.log('   2. Iniciar servidor web: cd ../../web && npm install && npm run dev');
     console.log('   3. Crear diagramas MER/DER (Mermaid)');
     console.log('=====================================================');
   } catch (error) {

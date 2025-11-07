@@ -8,7 +8,6 @@
 const express = require('express');
 const router = express.Router();
 const productosService = require('../services/productos.service');
-const logger = require('../config/logger');
 
 /**
  * GET /api/productos - Listar productos (con filtros opcionales)
@@ -25,13 +24,11 @@ router.get('/', async (req, res, next) => {
     const { categoria_id, activa, tela_ids, limit, offset } = req.query;
 
     const productos = await productosService.listProducts({
-      categoria_id: categoria_id ? parseInt(categoria_id) : undefined,
+      categoria_id: categoria_id ? parseInt(categoria_id, 10) : undefined,
       activa: activa !== 'false', // Default to true unless explicitly set to 'false'
-      tela_ids: tela_ids
-        ? tela_ids.split(',').map((id) => parseInt(id.trim()))
-        : undefined,
-      limit: limit ? parseInt(limit) : undefined,
-      offset: offset ? parseInt(offset) : undefined
+      tela_ids: tela_ids ? tela_ids.split(',').map((id) => parseInt(id.trim(), 10)) : undefined,
+      limit: limit ? parseInt(limit, 10) : undefined,
+      offset: offset ? parseInt(offset, 10) : undefined,
     });
 
     res.json(productos);
@@ -58,8 +55,8 @@ router.get('/:id/historial-stock', async (req, res, next) => {
     const { limit } = req.query;
 
     const history = await productosService.getStockHistory(
-      parseInt(req.params.id),
-      limit ? parseInt(limit) : undefined
+      parseInt(req.params.id, 10),
+      limit ? parseInt(limit, 10) : undefined
     );
 
     res.json(history);
@@ -78,9 +75,7 @@ router.get('/:id/historial-stock', async (req, res, next) => {
  */
 router.get('/:id', async (req, res, next) => {
   try {
-    const producto = await productosService.getProductById(
-      parseInt(req.params.id)
-    );
+    const producto = await productosService.getProductById(parseInt(req.params.id, 10));
     res.json(producto);
   } catch (error) {
     next(error);

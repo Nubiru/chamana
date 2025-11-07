@@ -33,14 +33,14 @@ class TransactionService extends BaseService {
    */
   async executeParallel(operations) {
     logger.info('Ejecutando operaciones en paralelo', {
-      operationsCount: operations.length
+      operationsCount: operations.length,
     });
 
     return this.executeInTransaction(async (client) => {
       const results = await Promise.all(operations.map((op) => op(client)));
 
       logger.info('Operaciones paralelas completadas', {
-        resultsCount: results.length
+        resultsCount: results.length,
       });
 
       return results;
@@ -65,7 +65,7 @@ class TransactionService extends BaseService {
    */
   async executeSequential(operations) {
     logger.info('Ejecutando operaciones en secuencia', {
-      operationsCount: operations.length
+      operationsCount: operations.length,
     });
 
     return this.executeInTransaction(async (client) => {
@@ -78,7 +78,7 @@ class TransactionService extends BaseService {
       }
 
       logger.info('Operaciones secuenciales completadas', {
-        resultsCount: results.length
+        resultsCount: results.length,
       });
 
       return results;
@@ -115,7 +115,7 @@ class TransactionService extends BaseService {
         if (attempt > 1) {
           logger.info('Operación exitosa después de retry', {
             attempt,
-            maxRetries
+            maxRetries,
           });
         }
 
@@ -124,12 +124,12 @@ class TransactionService extends BaseService {
         lastError = error;
 
         if (attempt < maxRetries) {
-          const delay = delayMs * Math.pow(2, attempt - 1);
+          const delay = delayMs * 2 ** (attempt - 1);
           logger.warn('Operación falló, reintentando', {
             attempt,
             maxRetries,
             delayMs: delay,
-            error: error.message
+            error: error.message,
           });
 
           await new Promise((resolve) => setTimeout(resolve, delay));
@@ -139,7 +139,7 @@ class TransactionService extends BaseService {
 
     logger.error('Operación falló después de todos los reintentos', {
       maxRetries,
-      error: lastError.message
+      error: lastError.message,
     });
 
     throw lastError;

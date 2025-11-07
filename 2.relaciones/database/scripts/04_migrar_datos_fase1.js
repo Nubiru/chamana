@@ -27,7 +27,7 @@ const {
   DB_CONFIGS,
   toTitleCase,
   normalizeWithDefault,
-  generatePrendaName
+  generatePrendaName,
 } = require('./00_db');
 
 async function migrarDatos() {
@@ -49,9 +49,7 @@ async function migrarDatos() {
     // TABLE 1: clientes (WITH ACTIVATION)
     // ===================================================================
     console.log('📦 Migrando clientes...');
-    const clientes = await clientFase1.query(
-      'SELECT * FROM clientes ORDER BY id'
-    );
+    const clientes = await clientFase1.query('SELECT * FROM clientes ORDER BY id');
 
     for (const cliente of clientes.rows) {
       await clientFase2.query(
@@ -69,27 +67,21 @@ async function migrarDatos() {
           cliente.ciudad,
           cliente.codigo_postal,
           cliente.fecha_registro,
-          true // ✅ Always activate in Phase 2
+          true, // ✅ Always activate in Phase 2
         ]
       );
     }
-    stats['clientes'] = clientes.rows.length;
-    console.log(
-      `   ✅ ${clientes.rows.length} registros migrados (todos activos)`
-    );
+    stats.clientes = clientes.rows.length;
+    console.log(`   ✅ ${clientes.rows.length} registros migrados (todos activos)`);
 
     // Update sequence
-    await clientFase2.query(
-      `SELECT setval('clientes_id_seq', (SELECT MAX(id) FROM clientes))`
-    );
+    await clientFase2.query(`SELECT setval('clientes_id_seq', (SELECT MAX(id) FROM clientes))`);
 
     // ===================================================================
     // TABLE 2: categorias (no changes)
     // ===================================================================
     console.log('\n📦 Migrando categorias...');
-    const categorias = await clientFase1.query(
-      'SELECT * FROM categorias ORDER BY id'
-    );
+    const categorias = await clientFase1.query('SELECT * FROM categorias ORDER BY id');
 
     for (const categoria of categorias.rows) {
       await clientFase2.query(
@@ -100,20 +92,16 @@ async function migrarDatos() {
         [categoria.id, categoria.nombre, categoria.descripcion]
       );
     }
-    stats['categorias'] = categorias.rows.length;
+    stats.categorias = categorias.rows.length;
     console.log(`   ✅ ${categorias.rows.length} registros migrados`);
 
-    await clientFase2.query(
-      `SELECT setval('categorias_id_seq', (SELECT MAX(id) FROM categorias))`
-    );
+    await clientFase2.query(`SELECT setval('categorias_id_seq', (SELECT MAX(id) FROM categorias))`);
 
     // ===================================================================
     // TABLE 3: disenos (no changes)
     // ===================================================================
     console.log('\n📦 Migrando disenos...');
-    const disenos = await clientFase1.query(
-      'SELECT * FROM disenos ORDER BY id'
-    );
+    const disenos = await clientFase1.query('SELECT * FROM disenos ORDER BY id');
 
     for (const diseno of disenos.rows) {
       await clientFase2.query(
@@ -124,12 +112,10 @@ async function migrarDatos() {
         [diseno.id, diseno.nombre, diseno.descripcion, diseno.fecha_creacion]
       );
     }
-    stats['disenos'] = disenos.rows.length;
+    stats.disenos = disenos.rows.length;
     console.log(`   ✅ ${disenos.rows.length} registros migrados`);
 
-    await clientFase2.query(
-      `SELECT setval('disenos_id_seq', (SELECT MAX(id) FROM disenos))`
-    );
+    await clientFase2.query(`SELECT setval('disenos_id_seq', (SELECT MAX(id) FROM disenos))`);
 
     // ===================================================================
     // TABLE 4: telas (no changes)
@@ -146,12 +132,10 @@ async function migrarDatos() {
         [tela.id, tela.nombre, tela.tipo, tela.descripcion]
       );
     }
-    stats['telas'] = telas.rows.length;
+    stats.telas = telas.rows.length;
     console.log(`   ✅ ${telas.rows.length} registros migrados`);
 
-    await clientFase2.query(
-      `SELECT setval('telas_id_seq', (SELECT MAX(id) FROM telas))`
-    );
+    await clientFase2.query(`SELECT setval('telas_id_seq', (SELECT MAX(id) FROM telas))`);
 
     // ===================================================================
     // TABLE 5: años (no changes)
@@ -168,28 +152,21 @@ async function migrarDatos() {
         [año.id, año.año]
       );
     }
-    stats['años'] = años.rows.length;
+    stats.años = años.rows.length;
     console.log(`   ✅ ${años.rows.length} registros migrados`);
 
-    await clientFase2.query(
-      `SELECT setval('años_id_seq', (SELECT MAX(id) FROM años))`
-    );
+    await clientFase2.query(`SELECT setval('años_id_seq', (SELECT MAX(id) FROM años))`);
 
     // ===================================================================
     // TABLE 6: temporadas (WITH NORMALIZATION)
     // ===================================================================
     console.log('\n📦 Migrando temporadas...');
-    const temporadas = await clientFase1.query(
-      'SELECT * FROM temporadas ORDER BY id'
-    );
+    const temporadas = await clientFase1.query('SELECT * FROM temporadas ORDER BY id');
 
     let normalizedSeasons = 0;
     for (const temporada of temporadas.rows) {
       // Normalize: "INVIERNO" → "Invierno", "verano" → "Verano"
-      const nombreNormalizado = normalizeWithDefault(
-        temporada.nombre,
-        'Desconocida'
-      );
+      const nombreNormalizado = normalizeWithDefault(temporada.nombre, 'Desconocida');
 
       if (nombreNormalizado !== temporada.nombre) {
         normalizedSeasons++;
@@ -203,25 +180,19 @@ async function migrarDatos() {
         [temporada.id, nombreNormalizado]
       );
     }
-    stats['temporadas'] = temporadas.rows.length;
+    stats.temporadas = temporadas.rows.length;
     console.log(`   ✅ ${temporadas.rows.length} registros migrados`);
     if (normalizedSeasons > 0) {
-      console.log(
-        `   📝 ${normalizedSeasons} temporadas normalizadas a Title Case`
-      );
+      console.log(`   📝 ${normalizedSeasons} temporadas normalizadas a Title Case`);
     }
 
-    await clientFase2.query(
-      `SELECT setval('temporadas_id_seq', (SELECT MAX(id) FROM temporadas))`
-    );
+    await clientFase2.query(`SELECT setval('temporadas_id_seq', (SELECT MAX(id) FROM temporadas))`);
 
     // ===================================================================
     // TABLE 7: colecciones (WITH ACTIVATION)
     // ===================================================================
     console.log('\n📦 Migrando colecciones...');
-    const colecciones = await clientFase1.query(
-      'SELECT * FROM colecciones ORDER BY id'
-    );
+    const colecciones = await clientFase1.query('SELECT * FROM colecciones ORDER BY id');
 
     for (const coleccion of colecciones.rows) {
       await clientFase2.query(
@@ -237,14 +208,12 @@ async function migrarDatos() {
           coleccion.descripcion,
           coleccion.fecha_inicio,
           coleccion.fecha_fin,
-          true // ✅ Always activate in Phase 2
+          true, // ✅ Always activate in Phase 2
         ]
       );
     }
-    stats['colecciones'] = colecciones.rows.length;
-    console.log(
-      `   ✅ ${colecciones.rows.length} registros migrados (todas activas)`
-    );
+    stats.colecciones = colecciones.rows.length;
+    console.log(`   ✅ ${colecciones.rows.length} registros migrados (todas activas)`);
 
     await clientFase2.query(
       `SELECT setval('colecciones_id_seq', (SELECT MAX(id) FROM colecciones))`
@@ -253,12 +222,8 @@ async function migrarDatos() {
     // ===================================================================
     // TABLE 8: prendas (ENHANCED - initialize stock columns + DATA NORMALIZATION)
     // ===================================================================
-    console.log(
-      '\n📦 Migrando prendas (con inicialización de stock y normalización)...'
-    );
-    const prendas = await clientFase1.query(
-      'SELECT * FROM prendas ORDER BY id'
-    );
+    console.log('\n📦 Migrando prendas (con inicialización de stock y normalización)...');
+    const prendas = await clientFase1.query('SELECT * FROM prendas ORDER BY id');
 
     let generatedNames = 0;
     let normalizedTipos = 0;
@@ -279,9 +244,7 @@ async function migrarDatos() {
 
       // Initialize stock: Use Phase 1 value if > 0, otherwise default to 10 for testing
       const stockInicial =
-        prenda.stock_disponible && prenda.stock_disponible > 0
-          ? prenda.stock_disponible
-          : 10; // Default stock for testing Phase 2 orders
+        prenda.stock_disponible && prenda.stock_disponible > 0 ? prenda.stock_disponible : 10; // Default stock for testing Phase 2 orders
 
       await clientFase2.query(
         `
@@ -304,40 +267,28 @@ async function migrarDatos() {
           prenda.fecha_creacion,
           true, // ✅ Always activate in Phase 2
           stockInicial, // ✅ Default to 10 if Phase 1 had 0
-          0 // stock_vendido starts at 0
+          0, // stock_vendido starts at 0
           // stock_disponible will be auto-calculated by generated column
         ]
       );
     }
-    stats['prendas'] = prendas.rows.length;
-    console.log(
-      `   ✅ ${prendas.rows.length} registros migrados (todas activas)`
-    );
+    stats.prendas = prendas.rows.length;
+    console.log(`   ✅ ${prendas.rows.length} registros migrados (todas activas)`);
     if (generatedNames > 0) {
-      console.log(
-        `   🔧 ${generatedNames} nombres generados automáticamente (NULL en Fase 1)`
-      );
+      console.log(`   🔧 ${generatedNames} nombres generados automáticamente (NULL en Fase 1)`);
     }
     if (normalizedTipos > 0) {
       console.log(`   📝 ${normalizedTipos} tipos normalizados a Title Case`);
     }
     console.log(`   📦 Stock inicial: Fase 1 si >0, sino default=10 unidades`);
-    console.log(
-      `   📊 stock_disponible calculado automáticamente (generated column)`
-    );
+    console.log(`   📊 stock_disponible calculado automáticamente (generated column)`);
 
-    await clientFase2.query(
-      `SELECT setval('prendas_id_seq', (SELECT MAX(id) FROM prendas))`
-    );
+    await clientFase2.query(`SELECT setval('prendas_id_seq', (SELECT MAX(id) FROM prendas))`);
 
     // Commit transaction
     await clientFase2.query('COMMIT');
 
-    logSuccess(
-      '04_migrar_datos_fase1.js',
-      'Migración completada exitosamente',
-      stats
-    );
+    logSuccess('04_migrar_datos_fase1.js', 'Migración completada exitosamente', stats);
 
     console.log('\n📋 Verificación:');
     console.log('   • Todas las relaciones preservadas');
@@ -362,7 +313,7 @@ migrarDatos()
     console.log('🎉 Script completado exitosamente\n');
     process.exit(0);
   })
-  .catch((error) => {
+  .catch((_error) => {
     console.error('💥 Script falló\n');
     process.exit(1);
   });

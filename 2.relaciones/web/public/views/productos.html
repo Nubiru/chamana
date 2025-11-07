@@ -148,7 +148,7 @@
       const itemsPerPage = 10;
 
       // Inicializar página cuando el DOM esté listo
-      document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener('DOMContentLoaded', () => {
         loadProducts();
         loadCategories();
       });
@@ -230,9 +230,18 @@
                       producto.precio_chamana || producto.precio
                     )}</td>
                     <td class="text-center">
-                        <span class="stock-badge ${
-                          producto.stock_disponible < 2 ? 'low-stock' : ''
-                        }">${producto.stock_disponible || 0}</span>
+                        <div class="stock-info">
+                            <span class="stock-number">${
+                              producto.stock_disponible || 0
+                            }</span>
+                            <span class="badge ${getBadgeClass(
+                              producto.stock_disponible || 0
+                            )}">
+                                ${getStockStatus(
+                                  producto.stock_disponible || 0
+                                )}
+                            </span>
+                        </div>
                     </td>
                     <td class="text-center">
                         <div class="action-buttons">
@@ -240,6 +249,11 @@
                               producto.id
                             })" title="Ver detalles">
                                 <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="verHistorial(${
+                              producto.id
+                            })" title="Ver historial de stock">
+                                <i class="fas fa-history"></i>
                             </button>
                             <button class="btn btn-sm btn-warning" onclick="editProduct(${
                               producto.id
@@ -276,10 +290,9 @@
                 (producto.nombre_completo || producto.nombre)
                   .toLowerCase()
                   .includes(termino.toLowerCase()) ||
-                (producto.tipo_prenda &&
-                  producto.tipo_prenda
-                    .toLowerCase()
-                    .includes(termino.toLowerCase()))
+                producto.tipo_prenda
+                  ?.toLowerCase()
+                  .includes(termino.toLowerCase())
             );
           }
         }
@@ -297,7 +310,7 @@
           filteredProducts = [...allProducts];
         } else {
           filteredProducts = allProducts.filter(
-            (producto) => producto.categoria_id == categoriaId
+            (producto) => producto.categoria_id === categoriaId
           );
         }
 
@@ -412,14 +425,14 @@
 
           // Convertir tipos
           producto.precio = parseFloat(producto.precio);
-          producto.stock = parseInt(producto.stock) || 0;
+          producto.stock = parseInt(producto.stock, 10) || 0;
           producto.categoria_id = producto.categoria_id || null;
 
           try {
             await createProducto(producto);
             closeModal();
             loadProducts();
-          } catch (error) {
+          } catch (_error) {
             // Error ya manejado en createProducto
           }
         });
@@ -500,32 +513,54 @@
                     <!-- Stock Breakdown Section -->
                     <div class="stock-section">
                         <h3>Inventario</h3>
-                        <div class="stock-breakdown">
-                            <div class="stock-item">
-                                <span class="label">Stock Inicial:</span>
-                                <span class="value">${
+                        <div class="stock-breakdown-enhanced">
+                            <div class="stock-row">
+                                <span class="stock-label">Inicial:</span>
+                                <strong class="stock-value">${
                                   producto.stock_inicial || 0
-                                }</span>
+                                }</strong>
                             </div>
-                            <div class="stock-item">
-                                <span class="label">Vendido:</span>
-                                <span class="value">${
+                            <div class="stock-row">
+                                <span class="stock-label">Vendido:</span>
+                                <strong class="stock-value">${
                                   producto.stock_vendido || 0
-                                }</span>
+                                }</strong>
                             </div>
-                            <div class="stock-item">
-                                <span class="label">Disponible:</span>
-                                <span class="value stock-badge ${stockBadgeClass}">${
+                            <div class="stock-row">
+                                <span class="stock-label">Disponible:</span>
+                                <strong class="stock-value stock-badge ${stockBadgeClass}">${
           producto.stock_disponible || 0
-        }</span>
+        }</strong>
                             </div>
-                            <div class="stock-item">
-                                <span class="label">Última Venta:</span>
-                                <span class="value">${fechaUltimaVenta}</span>
+                            <div class="stock-progress">
+                                <div class="progress-bar" style="width: ${
+                                  producto.stock_inicial > 0
+                                    ? Math.round(
+                                        (producto.stock_disponible /
+                                          producto.stock_inicial) *
+                                          100
+                                      )
+                                    : 0
+                                }%"></div>
+                            </div>
+                            <div class="stock-percentage">
+                                ${
+                                  producto.stock_inicial > 0
+                                    ? Math.round(
+                                        (producto.stock_disponible /
+                                          producto.stock_inicial) *
+                                          100
+                                      )
+                                    : 0
+                                }% disponible
+                            </div>
+                            <div class="stock-row">
+                                <span class="stock-label">Última Venta:</span>
+                                <span class="stock-value">${fechaUltimaVenta}</span>
                             </div>
                         </div>
                         <button onclick="showStockHistory()" class="btn btn-secondary" style="margin-top: 10px;">
-                            📊 Ver Historial de Stock
+                            <i class="fas fa-history"></i> Ver Historial de Stock
                         </button>
                     </div>
                 </div>
@@ -584,7 +619,7 @@
 
           // Convertir tipos
           productoData.precio = parseFloat(productoData.precio);
-          productoData.stock = parseInt(productoData.stock) || 0;
+          productoData.stock = parseInt(productoData.stock, 10) || 0;
           productoData.categoria_id = productoData.categoria_id || null;
 
           try {
@@ -612,7 +647,7 @@
             const option = document.createElement('option');
             option.value = categoria.id;
             option.textContent = categoria.nombre;
-            if (categoria.id == currentCategoryId) {
+            if (categoria.id === currentCategoryId) {
               option.selected = true;
             }
             select.appendChild(option);
@@ -620,6 +655,27 @@
         } catch (error) {
           console.error('Error al cargar categorías:', error);
         }
+      }
+
+      // Funciones para determinar estado de stock
+      function getStockStatus(stock) {
+        if (stock === 0) return 'AGOTADO';
+        if (stock <= 3) return 'CRÍTICO';
+        if (stock <= 10) return 'BAJO';
+        return 'NORMAL';
+      }
+
+      function getBadgeClass(stock) {
+        if (stock === 0) return 'badge-agotado';
+        if (stock <= 3) return 'badge-critico';
+        if (stock <= 10) return 'badge-bajo';
+        return 'badge-normal';
+      }
+
+      // Ver historial de stock (nueva función mejorada)
+      async function verHistorial(productoId) {
+        currentProductId = productoId;
+        await showStockHistory();
       }
 
       // Mostrar historial de stock
@@ -642,7 +698,7 @@
           const producto = allProducts.find((p) => p.id === currentProductId);
           if (producto) {
             document.getElementById('modal-product-name').textContent =
-              producto.nombre;
+              producto.nombre_completo || producto.nombre;
           }
 
           if (history.length === 0) {
@@ -653,15 +709,17 @@
               .map(
                 (m) => `
               <tr>
-                <td>${new Date(m.fecha).toLocaleString('es-CL')}</td>
-                <td><span class="badge badge-${m.tipo}">${m.tipo}</span></td>
+                <td>${new Date(m.fecha).toLocaleString('es-MX')}</td>
+                <td><span class="badge badge-${m.tipo.toLowerCase()}">${
+                  m.tipo
+                }</span></td>
                 <td>${m.cantidad}</td>
                 <td>${m.stock_anterior}</td>
                 <td>${m.stock_nuevo}</td>
                 <td>${m.motivo || '-'}</td>
                 <td>${
                   m.pedido_id
-                    ? `<a href="/pedidos.html?id=${m.pedido_id}">Pedido #${m.pedido_id}</a>`
+                    ? `<a href="/pedidos?id=${m.pedido_id}">Pedido #${m.pedido_id}</a>`
                     : '-'
                 }</td>
               </tr>
@@ -670,10 +728,10 @@
               .join('');
           }
 
-          modal.style.display = 'block';
+          modal.style.display = 'flex';
         } catch (error) {
           console.error('Error loading stock history:', error);
-          alert('Error cargando historial de stock');
+          showNotification('Error al cargar historial de stock', 'error');
         }
       }
 
@@ -682,8 +740,8 @@
         document.getElementById('stock-history-modal').style.display = 'none';
       }
 
-      // Cerrar modal al hacer clic fuera de él
-      window.onclick = function (event) {
+      // Cerrar modal al hacer clic fuera de él o en la X
+      window.onclick = (event) => {
         const modal = document.getElementById('stock-history-modal');
         if (event.target === modal) {
           closeStockHistoryModal();
@@ -702,7 +760,7 @@
         // Filter by category
         if (categoriaId) {
           filteredProducts = filteredProducts.filter(
-            (p) => p.categoria_id == categoriaId
+            (p) => p.categoria_id === categoriaId
           );
         }
 
@@ -729,7 +787,7 @@
       }
 
       // Mostrar mensaje cuando no hay productos
-      function displayNoProducts(message) {
+      function _displayNoProducts(message) {
         const tbody = document.getElementById('products-table-body');
         tbody.innerHTML = `
           <tr>
@@ -750,6 +808,9 @@
       window.showStockHistory = showStockHistory;
       window.closeStockHistoryModal = closeStockHistoryModal;
       window.filterProducts = filterProducts;
+      window.verHistorial = verHistorial;
+      window.getStockStatus = getStockStatus;
+      window.getBadgeClass = getBadgeClass;
     </script>
 
     <style>
@@ -803,7 +864,7 @@
       }
 
       .scrollable {
-        overflow-y: auto !important;
+        overflow-y: auto;
         max-height: calc(100vh - 80px);
       }
 
@@ -856,6 +917,189 @@
       .stock-badge.low-stock {
         background-color: #ffebee;
         color: #c62828;
+      }
+
+      /* Indicadores de stock mejorados */
+      .stock-info {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        justify-content: center;
+      }
+
+      .stock-number {
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: var(--text-primary);
+      }
+
+      .badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .badge-agotado {
+        background: #c62828;
+        color: white;
+      }
+
+      .badge-critico {
+        background: #ff6b6b;
+        color: white;
+      }
+
+      .badge-bajo {
+        background: #ffc107;
+        color: #2c3e50;
+      }
+
+      .badge-normal {
+        background: #28a745;
+        color: white;
+      }
+
+      /* Desglose de stock mejorado */
+      .stock-breakdown-enhanced {
+        background: var(--bg-card);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 0.5rem;
+        border: 1px solid var(--border);
+      }
+
+      .stock-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        align-items: center;
+      }
+
+      .stock-label {
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+
+      .stock-value {
+        color: var(--text-primary);
+      }
+
+      .stock-progress {
+        width: 100%;
+        height: 8px;
+        background: var(--border);
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 0.75rem 0;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+        transition: width 0.3s ease;
+      }
+
+      .stock-percentage {
+        text-align: center;
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        font-weight: 600;
+        margin-top: 0.25rem;
+      }
+
+      /* Modal mejorado */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background: var(--bg-card);
+        border-radius: 8px;
+        max-width: 900px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: var(--shadow-medium);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .modal-header h2 {
+        margin: 0;
+        color: var(--text-primary);
+        font-size: 1.5rem;
+      }
+
+      .modal-body {
+        padding: 1.5rem;
+      }
+
+      .close {
+        color: var(--text-secondary);
+        font-size: 2rem;
+        font-weight: bold;
+        cursor: pointer;
+        line-height: 1;
+      }
+
+      .close:hover {
+        color: var(--text-primary);
+      }
+
+      .table-history {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .table-history th,
+      .table-history td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .table-history th {
+        background-color: var(--bg-main);
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      .badge-venta {
+        background: #c62828;
+        color: white;
+      }
+
+      .badge-ajuste {
+        background: #ffc107;
+        color: #2c3e50;
+      }
+
+      .badge-recepcion {
+        background: #28a745;
+        color: white;
+      }
+
+      .badge-devolucion {
+        background: #17a2b8;
+        color: white;
       }
 
       .action-buttons {
@@ -971,24 +1215,30 @@
     <!-- Stock History Modal -->
     <div id="stock-history-modal" class="modal" style="display: none">
       <div class="modal-content">
-        <span class="close" onclick="closeStockHistoryModal()">&times;</span>
-        <h2>Historial de Inventario - <span id="modal-product-name"></span></h2>
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Fecha</th>
-              <th>Tipo</th>
-              <th>Cantidad</th>
-              <th>Stock Anterior</th>
-              <th>Stock Nuevo</th>
-              <th>Motivo</th>
-              <th>Pedido</th>
-            </tr>
-          </thead>
-          <tbody id="stock-history-body">
-            <!-- Dynamic rows -->
-          </tbody>
-        </table>
+        <div class="modal-header">
+          <h2>
+            Historial de Inventario - <span id="modal-product-name"></span>
+          </h2>
+          <span class="close" onclick="closeStockHistoryModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+          <table class="data-table table-history">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Cantidad</th>
+                <th>Stock Anterior</th>
+                <th>Stock Nuevo</th>
+                <th>Motivo</th>
+                <th>Pedido</th>
+              </tr>
+            </thead>
+            <tbody id="stock-history-body">
+              <!-- Dynamic rows -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </body>

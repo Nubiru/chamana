@@ -12,8 +12,9 @@ const { query } = require('../config/database');
 // =====================================================
 // GET /api/clientes
 // Obtener todos los clientes CHAMANA
+// Nota: Fase 2 mantiene simplicidad. Paginación puede agregarse en Fase 3+
 // =====================================================
-router.get('/', async (req, res) => {
+router.get('/', async (_req, res) => {
   try {
     const result = await query(`
             SELECT 
@@ -31,14 +32,14 @@ router.get('/', async (req, res) => {
     res.json({
       success: true,
       data: result.rows,
-      count: result.rows.length
+      count: result.rows.length,
     });
   } catch (error) {
     console.error('Error al obtener clientes:', error);
     res.status(500).json({
       success: false,
       error: 'Error al obtener clientes',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -68,20 +69,20 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({
         success: false,
         error: 'Usuario no encontrado',
-        message: `No se encontró un usuario con ID ${id}`
+        message: `No se encontró un usuario con ID ${id}`,
       });
     }
 
     res.json({
       success: true,
-      data: result.rows[0]
+      data: result.rows[0],
     });
   } catch (error) {
     console.error('Error al obtener usuario:', error);
     res.status(500).json({
       success: false,
       error: 'Error al obtener usuario',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -99,7 +100,7 @@ router.post('/', async (req, res) => {
       return res.status(400).json({
         success: false,
         error: 'Datos requeridos faltantes',
-        message: 'El nombre y email son obligatorios'
+        message: 'El nombre y email son obligatorios',
       });
     }
 
@@ -109,7 +110,7 @@ router.post('/', async (req, res) => {
       return res.status(400).json({
         success: false,
         error: 'Email inválido',
-        message: 'El formato del email no es válido'
+        message: 'El formato del email no es válido',
       });
     }
 
@@ -125,7 +126,7 @@ router.post('/', async (req, res) => {
       return res.status(409).json({
         success: false,
         error: 'Email ya registrado',
-        message: 'Ya existe un usuario con este email'
+        message: 'Ya existe un usuario con este email',
       });
     }
 
@@ -141,14 +142,14 @@ router.post('/', async (req, res) => {
     res.status(201).json({
       success: true,
       data: result.rows[0],
-      message: 'Usuario creado exitosamente'
+      message: 'Usuario creado exitosamente',
     });
   } catch (error) {
     console.error('Error al crear usuario:', error);
     res.status(500).json({
       success: false,
       error: 'Error al crear usuario',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -169,7 +170,7 @@ router.put('/:id', async (req, res) => {
         return res.status(400).json({
           success: false,
           error: 'Email inválido',
-          message: 'El formato del email no es válido'
+          message: 'El formato del email no es válido',
         });
       }
 
@@ -185,7 +186,7 @@ router.put('/:id', async (req, res) => {
         return res.status(409).json({
           success: false,
           error: 'Email ya registrado',
-          message: 'Ya existe otro usuario con este email'
+          message: 'Ya existe otro usuario con este email',
         });
       }
     }
@@ -206,21 +207,21 @@ router.put('/:id', async (req, res) => {
       return res.status(404).json({
         success: false,
         error: 'Usuario no encontrado',
-        message: `No se encontró un usuario con ID ${id}`
+        message: `No se encontró un usuario con ID ${id}`,
       });
     }
 
     res.json({
       success: true,
       data: result.rows[0],
-      message: 'Usuario actualizado exitosamente'
+      message: 'Usuario actualizado exitosamente',
     });
   } catch (error) {
     console.error('Error al actualizar usuario:', error);
     res.status(500).json({
       success: false,
       error: 'Error al actualizar usuario',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -246,21 +247,21 @@ router.delete('/:id', async (req, res) => {
       return res.status(404).json({
         success: false,
         error: 'Usuario no encontrado',
-        message: `No se encontró un usuario con ID ${id}`
+        message: `No se encontró un usuario con ID ${id}`,
       });
     }
 
     res.json({
       success: true,
       data: result.rows[0],
-      message: 'Usuario eliminado exitosamente'
+      message: 'Usuario eliminado exitosamente',
     });
   } catch (error) {
     console.error('Error al eliminar usuario:', error);
     res.status(500).json({
       success: false,
       error: 'Error al eliminar usuario',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -291,14 +292,14 @@ router.get('/buscar/:termino', async (req, res) => {
       success: true,
       data: result.rows,
       count: result.rows.length,
-      termino: termino
+      termino: termino,
     });
   } catch (error) {
     console.error('Error al buscar clientes:', error);
     res.status(500).json({
       success: false,
       error: 'Error al buscar clientes',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -307,7 +308,7 @@ router.get('/buscar/:termino', async (req, res) => {
 // GET /api/clientes/estadisticas
 // Obtener estadísticas de clientes
 // =====================================================
-router.get('/estadisticas', async (req, res) => {
+router.get('/estadisticas', async (_req, res) => {
   try {
     const result = await query(`
             SELECT 
@@ -321,14 +322,14 @@ router.get('/estadisticas', async (req, res) => {
 
     res.json({
       success: true,
-      data: result.rows[0]
+      data: result.rows[0],
     });
   } catch (error) {
     console.error('Error al obtener estadísticas de clientes:', error);
     res.status(500).json({
       success: false,
       error: 'Error al obtener estadísticas',
-      message: error.message
+      message: error.message,
     });
   }
 });

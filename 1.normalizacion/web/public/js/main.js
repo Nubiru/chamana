@@ -6,14 +6,14 @@
 // =====================================================
 
 // Variables globales
-let currentData = {
+const currentData = {
   prendas: [],
   clientes: [],
-  categorias: []
+  categorias: [],
 };
 
 // Inicialización cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
   console.log('🚀 CHAMANA E-commerce iniciado');
 
   // Verificar conexión a la API
@@ -42,12 +42,11 @@ async function loadDashboardData() {
 
   try {
     // Cargar datos en paralelo
-    const [prendasResponse, clientesResponse, categoriasResponse] =
-      await Promise.all([
-        api.getPrendas(),
-        api.getClientes(),
-        api.getCategorias()
-      ]);
+    const [prendasResponse, clientesResponse, categoriasResponse] = await Promise.all([
+      api.getPrendas(),
+      api.getClientes(),
+      api.getCategorias(),
+    ]);
 
     // Actualizar datos globales
     currentData.prendas = prendasResponse.data || [];
@@ -85,14 +84,10 @@ function updateStatistics() {
 
   // Valor total del inventario
   const valorInventario = currentData.prendas.reduce((total, prenda) => {
-    return (
-      total +
-      parseFloat(prenda.precio_chamana || 0) * parseInt(prenda.stock || 0)
-    );
+    return total + parseFloat(prenda.precio_chamana || 0) * parseInt(prenda.stock || 0, 10);
   }, 0);
 
-  document.getElementById('valor-inventario').textContent =
-    formatCurrency(valorInventario);
+  document.getElementById('valor-inventario').textContent = formatCurrency(valorInventario);
 }
 
 // Función para actualizar datos recientes
@@ -112,12 +107,12 @@ function updateRecentData() {
         .map(
           (prenda) => `
             <p>• <strong>${prenda.nombre_completo}</strong> - ${formatCurrency(
-            prenda.precio_chamana
-          )}<br>
+              prenda.precio_chamana
+            )}<br>
             <span style="font-size: 0.85em; color: #959D90;">
               ${prenda.diseno_nombre || 'Sin diseño'} | ${
-            prenda.tela_nombre || 'Sin tela'
-          } | ${prenda.coleccion_nombre || 'Sin colección'}
+                prenda.tela_nombre || 'Sin tela'
+              } | ${prenda.coleccion_nombre || 'Sin colección'}
             </span></p>
         `
         )
@@ -231,16 +226,15 @@ async function deleteItem(type, id, name) {
   showLoading();
 
   try {
-    let response;
     switch (type) {
       case 'producto':
-        response = await api.deleteProducto(id);
+        await api.deleteProducto(id);
         break;
       case 'usuario':
-        response = await api.deleteUsuario(id);
+        await api.deleteUsuario(id);
         break;
       case 'categoria':
-        response = await api.deleteCategoria(id);
+        await api.deleteCategoria(id);
         break;
       default:
         throw new Error('Tipo de elemento no válido');
@@ -349,7 +343,7 @@ function closeModal() {
 }
 
 // Cerrar modal al hacer clic fuera de él
-window.onclick = function (event) {
+window.onclick = (event) => {
   const modal = document.getElementById('modal');
   if (event.target === modal) {
     closeModal();
@@ -380,7 +374,7 @@ function exportData(type, format = 'json') {
 
     if (format === 'json') {
       const blob = new Blob([JSON.stringify(data, null, 2)], {
-        type: 'application/json'
+        type: 'application/json',
       });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -421,8 +415,7 @@ function showTooltip(event) {
   document.body.appendChild(tooltip);
 
   const rect = element.getBoundingClientRect();
-  tooltip.style.left =
-    rect.left + rect.width / 2 - tooltip.offsetWidth / 2 + 'px';
+  tooltip.style.left = rect.left + rect.width / 2 - tooltip.offsetWidth / 2 + 'px';
   tooltip.style.top = rect.top - tooltip.offsetHeight - 5 + 'px';
 }
 

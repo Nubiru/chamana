@@ -137,7 +137,7 @@
       const itemsPerPage = 10;
 
       // Inicializar página cuando el DOM esté listo
-      document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener('DOMContentLoaded', () => {
         loadProducts();
         loadCategories();
       });
@@ -265,10 +265,9 @@
                 (producto.nombre_completo || producto.nombre)
                   .toLowerCase()
                   .includes(termino.toLowerCase()) ||
-                (producto.tipo_prenda &&
-                  producto.tipo_prenda
-                    .toLowerCase()
-                    .includes(termino.toLowerCase()))
+                producto.tipo_prenda
+                  ?.toLowerCase()
+                  .includes(termino.toLowerCase())
             );
           }
         }
@@ -286,7 +285,7 @@
           filteredProducts = [...allProducts];
         } else {
           filteredProducts = allProducts.filter(
-            (producto) => producto.categoria_id == categoriaId
+            (producto) => producto.categoria_id === categoriaId
           );
         }
 
@@ -401,14 +400,14 @@
 
           // Convertir tipos
           producto.precio = parseFloat(producto.precio);
-          producto.stock = parseInt(producto.stock) || 0;
+          producto.stock = parseInt(producto.stock, 10) || 0;
           producto.categoria_id = producto.categoria_id || null;
 
           try {
             await createProducto(producto);
             closeModal();
             loadProducts();
-          } catch (error) {
+          } catch (_error) {
             // Error ya manejado en createProducto
           }
         });
@@ -512,7 +511,7 @@
 
           // Convertir tipos
           productoData.precio = parseFloat(productoData.precio);
-          productoData.stock = parseInt(productoData.stock) || 0;
+          productoData.stock = parseInt(productoData.stock, 10) || 0;
           productoData.categoria_id = productoData.categoria_id || null;
 
           try {
@@ -540,7 +539,7 @@
             const option = document.createElement('option');
             option.value = categoria.id;
             option.textContent = categoria.nombre;
-            if (categoria.id == currentCategoryId) {
+            if (categoria.id === currentCategoryId) {
               option.selected = true;
             }
             select.appendChild(option);
@@ -610,7 +609,7 @@
       }
 
       .scrollable {
-        overflow-y: auto !important;
+        overflow-y: auto;
         max-height: calc(100vh - 80px);
       }
 

@@ -55,7 +55,7 @@ class TelasService extends BaseService {
     }
 
     if (año) {
-      params.push(parseInt(año));
+      params.push(parseInt(año, 10));
       conditions.push(`a.año = $${params.length}`);
     }
 
@@ -74,7 +74,7 @@ class TelasService extends BaseService {
 
     logger.info('Telas por temporada obtenidas', {
       count: result.rows.length,
-      filters: { temporada, año, activo }
+      filters: { temporada, año, activo },
     });
 
     return result.rows;
@@ -86,9 +86,7 @@ class TelasService extends BaseService {
    * @returns {Promise<Array>} Lista de temporadas
    */
   async getAllSeasons() {
-    const result = await this.executeQuery(
-      'SELECT id, nombre FROM temporadas ORDER BY nombre'
-    );
+    const result = await this.executeQuery('SELECT id, nombre FROM temporadas ORDER BY nombre');
 
     return result.rows;
   }
@@ -99,9 +97,7 @@ class TelasService extends BaseService {
    * @returns {Promise<Array>} Lista de años
    */
   async getAllYears() {
-    const result = await this.executeQuery(
-      'SELECT id, año FROM años ORDER BY año DESC'
-    );
+    const result = await this.executeQuery('SELECT id, año FROM años ORDER BY año DESC');
 
     return result.rows;
   }

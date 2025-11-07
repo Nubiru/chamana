@@ -105,7 +105,7 @@ class ProductosService extends BaseService {
 
     logger.info('Historial de stock obtenido', {
       prenda_id: prendaId,
-      movimientos: result.rows.length
+      movimientos: result.rows.length,
     });
 
     return result.rows;
@@ -128,7 +128,7 @@ class ProductosService extends BaseService {
       activa,
       tela_ids, // ⭐ NEW: Filter by fabric IDs (for seasonal filtering)
       limit = 50,
-      offset = 0
+      offset = 0,
     } = filters;
 
     let query = `
@@ -188,7 +188,7 @@ class ProductosService extends BaseService {
 
     logger.info('Productos listados', {
       count: result.rows.length,
-      filters: { categoria_id, activa, tela_ids_count: tela_ids?.length }
+      filters: { categoria_id, activa, tela_ids_count: tela_ids?.length },
     });
 
     return result.rows;

@@ -12,8 +12,9 @@ const { query } = require('../config/database');
 // =====================================================
 // GET /api/prendas
 // Obtener todas las prendas con información de categoría
+// Nota: Fase 0 es intencionalmente simple. Filtros avanzados en Fase 2+
 // =====================================================
-router.get('/', async (req, res) => {
+router.get('/', async (_req, res) => {
   try {
     const result = await query(`
             SELECT 
@@ -37,14 +38,14 @@ router.get('/', async (req, res) => {
     res.json({
       success: true,
       data: result.rows,
-      count: result.rows.length
+      count: result.rows.length,
     });
   } catch (error) {
     console.error('Error al obtener prendas:', error);
     res.status(500).json({
       success: false,
       error: 'Error al obtener prendas',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -82,20 +83,20 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({
         success: false,
         error: 'Prenda no encontrada',
-        message: `No se encontró una prenda con ID ${id}`
+        message: `No se encontró una prenda con ID ${id}`,
       });
     }
 
     res.json({
       success: true,
-      data: result.rows[0]
+      data: result.rows[0],
     });
   } catch (error) {
     console.error('Error al obtener prenda:', error);
     res.status(500).json({
       success: false,
       error: 'Error al obtener prenda',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -121,7 +122,7 @@ router.post('/', async (req, res) => {
       imagen_principal,
       etiquetas,
       activa,
-      destacada
+      destacada,
     } = req.body;
 
     // Validaciones básicas
@@ -129,7 +130,7 @@ router.post('/', async (req, res) => {
       return res.status(400).json({
         success: false,
         error: 'Datos requeridos faltantes',
-        message: 'El nombre y precio son obligatorios'
+        message: 'El nombre y precio son obligatorios',
       });
     }
 
@@ -137,7 +138,7 @@ router.post('/', async (req, res) => {
       return res.status(400).json({
         success: false,
         error: 'Datos inválidos',
-        message: 'El precio no puede ser negativo'
+        message: 'El precio no puede ser negativo',
       });
     }
 
@@ -166,21 +167,21 @@ router.post('/', async (req, res) => {
         imagen_principal,
         etiquetas || [],
         activa !== false,
-        destacada || false
+        destacada || false,
       ]
     );
 
     res.status(201).json({
       success: true,
       data: result.rows[0],
-      message: 'Prenda creada exitosamente'
+      message: 'Prenda creada exitosamente',
     });
   } catch (error) {
     console.error('Error al crear prenda:', error);
     res.status(500).json({
       success: false,
       error: 'Error al crear prenda',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -199,7 +200,7 @@ router.put('/:id', async (req, res) => {
       return res.status(400).json({
         success: false,
         error: 'Datos inválidos',
-        message: 'El precio no puede ser negativo'
+        message: 'El precio no puede ser negativo',
       });
     }
 
@@ -222,21 +223,21 @@ router.put('/:id', async (req, res) => {
       return res.status(404).json({
         success: false,
         error: 'Producto no encontrado',
-        message: `No se encontró un producto con ID ${id}`
+        message: `No se encontró un producto con ID ${id}`,
       });
     }
 
     res.json({
       success: true,
       data: result.rows[0],
-      message: 'Producto actualizado exitosamente'
+      message: 'Producto actualizado exitosamente',
     });
   } catch (error) {
     console.error('Error al actualizar producto:', error);
     res.status(500).json({
       success: false,
       error: 'Error al actualizar producto',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -262,21 +263,21 @@ router.delete('/:id', async (req, res) => {
       return res.status(404).json({
         success: false,
         error: 'Producto no encontrado',
-        message: `No se encontró un producto con ID ${id}`
+        message: `No se encontró un producto con ID ${id}`,
       });
     }
 
     res.json({
       success: true,
       data: result.rows[0],
-      message: 'Producto eliminado exitosamente'
+      message: 'Producto eliminado exitosamente',
     });
   } catch (error) {
     console.error('Error al eliminar producto:', error);
     res.status(500).json({
       success: false,
       error: 'Error al eliminar producto',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -310,14 +311,14 @@ router.get('/categoria/:categoria_id', async (req, res) => {
     res.json({
       success: true,
       data: result.rows,
-      count: result.rows.length
+      count: result.rows.length,
     });
   } catch (error) {
     console.error('Error al obtener productos por categoría:', error);
     res.status(500).json({
       success: false,
       error: 'Error al obtener productos por categoría',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -352,14 +353,14 @@ router.get('/buscar/:termino', async (req, res) => {
       success: true,
       data: result.rows,
       count: result.rows.length,
-      termino: termino
+      termino: termino,
     });
   } catch (error) {
     console.error('Error al buscar productos:', error);
     res.status(500).json({
       success: false,
       error: 'Error al buscar productos',
-      message: error.message
+      message: error.message,
     });
   }
 });

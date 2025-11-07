@@ -11,9 +11,7 @@ async function migrarPrendas() {
     console.log('🚚 Migrando prendas desde chamana_db_fase0...\n');
 
     // Obtener todas las prendas de Fase 0
-    const prendasResult = await fase0Pool.query(
-      'SELECT * FROM prendas ORDER BY id'
-    );
+    const prendasResult = await fase0Pool.query('SELECT * FROM prendas ORDER BY id');
 
     // Obtener colecciones de 2025
     const veranoResult = await pool.query(
@@ -38,8 +36,8 @@ async function migrarPrendas() {
     for (const prenda of prendasResult.rows) {
       // 1. Extraer nombre del diseño
       let nombreCompleto = prenda.nombre_completo;
-      let tipoPrenda = prenda.tipo;
-      let tipoTela = prenda.tela_nombre;
+      const tipoPrenda = prenda.tipo;
+      const tipoTela = prenda.tela_nombre;
 
       // Remover tipo_prenda del inicio
       if (nombreCompleto.startsWith(tipoPrenda)) {
@@ -54,10 +52,9 @@ async function migrarPrendas() {
       const nombreDiseno = nombreCompleto;
 
       // 2. Buscar ID del diseño
-      const disenoResult = await pool.query(
-        'SELECT id FROM disenos WHERE nombre = $1',
-        [nombreDiseno]
-      );
+      const disenoResult = await pool.query('SELECT id FROM disenos WHERE nombre = $1', [
+        nombreDiseno,
+      ]);
 
       if (disenoResult.rows.length === 0) {
         console.log(`   ⚠️  No se encontró diseño para: ${nombreDiseno}`);
@@ -67,10 +64,7 @@ async function migrarPrendas() {
       const disenoId = disenoResult.rows[0].id;
 
       // 3. Buscar ID de la tela
-      const telaResult = await pool.query(
-        'SELECT id FROM telas WHERE nombre = $1',
-        [tipoTela]
-      );
+      const telaResult = await pool.query('SELECT id FROM telas WHERE nombre = $1', [tipoTela]);
 
       if (telaResult.rows.length === 0) {
         console.log(`   ⚠️  No se encontró tela para: ${tipoTela}`);
@@ -99,7 +93,7 @@ async function migrarPrendas() {
           prenda.precio_arro,
           prenda.stock,
           prenda.fecha_creacion,
-          prenda.activa
+          prenda.activa,
         ]
       );
 
@@ -133,9 +127,7 @@ async function migrarPrendas() {
     console.log('\n📋 Primeras 5 prendas migradas:');
     verificacion.rows.forEach((p) => {
       console.log(`   ${p.id}. ${p.nombre_completo}`);
-      console.log(
-        `      Diseño: ${p.diseno} | Tela: ${p.tela} | Colección: ${p.coleccion}`
-      );
+      console.log(`      Diseño: ${p.diseno} | Tela: ${p.tela} | Colección: ${p.coleccion}`);
       console.log(`      Precio: $${p.precio_chamana}\n`);
     });
 

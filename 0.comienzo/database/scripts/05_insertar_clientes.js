@@ -13,122 +13,122 @@ const clientes = [
     nombre: 'María',
     apellido: 'García López',
     email: 'maria.garcia@email.com',
-    telefono: '555-0101'
+    telefono: '555-0101',
   },
   {
     nombre: 'Ana',
     apellido: 'Martínez Rodríguez',
     email: 'ana.martinez@email.com',
-    telefono: '555-0102'
+    telefono: '555-0102',
   },
   {
     nombre: 'Sofía',
     apellido: 'Hernández Pérez',
     email: 'sofia.hernandez@email.com',
-    telefono: '555-0103'
+    telefono: '555-0103',
   },
   {
     nombre: 'Isabella',
     apellido: 'González Sánchez',
     email: 'isabella.gonzalez@email.com',
-    telefono: '555-0104'
+    telefono: '555-0104',
   },
   {
     nombre: 'Valentina',
     apellido: 'López Ramírez',
     email: 'valentina.lopez@email.com',
-    telefono: '555-0105'
+    telefono: '555-0105',
   },
   {
     nombre: 'Camila',
     apellido: 'Rodríguez Torres',
     email: 'camila.rodriguez@email.com',
-    telefono: '555-0106'
+    telefono: '555-0106',
   },
   {
     nombre: 'Lucía',
     apellido: 'Pérez Flores',
     email: 'lucia.perez@email.com',
-    telefono: '555-0107'
+    telefono: '555-0107',
   },
   {
     nombre: 'Daniela',
     apellido: 'Sánchez Rivera',
     email: 'daniela.sanchez@email.com',
-    telefono: '555-0108'
+    telefono: '555-0108',
   },
   {
     nombre: 'Victoria',
     apellido: 'Ramírez Cruz',
     email: 'victoria.ramirez@email.com',
-    telefono: '555-0109'
+    telefono: '555-0109',
   },
   {
     nombre: 'Martina',
     apellido: 'Torres Morales',
     email: 'martina.torres@email.com',
-    telefono: '555-0110'
+    telefono: '555-0110',
   },
   {
     nombre: 'Emma',
     apellido: 'Flores Gutiérrez',
     email: 'emma.flores@email.com',
-    telefono: '555-0111'
+    telefono: '555-0111',
   },
   {
     nombre: 'Mía',
     apellido: 'Rivera Díaz',
     email: 'mia.rivera@email.com',
-    telefono: '555-0112'
+    telefono: '555-0112',
   },
   {
     nombre: 'Renata',
     apellido: 'Cruz Mendoza',
     email: 'renata.cruz@email.com',
-    telefono: '555-0113'
+    telefono: '555-0113',
   },
   {
     nombre: 'Valeria',
     apellido: 'Morales Castro',
     email: 'valeria.morales@email.com',
-    telefono: '555-0114'
+    telefono: '555-0114',
   },
   {
     nombre: 'Natalia',
     apellido: 'Gutiérrez Ortiz',
     email: 'natalia.gutierrez@email.com',
-    telefono: '555-0115'
+    telefono: '555-0115',
   },
   {
     nombre: 'Elena',
     apellido: 'Díaz Vargas',
     email: 'elena.diaz@email.com',
-    telefono: '555-0116'
+    telefono: '555-0116',
   },
   {
     nombre: 'Paula',
     apellido: 'Mendoza Reyes',
     email: 'paula.mendoza@email.com',
-    telefono: '555-0117'
+    telefono: '555-0117',
   },
   {
     nombre: 'Fernanda',
     apellido: 'Castro Romero',
     email: 'fernanda.castro@email.com',
-    telefono: '555-0118'
+    telefono: '555-0118',
   },
   {
     nombre: 'Gabriela',
     apellido: 'Ortiz Silva',
     email: 'gabriela.ortiz@email.com',
-    telefono: '555-0119'
+    telefono: '555-0119',
   },
   {
     nombre: 'Carolina',
     apellido: 'Vargas Herrera',
     email: 'carolina.vargas@email.com',
-    telefono: '555-0120'
-  }
+    telefono: '555-0120',
+  },
 ];
 
 async function insertarClientes() {
@@ -150,13 +150,7 @@ async function insertarClientes() {
           RETURNING id;
         `;
 
-        const valores = [
-          cliente.nombre,
-          cliente.apellido,
-          cliente.email,
-          cliente.telefono,
-          true
-        ];
+        const valores = [cliente.nombre, cliente.apellido, cliente.email, cliente.telefono, true];
 
         const resultado = await pool.query(query, valores);
 
@@ -169,10 +163,7 @@ async function insertarClientes() {
           console.log(`⚠️  Cliente "${cliente.email}" ya existía (omitido)`);
         }
       } catch (error) {
-        console.error(
-          `❌ Error insertando cliente ${cliente.nombre}:`,
-          error.message
-        );
+        console.error(`❌ Error insertando cliente ${cliente.nombre}:`, error.message);
       }
     }
 
@@ -188,9 +179,7 @@ async function insertarClientes() {
     `);
 
     muestra.rows.forEach((c) => {
-      console.log(
-        `   ${c.id}. ${c.nombre} ${c.apellido} | ${c.email} | ${c.telefono}`
-      );
+      console.log(`   ${c.id}. ${c.nombre} ${c.apellido} | ${c.email} | ${c.telefono}`);
     });
 
     // Total

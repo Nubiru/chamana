@@ -266,14 +266,12 @@ async function crearTablas() {
       'Tablas base (Fase 1)': 7,
       'Tabla mejorada': 1,
       'Tablas nuevas (Fase 2)': 4,
-      'Total de tablas': 11
+      'Total de tablas': 11,
     });
 
     console.log('\n📋 Resumen de estructura 2NF:');
     console.log('   • Junction tables para eliminar dependencias parciales');
-    console.log(
-      '   • stock_disponible como columna generada (integridad automática)'
-    );
+    console.log('   • stock_disponible como columna generada (integridad automática)');
     console.log('   • Constraints CHECK para validación de datos');
     console.log('   • Foreign keys para integridad referencial\n');
   } catch (error) {
@@ -292,7 +290,7 @@ crearTablas()
     console.log('🎉 Script completado exitosamente\n');
     process.exit(0);
   })
-  .catch((error) => {
+  .catch((_error) => {
     console.error('💥 Script falló\n');
     process.exit(1);
   });

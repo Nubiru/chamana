@@ -18,17 +18,14 @@ async function insertarEstaticos() {
     }
 
     for (const año of años) {
-      await pool.query(
-        'INSERT INTO años (año) VALUES ($1) ON CONFLICT (año) DO NOTHING',
-        [año]
-      );
+      await pool.query('INSERT INTO años (año) VALUES ($1) ON CONFLICT (año) DO NOTHING', [año]);
     }
     console.log(`   ✅ ${años.length} años insertados`);
 
     // 2. Insertar Temporadas
     console.log('🌞 Insertando temporadas...');
     const temporadas = ['verano', 'invierno'];
-    
+
     for (const temporada of temporadas) {
       await pool.query(
         'INSERT INTO temporadas (nombre) VALUES ($1) ON CONFLICT (nombre) DO NOTHING',
@@ -39,7 +36,7 @@ async function insertarEstaticos() {
 
     // 3. Generar y insertar Colecciones (combinaciones de años y temporadas)
     console.log('📦 Generando colecciones...');
-    
+
     // Obtener IDs de años y temporadas
     const añosResult = await pool.query('SELECT id, año FROM años ORDER BY año');
     const temporadasResult = await pool.query('SELECT id, nombre FROM temporadas ORDER BY nombre');
@@ -48,7 +45,7 @@ async function insertarEstaticos() {
     for (const añoRow of añosResult.rows) {
       for (const tempRow of temporadasResult.rows) {
         const nombreColeccion = `${tempRow.nombre.charAt(0).toUpperCase() + tempRow.nombre.slice(1)} ${añoRow.año}`;
-        
+
         await pool.query(
           `INSERT INTO colecciones (año_id, temporada_id, nombre, activo) 
            VALUES ($1, $2, $3, $4) 
@@ -72,7 +69,6 @@ async function insertarEstaticos() {
 
     console.log('\n✅ Datos estáticos insertados exitosamente!\n');
     console.log('📍 Siguiente paso: Ejecuta 04_migrar_clientes_categorias.js\n');
-
   } catch (error) {
     console.error('❌ Error al insertar datos estáticos:', error.message);
     throw error;
@@ -83,4 +79,3 @@ async function insertarEstaticos() {
 
 // Ejecutar
 insertarEstaticos();
-

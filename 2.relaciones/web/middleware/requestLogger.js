@@ -45,7 +45,7 @@ const requestLogger = (req, res, next) => {
       url: req.url,
       status: res.statusCode,
       duration: `${duration}ms`,
-      userAgent: req.headers['user-agent']
+      userAgent: req.headers['user-agent'],
     });
 
     // Advertir sobre requests lentas (>1000ms)
@@ -54,7 +54,7 @@ const requestLogger = (req, res, next) => {
         method: req.method,
         url: req.url,
         duration: `${duration}ms`,
-        threshold: '1000ms'
+        threshold: '1000ms',
       });
     }
   });

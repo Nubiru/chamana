@@ -13,7 +13,7 @@ async function migrarClientesCategorias() {
     // 1. Migrar Clientes
     console.log('👥 Migrando clientes...');
     const clientesResult = await fase0Pool.query('SELECT * FROM clientes ORDER BY id');
-    
+
     for (const cliente of clientesResult.rows) {
       await pool.query(
         `INSERT INTO clientes (id, nombre, apellido, email, telefono, fecha_registro, activo)
@@ -26,7 +26,7 @@ async function migrarClientesCategorias() {
           cliente.email,
           cliente.telefono,
           cliente.fecha_registro,
-          cliente.activo
+          cliente.activo,
         ]
       );
     }
@@ -35,18 +35,13 @@ async function migrarClientesCategorias() {
     // 2. Migrar Categorías
     console.log('📂 Migrando categorías...');
     const categoriasResult = await fase0Pool.query('SELECT * FROM categorias ORDER BY id');
-    
+
     for (const categoria of categoriasResult.rows) {
       await pool.query(
         `INSERT INTO categorias (id, nombre, descripcion, activo)
          VALUES ($1, $2, $3, $4)
          ON CONFLICT (nombre) DO NOTHING`,
-        [
-          categoria.id,
-          categoria.nombre,
-          categoria.descripcion,
-          categoria.activo
-        ]
+        [categoria.id, categoria.nombre, categoria.descripcion, categoria.activo]
       );
     }
     console.log(`   ✅ ${categoriasResult.rows.length} categorías migradas`);
@@ -61,7 +56,6 @@ async function migrarClientesCategorias() {
 
     console.log('\n✅ Clientes y categorías migrados exitosamente!\n');
     console.log('📍 Siguiente paso: Ejecuta 05_extraer_disenos_telas.js\n');
-
   } catch (error) {
     console.error('❌ Error al migrar clientes y categorías:', error.message);
     throw error;
@@ -73,4 +67,3 @@ async function migrarClientesCategorias() {
 
 // Ejecutar
 migrarClientesCategorias();
-

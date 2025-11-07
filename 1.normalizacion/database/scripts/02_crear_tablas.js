@@ -108,9 +108,10 @@ async function crearTablas() {
     `);
 
     console.log('\n✅ Todas las tablas creadas exitosamente!');
-    console.log('📊 Total: 7 tablas (clientes, categorias, disenos, telas, años, temporadas, colecciones, prendas)\n');
+    console.log(
+      '📊 Total: 7 tablas (clientes, categorias, disenos, telas, años, temporadas, colecciones, prendas)\n'
+    );
     console.log('📍 Siguiente paso: Ejecuta 03_insertar_estaticos.js\n');
-
   } catch (error) {
     console.error('❌ Error al crear tablas:', error.message);
     throw error;
@@ -121,4 +122,3 @@ async function crearTablas() {
 
 // Ejecutar
 crearTablas();
-

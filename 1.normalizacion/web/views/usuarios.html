@@ -47,7 +47,7 @@
       }
 
       .scrollable {
-        overflow-y: auto !important;
+        overflow-y: auto;
         max-height: calc(100vh - 80px);
       }
 
@@ -404,7 +404,7 @@
           }`.toLowerCase();
           return (
             fullName.includes(searchTerm) ||
-            (user.email && user.email.toLowerCase().includes(searchTerm))
+            user.email?.toLowerCase().includes(searchTerm)
           );
         });
 
@@ -592,7 +592,7 @@
       }
 
       // Ver usuario
-      function viewUser(id) {
+      function _viewUser(id) {
         const user = allUsers.find((u) => u.id === id);
         if (user) {
           const fullName = `${user.nombre || ''} ${user.apellido || ''}`.trim();
@@ -607,7 +607,7 @@
       }
 
       // Editar usuario
-      function editUser(id) {
+      function _editUser(_id) {
         alert('Función de edición en desarrollo');
       }
 

@@ -47,9 +47,7 @@ const required = (value, fieldName) => {
  */
 const isType = (value, type, fieldName) => {
   if (typeof value !== type) {
-    throw new ValidationError(
-      `${fieldName} debe ser de tipo ${type}, recibido: ${typeof value}`
-    );
+    throw new ValidationError(`${fieldName} debe ser de tipo ${type}, recibido: ${typeof value}`);
   }
   return value;
 };
@@ -69,9 +67,7 @@ const isType = (value, type, fieldName) => {
  */
 const isPositive = (value, fieldName) => {
   if (typeof value !== 'number' || value <= 0) {
-    throw new ValidationError(
-      `${fieldName} debe ser un número positivo, recibido: ${value}`
-    );
+    throw new ValidationError(`${fieldName} debe ser un número positivo, recibido: ${value}`);
   }
   return value;
 };
@@ -91,9 +87,7 @@ const isPositive = (value, fieldName) => {
  */
 const isNonNegative = (value, fieldName) => {
   if (typeof value !== 'number' || value < 0) {
-    throw new ValidationError(
-      `${fieldName} no puede ser negativo, recibido: ${value}`
-    );
+    throw new ValidationError(`${fieldName} no puede ser negativo, recibido: ${value}`);
   }
   return value;
 };
@@ -133,9 +127,7 @@ const isNonEmptyArray = (value, fieldName) => {
 const isEmail = (value, fieldName) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(value)) {
-    throw new ValidationError(
-      `${fieldName} debe ser un email válido, recibido: ${value}`
-    );
+    throw new ValidationError(`${fieldName} debe ser un email válido, recibido: ${value}`);
   }
   return value;
 };
@@ -183,9 +175,7 @@ const hasLength = (value, min, max, fieldName) => {
 const isOneOf = (value, validOptions, fieldName) => {
   if (!validOptions.includes(value)) {
     throw new ValidationError(
-      `${fieldName} debe ser uno de: ${validOptions.join(
-        ', '
-      )}. Recibido: ${value}`
+      `${fieldName} debe ser uno de: ${validOptions.join(', ')}. Recibido: ${value}`
     );
   }
   return value;
@@ -206,9 +196,7 @@ const isOneOf = (value, validOptions, fieldName) => {
  */
 const isInteger = (value, fieldName) => {
   if (!Number.isInteger(value)) {
-    throw new ValidationError(
-      `${fieldName} debe ser un número entero, recibido: ${value}`
-    );
+    throw new ValidationError(`${fieldName} debe ser un número entero, recibido: ${value}`);
   }
   return value;
 };
@@ -225,7 +213,7 @@ module.exports = {
   isEmail,
   hasLength,
   isOneOf,
-  isInteger
+  isInteger,
 };
 
 // =====================================================

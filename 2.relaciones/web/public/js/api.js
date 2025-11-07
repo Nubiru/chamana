@@ -16,9 +16,9 @@ class APIClient {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        ...options.headers
+        ...options.headers,
       },
-      ...options
+      ...options,
     };
 
     try {
@@ -26,9 +26,7 @@ class APIClient {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(
-          data.message || `HTTP error! status: ${response.status}`
-        );
+        throw new Error(data.message || `HTTP error! status: ${response.status}`);
       }
 
       // Wrap array responses in {data: [...]} for backwards compatibility
@@ -66,20 +64,20 @@ class APIClient {
   async createPrenda(prenda) {
     return this.request('/productos', {
       method: 'POST',
-      body: JSON.stringify(prenda)
+      body: JSON.stringify(prenda),
     });
   }
 
   async updatePrenda(id, prenda) {
     return this.request(`/productos/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(prenda)
+      body: JSON.stringify(prenda),
     });
   }
 
   async deletePrenda(id) {
     return this.request(`/productos/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
     });
   }
 
@@ -112,8 +110,26 @@ class APIClient {
     return this.searchPrendas(termino);
   }
 
-  async getProductosByCategoria(categoriaId) {
-    return this.request(`/productos/categoria/${categoriaId}`);
+  // Métodos para Telas (Seasonal Fabrics)
+  async getTelas(temporada = null, año = null) {
+    let endpoint = '/telas/temporadas';
+    const params = new URLSearchParams();
+    if (temporada) params.append('temporada', temporada);
+    if (año) params.append('año', año);
+    if (params.toString()) endpoint += '?' + params.toString();
+    return this.request(endpoint);
+  }
+
+  async getTelasBySeason(temporada) {
+    return this.getTelas(temporada, null);
+  }
+
+  async getTemporadas() {
+    return this.request('/telas/seasons');
+  }
+
+  async getAños() {
+    return this.request('/telas/years');
   }
 
   // Métodos para Clientes (usando endpoint /usuarios)
@@ -128,20 +144,20 @@ class APIClient {
   async createCliente(usuario) {
     return this.request('/usuarios', {
       method: 'POST',
-      body: JSON.stringify(usuario)
+      body: JSON.stringify(usuario),
     });
   }
 
   async updateCliente(id, usuario) {
     return this.request(`/usuarios/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(usuario)
+      body: JSON.stringify(usuario),
     });
   }
 
   async deleteCliente(id) {
     return this.request(`/usuarios/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
     });
   }
 
@@ -165,20 +181,20 @@ class APIClient {
   async createCategoria(categoria) {
     return this.request('/categorias', {
       method: 'POST',
-      body: JSON.stringify(categoria)
+      body: JSON.stringify(categoria),
     });
   }
 
   async updateCategoria(id, categoria) {
     return this.request(`/categorias/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(categoria)
+      body: JSON.stringify(categoria),
     });
   }
 
   async deleteCategoria(id) {
     return this.request(`/categorias/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
     });
   }
 
@@ -258,7 +274,7 @@ function hideLoading() {
 function formatCurrency(amount) {
   return new Intl.NumberFormat('es-MX', {
     style: 'currency',
-    currency: 'MXN'
+    currency: 'MXN',
   }).format(amount);
 }
 
@@ -270,7 +286,7 @@ function formatDate(dateString) {
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   });
 }
 
@@ -291,9 +307,7 @@ function validateRequired(data, requiredFields) {
   }
 
   if (missing.length > 0) {
-    throw new Error(
-      `Los siguientes campos son requeridos: ${missing.join(', ')}`
-    );
+    throw new Error(`Los siguientes campos son requeridos: ${missing.join(', ')}`);
   }
 }
 

@@ -16,22 +16,22 @@ const DB_CONFIGS = {
     host: 'localhost',
     database: 'chamana_db_fase1',
     password: 'postgres',
-    port: 5432
+    port: 5432,
   },
   fase2: {
     user: 'postgres',
     host: 'localhost',
     database: 'chamana_db_fase2',
     password: 'postgres',
-    port: 5432
+    port: 5432,
   },
   postgres: {
     user: 'postgres',
     host: 'localhost',
     database: 'postgres', // For administrative tasks (create/drop databases)
     password: 'postgres',
-    port: 5432
-  }
+    port: 5432,
+  },
 };
 
 /**
@@ -41,9 +41,7 @@ const DB_CONFIGS = {
  */
 function createPool(dbName = 'fase2') {
   if (!DB_CONFIGS[dbName]) {
-    throw new Error(
-      `Invalid database name: ${dbName}. Must be 'fase1', 'fase2', or 'postgres'.`
-    );
+    throw new Error(`Invalid database name: ${dbName}. Must be 'fase1', 'fase2', or 'postgres'.`);
   }
 
   return new Pool(DB_CONFIGS[dbName]);
@@ -173,5 +171,5 @@ module.exports = {
   // Data normalization utilities (Phase 2+)
   toTitleCase,
   normalizeWithDefault,
-  generatePrendaName
+  generatePrendaName,
 };

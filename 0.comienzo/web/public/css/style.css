@@ -34,8 +34,8 @@
   --shadow-medium: 0 4px 12px rgba(34, 48, 48, 0.08);
 
   /* Typography */
-  --font-title: 'Playfair Display', Georgia, serif;
-  --font-body: 'Lato', 'Segoe UI', sans-serif;
+  --font-title: "Playfair Display", Georgia, serif;
+  --font-body: "Lato", "Segoe UI", sans-serif;
 
   /* Spacing - Professional Box Model */
   --space-xs: 0.375rem; /* 6px */
@@ -76,11 +76,7 @@ body {
 
 /* =============== HEADER - Minimal & Natural =============== */
 header {
-  background: linear-gradient(
-    135deg,
-    var(--forest-secondary) 0%,
-    var(--forest-primary) 100%
-  );
+  background: linear-gradient(135deg, var(--forest-secondary) 0%, var(--forest-primary) 100%);
   color: var(--opal);
   padding: var(--space-sm) var(--space-lg);
   box-shadow: var(--shadow-medium);
@@ -195,7 +191,7 @@ main {
 }
 
 .stat-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -473,9 +469,7 @@ tbody td {
     gap: var(--space-sm);
   }
 
-  header h1 {
-    font-size: 1.5rem;
-  }
+  /* Removed header h1 - specificity conflict with .brand-text h1 */
 
   nav ul {
     flex-wrap: wrap;

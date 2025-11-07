@@ -38,9 +38,7 @@ async function crearTablas() {
       COMMENT ON COLUMN clientes.fecha_registro IS 'Fecha de registro en el sistema';
       COMMENT ON COLUMN clientes.activo IS 'Estado del cliente (activo/inactivo)';
     `);
-    console.log(
-      '✅ Tabla "clientes" creada (7 columnas - solo comunicación)\n'
-    );
+    console.log('✅ Tabla "clientes" creada (7 columnas - solo comunicación)\n');
 
     // ===== TABLA: categorias =====
     console.log('📌 Creando tabla "categorias"...');
@@ -116,9 +114,7 @@ async function crearTablas() {
   } catch (error) {
     console.error('❌ Error al crear tablas:', error.message);
     console.error('\n💡 Sugerencias:');
-    console.error(
-      '   - Verifica que la base de datos "chamana_db_fase0 " exista'
-    );
+    console.error('   - Verifica que la base de datos "chamana_db_fase0 " exista');
     console.error('   - Ejecuta "node 01_crear_database.js" primero');
   } finally {
     await pool.end();

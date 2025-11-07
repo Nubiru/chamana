@@ -1,0 +1,66 @@
+/* =====================================================
+   Custom Styles - Phase 3 Web Application
+   Proyecto: CHAMANA - E-commerce de Ropa Femenina
+   ===================================================== */
+
+:root {
+  --chamana-primary: #2c3e50;
+  --chamana-secondary: #e74c3c;
+  --chamana-accent: #3498db;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  font-weight: bold;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.table thead {
+  background-color: var(--chamana-primary);
+  color: white;
+}
+
+.btn-primary {
+  background-color: var(--chamana-primary);
+  border-color: var(--chamana-primary);
+}
+
+.btn-primary:hover {
+  background-color: #1a252f;
+  border-color: #1a252f;
+}
+
+.badge {
+  font-size: 0.9rem;
+  padding: 0.5rem 0.75rem;
+}
+
+h1 {
+  color: var(--chamana-primary);
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}

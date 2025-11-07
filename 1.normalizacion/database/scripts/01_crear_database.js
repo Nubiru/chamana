@@ -27,7 +27,6 @@ async function crearDatabase() {
 
     console.log('✅ Base de datos chamana_db_fase1 creada exitosamente!\n');
     console.log('📍 Siguiente paso: Ejecuta 02_crear_tablas.js\n');
-
   } catch (error) {
     console.error('❌ Error al crear la base de datos:', error.message);
     throw error;
@@ -38,4 +37,3 @@ async function crearDatabase() {
 
 // Ejecutar
 crearDatabase();
-

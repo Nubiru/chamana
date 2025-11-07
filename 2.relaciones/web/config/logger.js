@@ -16,7 +16,7 @@ const LOG_LEVELS = {
   INFO: 'INFO',
   WARN: 'WARN',
   ERROR: 'ERROR',
-  DEBUG: 'DEBUG'
+  DEBUG: 'DEBUG',
 };
 
 /**
@@ -61,7 +61,7 @@ const logger = {
         level: LOG_LEVELS.INFO,
         timestamp: timestamp(),
         message,
-        ...data
+        ...data,
       })
     );
   },
@@ -79,7 +79,7 @@ const logger = {
         level: LOG_LEVELS.WARN,
         timestamp: timestamp(),
         message,
-        ...data
+        ...data,
       })
     );
   },
@@ -100,8 +100,8 @@ const logger = {
         error: {
           message: error.message || String(error),
           stack: error.stack,
-          ...error
-        }
+          ...error,
+        },
       })
     );
   },
@@ -119,10 +119,10 @@ const logger = {
         level: LOG_LEVELS.DEBUG,
         timestamp: timestamp(),
         message,
-        ...data
+        ...data,
       })
     );
-  }
+  },
 };
 
 module.exports = logger;

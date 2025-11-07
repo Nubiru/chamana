@@ -23,8 +23,8 @@ async function extraerDisenosTelas() {
       // Lógica: "Vestido Marbella Algodón Stretch" → "Marbella"
       // Remover tipo al inicio y tela_nombre al final
       let nombreCompleto = prenda.nombre_completo;
-      let tipoPrenda = prenda.tipo;
-      let tipoTela = prenda.tela_nombre;
+      const tipoPrenda = prenda.tipo;
+      const tipoTela = prenda.tela_nombre;
 
       // Remover tipo_prenda del inicio
       if (nombreCompleto.startsWith(tipoPrenda)) {
@@ -68,10 +68,7 @@ async function extraerDisenosTelas() {
     for (const tela of telasSet) {
       // Determinar tipo basado en el nombre
       let tipo = 'Natural';
-      if (
-        tela.toLowerCase().includes('stretch') ||
-        tela.toLowerCase().includes('lycra')
-      ) {
+      if (tela.toLowerCase().includes('stretch') || tela.toLowerCase().includes('lycra')) {
         tipo = 'Sintético';
       }
 
@@ -93,18 +90,16 @@ async function extraerDisenosTelas() {
 
     // Mostrar ejemplos
     console.log('\n📋 Ejemplos de diseños extraídos:');
-    const disenosEjemplos = await pool.query(
-      'SELECT nombre FROM disenos LIMIT 5'
-    );
-    disenosEjemplos.rows.forEach((d) => console.log(`   - ${d.nombre}`));
+    const disenosEjemplos = await pool.query('SELECT nombre FROM disenos LIMIT 5');
+    for (const d of disenosEjemplos.rows) {
+      console.log(`   - ${d.nombre}`);
+    }
 
     console.log('\n📋 Ejemplos de telas extraídas:');
-    const telasEjemplos = await pool.query(
-      'SELECT nombre, tipo FROM telas LIMIT 5'
-    );
-    telasEjemplos.rows.forEach((t) =>
-      console.log(`   - ${t.nombre} (${t.tipo})`)
-    );
+    const telasEjemplos = await pool.query('SELECT nombre, tipo FROM telas LIMIT 5');
+    for (const t of telasEjemplos.rows) {
+      console.log(`   - ${t.nombre} (${t.tipo})`);
+    }
 
     console.log('\n✅ Diseños y telas extraídos exitosamente!\n');
     console.log('📍 Siguiente paso: Ejecuta 06_migrar_prendas.js\n');

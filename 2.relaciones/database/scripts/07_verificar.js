@@ -20,14 +20,12 @@ async function verificar() {
 
   try {
     console.log('🚀 Iniciando verificación de Fase 2...\n');
-    console.log(
-      '═══════════════════════════════════════════════════════════════\n'
-    );
+    console.log('═══════════════════════════════════════════════════════════════\n');
 
     const results = {
       passed: 0,
       failed: 0,
-      warnings: 0
+      warnings: 0,
     };
 
     // ================================================================
@@ -54,22 +52,18 @@ async function verificar() {
       'prendas',
       'telas',
       'telas_temporadas',
-      'temporadas'
+      'temporadas',
     ];
 
     const actualTables = tablesResult.rows.map((r) => r.table_name).sort();
-    const missingTables = expectedTables.filter(
-      (t) => !actualTables.includes(t)
-    );
+    const missingTables = expectedTables.filter((t) => !actualTables.includes(t));
 
     if (tablesResult.rows.length === 12 && missingTables.length === 0) {
       console.log('   ✅ 12 tablas creadas correctamente');
       console.log(`   📋 Tablas: ${actualTables.join(', ')}`);
       results.passed++;
     } else {
-      console.error(
-        `   ❌ Error: Se esperaban 12 tablas, encontradas ${tablesResult.rows.length}`
-      );
+      console.error(`   ❌ Error: Se esperaban 12 tablas, encontradas ${tablesResult.rows.length}`);
       if (missingTables.length > 0) {
         console.error(`   ❌ Tablas faltantes: ${missingTables.join(', ')}`);
       }
@@ -90,12 +84,12 @@ async function verificar() {
       años: await pool.query('SELECT COUNT(*) FROM años'),
       temporadas: await pool.query('SELECT COUNT(*) FROM temporadas'),
       colecciones: await pool.query('SELECT COUNT(*) FROM colecciones'),
-      prendas: await pool.query('SELECT COUNT(*) FROM prendas')
+      prendas: await pool.query('SELECT COUNT(*) FROM prendas'),
     };
 
     let allDataMigrated = true;
     for (const [table, result] of Object.entries(dataCounts)) {
-      const count = parseInt(result.rows[0].count);
+      const count = parseInt(result.rows[0].count, 10);
       console.log(`   • ${table}: ${count} registros`);
       if (count === 0 && table !== 'movimientos_inventario') {
         allDataMigrated = false;
@@ -131,9 +125,7 @@ async function verificar() {
 
     const expectedFK = 12; // Minimum expected
     if (fkResult.rows.length >= expectedFK) {
-      console.log(
-        `   ✅ Relaciones creadas correctamente (${fkResult.rows.length} FKs)`
-      );
+      console.log(`   ✅ Relaciones creadas correctamente (${fkResult.rows.length} FKs)`);
       results.passed++;
     } else {
       console.error(
@@ -161,17 +153,13 @@ async function verificar() {
     `);
 
     if (stockTest.rows.length === 0) {
-      console.log(
-        '   ✅ stock_disponible se calcula correctamente para todas las prendas'
-      );
+      console.log('   ✅ stock_disponible se calcula correctamente para todas las prendas');
       console.log(
         '   📊 Columna generada funcionando como esperado (stock_inicial - stock_vendido)'
       );
       results.passed++;
     } else {
-      console.error(
-        `   ❌ ${stockTest.rows.length} prendas con cálculo de stock incorrecto`
-      );
+      console.error(`   ❌ ${stockTest.rows.length} prendas con cálculo de stock incorrecto`);
       results.failed++;
     }
     console.log('');
@@ -182,22 +170,16 @@ async function verificar() {
     console.log('TEST 5: Verificando sistema de pedidos...');
 
     const pedidosCount = await pool.query('SELECT COUNT(*) FROM pedidos');
-    const pedidosPrendasCount = await pool.query(
-      'SELECT COUNT(*) FROM pedidos_prendas'
-    );
-    const movimientosCount = await pool.query(
-      'SELECT COUNT(*) FROM movimientos_inventario'
-    );
+    const pedidosPrendasCount = await pool.query('SELECT COUNT(*) FROM pedidos_prendas');
+    const movimientosCount = await pool.query('SELECT COUNT(*) FROM movimientos_inventario');
 
     console.log(`   • Pedidos creados: ${pedidosCount.rows[0].count}`);
     console.log(`   • Líneas de pedido: ${pedidosPrendasCount.rows[0].count}`);
-    console.log(
-      `   • Movimientos de inventario: ${movimientosCount.rows[0].count}`
-    );
+    console.log(`   • Movimientos de inventario: ${movimientosCount.rows[0].count}`);
 
     if (
-      parseInt(pedidosCount.rows[0].count) > 0 &&
-      parseInt(pedidosPrendasCount.rows[0].count) > 0
+      parseInt(pedidosCount.rows[0].count, 10) > 0 &&
+      parseInt(pedidosPrendasCount.rows[0].count, 10) > 0
     ) {
       console.log('   ✅ Sistema de pedidos operacional');
       results.passed++;
@@ -212,9 +194,7 @@ async function verificar() {
     // ================================================================
     console.log('TEST 6: Verificando telas estacionales...');
 
-    const telasTemporadasCount = await pool.query(
-      'SELECT COUNT(*) FROM telas_temporadas'
-    );
+    const telasTemporadasCount = await pool.query('SELECT COUNT(*) FROM telas_temporadas');
     const veranoCount = await pool.query(`
       SELECT COUNT(*) FROM telas_temporadas tt
       JOIN temporadas t ON tt.temporada_id = t.id
@@ -226,13 +206,11 @@ async function verificar() {
       WHERE t.nombre = 'Invierno'
     `);
 
-    console.log(
-      `   • Total asignaciones: ${telasTemporadasCount.rows[0].count}`
-    );
+    console.log(`   • Total asignaciones: ${telasTemporadasCount.rows[0].count}`);
     console.log(`   • Telas para Verano: ${veranoCount.rows[0].count}`);
     console.log(`   • Telas para Invierno: ${inviernoCount.rows[0].count}`);
 
-    if (parseInt(telasTemporadasCount.rows[0].count) > 0) {
+    if (parseInt(telasTemporadasCount.rows[0].count, 10) > 0) {
       console.log('   ✅ Telas estacionales configuradas correctamente');
       results.passed++;
     } else {
@@ -273,9 +251,7 @@ async function verificar() {
       );
       results.passed++;
     } else {
-      console.warn(
-        '   ⚠️  No hay datos suficientes para probar JOINs complejos'
-      );
+      console.warn('   ⚠️  No hay datos suficientes para probar JOINs complejos');
       results.warnings++;
     }
     console.log('');
@@ -294,18 +270,14 @@ async function verificar() {
       ORDER BY tablename, indexname
     `);
 
-    const indexCount = indexResult.rows.filter(
-      (r) => !r.indexname.endsWith('_pkey')
-    ).length;
+    const indexCount = indexResult.rows.filter((r) => !r.indexname.endsWith('_pkey')).length;
     console.log(`   📊 Total de índices (excluyendo PKs): ${indexCount}`);
 
     if (indexCount >= 20) {
       console.log('   ✅ Índices creados para optimización de consultas');
       results.passed++;
     } else {
-      console.warn(
-        `   ⚠️  Se esperaban ~25-30 índices, encontrados ${indexCount}`
-      );
+      console.warn(`   ⚠️  Se esperaban ~25-30 índices, encontrados ${indexCount}`);
       results.warnings++;
     }
     console.log('');
@@ -316,18 +288,10 @@ async function verificar() {
     console.log('TEST 9: Verificando cumplimiento de 2NF...');
 
     console.log('   📋 Validaciones 2NF:');
-    console.log(
-      '   • ✅ pedidos_prendas: Junction table elimina dependencia parcial'
-    );
-    console.log(
-      '   • ✅ telas_temporadas: Junction table elimina dependencia parcial'
-    );
-    console.log(
-      '   • ✅ Todos los atributos no-clave dependen de la clave completa'
-    );
-    console.log(
-      '   • ✅ No hay columnas calculadas almacenadas (excepto generadas)'
-    );
+    console.log('   • ✅ pedidos_prendas: Junction table elimina dependencia parcial');
+    console.log('   • ✅ telas_temporadas: Junction table elimina dependencia parcial');
+    console.log('   • ✅ Todos los atributos no-clave dependen de la clave completa');
+    console.log('   • ✅ No hay columnas calculadas almacenadas (excepto generadas)');
     console.log('   ✅ Base de datos cumple con 2NF');
     results.passed++;
     console.log('');
@@ -335,27 +299,18 @@ async function verificar() {
     // ================================================================
     // SUMMARY
     // ================================================================
-    console.log(
-      '═══════════════════════════════════════════════════════════════'
-    );
+    console.log('═══════════════════════════════════════════════════════════════');
     console.log('\n📊 RESUMEN DE VERIFICACIÓN:\n');
     console.log(`   ✅ Tests Passed: ${results.passed}`);
     console.log(`   ❌ Tests Failed: ${results.failed}`);
     console.log(`   ⚠️  Warnings: ${results.warnings}`);
-    console.log(
-      `   📈 Total Tests: ${results.passed + results.failed + results.warnings}`
-    );
+    console.log(`   📈 Total Tests: ${results.passed + results.failed + results.warnings}`);
 
-    const successRate = (
-      (results.passed / (results.passed + results.failed)) *
-      100
-    ).toFixed(1);
+    const successRate = ((results.passed / (results.passed + results.failed)) * 100).toFixed(1);
     console.log(`   🎯 Success Rate: ${successRate}%\n`);
 
     if (results.failed === 0) {
-      console.log(
-        '🎉 ¡VERIFICACIÓN EXITOSA! Fase 2 (2NF) implementada correctamente.\n'
-      );
+      console.log('🎉 ¡VERIFICACIÓN EXITOSA! Fase 2 (2NF) implementada correctamente.\n');
       console.log('✅ Quality Gates:');
       console.log('   • Estructura de tablas: PASS');
       console.log('   • Migración de datos: PASS');
@@ -363,9 +318,7 @@ async function verificar() {
       console.log('   • Sistema de pedidos: PASS');
       console.log('   • Telas estacionales: PASS');
       console.log('   • Cumplimiento 2NF: PASS\n');
-      console.log(
-        '📝 Próximo paso: Ejecutar Task Spec Part 2 (Documentation)\n'
-      );
+      console.log('📝 Próximo paso: Ejecutar Task Spec Part 2 (Documentation)\n');
     } else {
       console.error('❌ VERIFICACIÓN FALLIDA. Revisar errores arriba.\n');
     }
@@ -374,7 +327,7 @@ async function verificar() {
       'Tests Passed': results.passed,
       'Tests Failed': results.failed,
       Warnings: results.warnings,
-      'Success Rate': `${successRate}%`
+      'Success Rate': `${successRate}%`,
     });
   } catch (error) {
     logError('07_verificar.js', 'Verificación', error);
@@ -389,7 +342,7 @@ verificar()
   .then(() => {
     process.exit(0);
   })
-  .catch((error) => {
+  .catch((_error) => {
     console.error('💥 Script falló\n');
     process.exit(1);
   });

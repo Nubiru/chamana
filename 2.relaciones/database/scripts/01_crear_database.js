@@ -26,9 +26,7 @@ async function crearDatabase() {
     );
 
     if (checkResult.rows.length > 0) {
-      console.log(
-        '⚠️  Base de datos chamana_db_fase2 ya existe. Eliminando...'
-      );
+      console.log('⚠️  Base de datos chamana_db_fase2 ya existe. Eliminando...');
 
       // Terminate existing connections
       await client.query(`
@@ -46,10 +44,7 @@ async function crearDatabase() {
     // Create new database
     await client.query('CREATE DATABASE chamana_db_fase2');
 
-    logSuccess(
-      '01_crear_database.js',
-      'Base de datos chamana_db_fase2 creada exitosamente'
-    );
+    logSuccess('01_crear_database.js', 'Base de datos chamana_db_fase2 creada exitosamente');
 
     console.log('\n📝 Detalles:');
     console.log('   - Nombre: chamana_db_fase2');
@@ -71,7 +66,7 @@ crearDatabase()
     console.log('🎉 Script completado exitosamente\n');
     process.exit(0);
   })
-  .catch((error) => {
+  .catch((_error) => {
     console.error('💥 Script falló\n');
     process.exit(1);
   });

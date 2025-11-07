@@ -8,7 +8,6 @@
 const express = require('express');
 const router = express.Router();
 const telasService = require('../services/telas.service');
-const logger = require('../config/logger');
 
 /**
  * GET /api/telas/temporadas - ⭐ NEW
@@ -31,8 +30,8 @@ router.get('/temporadas', async (req, res, next) => {
 
     const telas = await telasService.getFabricsBySeasonYear({
       temporada,
-      año: año ? parseInt(año) : undefined,
-      activo: activo === 'true'
+      año: año ? parseInt(año, 10) : undefined,
+      activo: activo === 'true',
     });
 
     res.json(telas);
@@ -46,7 +45,7 @@ router.get('/temporadas', async (req, res, next) => {
  *
  * Útil para poblar dropdowns en frontend.
  */
-router.get('/seasons', async (req, res, next) => {
+router.get('/seasons', async (_req, res, next) => {
   try {
     const seasons = await telasService.getAllSeasons();
     res.json(seasons);
@@ -60,7 +59,7 @@ router.get('/seasons', async (req, res, next) => {
  *
  * Útil para poblar dropdowns en frontend.
  */
-router.get('/years', async (req, res, next) => {
+router.get('/years', async (_req, res, next) => {
   try {
     const years = await telasService.getAllYears();
     res.json(years);
@@ -70,4 +69,3 @@ router.get('/years', async (req, res, next) => {
 });
 
 module.exports = router;
-

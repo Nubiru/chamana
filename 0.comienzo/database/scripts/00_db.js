@@ -13,7 +13,7 @@ const pool = new Pool({
   host: 'localhost', // Host (localhost para desarrollo local)
   database: 'chamana_db_fase0', // Base de datos CHAMANA
   password: 'postgres', // Contraseña (CAMBIAR según tu instalación)
-  port: 5432 // Puerto por defecto de PostgreSQL
+  port: 5432, // Puerto por defecto de PostgreSQL
 });
 
 // Pool para operaciones en la base de datos por defecto 'postgres'
@@ -23,11 +23,11 @@ const defaultPool = new Pool({
   host: 'localhost',
   database: 'postgres', // Base de datos por defecto de PostgreSQL
   password: 'postgres',
-  port: 5432
+  port: 5432,
 });
 
 // Exportar ambos pools
 module.exports = {
   pool, // Para operaciones en chamana_db_fase0
-  defaultPool // Para crear la base de datos
+  defaultPool, // Para crear la base de datos
 };

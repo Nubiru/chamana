@@ -18,7 +18,7 @@ const {
   DatabaseError,
   AuthorizationError,
   AuthenticationError,
-  ConflictError
+  ConflictError,
 } = require('../utils/errors');
 
 /**
@@ -36,14 +36,14 @@ const {
  * // En app.js (debe ser el último middleware):
  * app.use(errorHandler);
  */
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res, _next) => {
   // Log completo del error para debugging
   logger.error('Error en request', {
     method: req.method,
     url: req.url,
     error: err.message,
     stack: err.stack,
-    details: err.details || {}
+    details: err.details || {},
   });
 
   // Respuesta por defecto
@@ -79,7 +79,7 @@ const errorHandler = (err, req, res, next) => {
   // Enviar respuesta
   const response = {
     success: false,
-    error: message
+    error: message,
   };
 
   // Agregar detalles si existen
