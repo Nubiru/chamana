@@ -51,11 +51,25 @@ export async function GET() {
       },
     });
   } catch (error) {
+    console.error('Database test error:', error);
+
     return NextResponse.json(
       {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',
+        errorType: error instanceof Error ? error.constructor.name : typeof error,
+        stack: error instanceof Error ? error.stack : undefined,
         message: 'Database connection failed',
+        environmentVariables: {
+          DB_USER: process.env.DB_USER || 'NOT SET',
+          DB_HOST: process.env.DB_HOST || 'NOT SET',
+          DB_PORT: process.env.DB_PORT || 'NOT SET',
+          DB_DATABASE: process.env.DB_DATABASE || 'NOT SET',
+          DB_PASSWORD: process.env.DB_PASSWORD ? '***SET (length: ' + process.env.DB_PASSWORD.length + ')***' : 'NOT SET',
+          NODE_ENV: process.env.NODE_ENV || 'NOT SET',
+          NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET ? '***SET***' : 'NOT SET',
+          NEXTAUTH_URL: process.env.NEXTAUTH_URL || 'NOT SET',
+        },
       },
       { status: 500 }
     );
