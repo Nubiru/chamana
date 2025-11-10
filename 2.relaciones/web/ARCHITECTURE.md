@@ -1,200 +1,200 @@
-# Phase 2 Web Architecture
+# Arquitectura Web Fase 2
 
-## Overview
+## Resumen
 
-Phase 2 web application built on Node.js + Express + PostgreSQL, demonstrating 2NF database normalization with a production-ready service layer architecture.
+Aplicación web de Fase 2 construida sobre Node.js + Express + PostgreSQL, demostrando normalización de base de datos 2NF con una arquitectura de capa de servicios lista para producción.
 
-## Architecture Pattern: Service Layer + MVC
+## Patrón de Arquitectura: Service Layer + MVC
 
-### Layer Separation
+### Separación de Capas
 
-1. **Routes** (Controller) - HTTP request handling
-2. **Services** (Business Logic) - Transaction management, domain logic
-3. **Database** (Data Layer) - PostgreSQL with pg library
-4. **Utilities** - Validation, error handling, logging
-5. **Middleware** - Request logging, error handling
+1. **Routes** (Controlador) - Manejo de peticiones HTTP
+2. **Services** (Lógica de Negocio) - Gestión de transacciones, lógica de dominio
+3. **Database** (Capa de Datos) - PostgreSQL con librería pg
+4. **Utilities** - Validación, manejo de errores, logging
+5. **Middleware** - Logging de peticiones, manejo de errores
 
-## Core Components
+## Componentes Principales
 
-### 1. Service Layer (`services/`)
+### 1. Capa de Servicios (`services/`)
 
-- `base.service.js` - Base class with transaction management
-- `pedidos.service.js` - Orders domain logic
-- `productos.service.js` - Products domain logic
-- `telas.service.js` - Seasonal fabrics logic
-- `transaction.service.js` - Complex transactions
+- `base.service.js` - Clase base con gestión de transacciones
+- `pedidos.service.js` - Lógica de dominio de pedidos
+- `productos.service.js` - Lógica de dominio de productos
+- `telas.service.js` - Lógica de telas estacionales
+- `transaction.service.js` - Transacciones complejas
 
-**Key Pattern**: All services extend BaseService for consistent transaction handling.
+**Patrón Clave**: Todos los servicios extienden BaseService para manejo consistente de transacciones.
 
-### 2. Error Handling Strategy
+### 2. Estrategia de Manejo de Errores
 
-- Custom error classes: `ValidationError`, `NotFoundError`, `DatabaseError`
-- Centralized error middleware: `middleware/errorHandler.js`
-- User-friendly messages in production, stack traces in development
+- Clases de error personalizadas: `ValidationError`, `NotFoundError`, `DatabaseError`
+- Middleware centralizado de errores: `middleware/errorHandler.js`
+- Mensajes amigables al usuario en producción, stack traces en desarrollo
 
 ### 3. Blue-Green Deployment
 
-- Environment variable: `DB_VERSION=fase1|fase2`
-- Switches between chamana_db_fase1 and chamana_db_fase2
-- Zero-downtime version switching
+- Variable de entorno: `DB_VERSION=fase1|fase2`
+- Cambia entre chamana_db_fase1 y chamana_db_fase2
+- Cambio de versión sin tiempo de inactividad
 
-### 4. Transaction Management
+### 4. Gestión de Transacciones
 
-- All data mutations wrapped in transactions
-- Automatic rollback on error
-- Pattern: `await executeInTransaction(async (client) => { ... })`
+- Todas las mutaciones de datos envueltas en transacciones
+- Rollback automático en error
+- Patrón: `await executeInTransaction(async (client) => { ... })`
 
-### 5. Validation Framework
+### 5. Framework de Validación
 
-- Reusable validators: `utils/validation.js`
-- Throws `ValidationError` on failure
-- Functions: `required()`, `isPositive()`, `isNonEmptyArray()`, etc.
+- Validadores reutilizables: `utils/validation.js`
+- Lanza `ValidationError` en fallo
+- Funciones: `required()`, `isPositive()`, `isNonEmptyArray()`, etc.
 
 ### 6. Logging
 
-- Structured JSON logging: `config/logger.js`
-- Request logging middleware: `middleware/requestLogger.js`
-- Logs: info, warn, error with timestamps
+- Logging estructurado JSON: `config/logger.js`
+- Middleware de logging de peticiones: `middleware/requestLogger.js`
+- Logs: info, warn, error con timestamps
 
-## API Endpoints
+## Endpoints de API
 
 ### Categorias
 
-- GET /api/categorias - List all
-- GET /api/categorias/:id - Get by ID
-- GET /api/categorias/:id/prendas - Get products in category
+- GET /api/categorias - Listar todas
+- GET /api/categorias/:id - Obtener por ID
+- GET /api/categorias/:id/prendas - Obtener productos en categoría
 
 ### Productos
 
-- GET /api/productos - List (with filters: categoria_id, activa, tela_ids)
-- GET /api/productos/:id - Get by ID (with stock breakdown)
-- GET /api/productos/:id/historial-stock - Stock history
+- GET /api/productos - Listar (con filtros: categoria_id, activa, tela_ids)
+- GET /api/productos/:id - Obtener por ID (con desglose de stock)
+- GET /api/productos/:id/historial-stock - Historial de stock
 
 ### Usuarios (Clientes)
 
-- GET /api/usuarios - List all
-- GET /api/usuarios/:id - Get by ID
-- POST /api/usuarios - Create
-- PUT /api/usuarios/:id - Update
-- DELETE /api/usuarios/:id - Delete
+- GET /api/usuarios - Listar todos
+- GET /api/usuarios/:id - Obtener por ID
+- POST /api/usuarios - Crear
+- PUT /api/usuarios/:id - Actualizar
+- DELETE /api/usuarios/:id - Eliminar
 
 ### Pedidos (Orders)
 
-- GET /api/pedidos - List (filters: cliente_id, estado)
-- GET /api/pedidos/:id - Get by ID (with items)
-- POST /api/pedidos - Create order
-- PUT /api/pedidos/:id/completar - Complete order (updates stock)
-- PUT /api/pedidos/:id/cancelar - Cancel order
+- GET /api/pedidos - Listar (filtros: cliente_id, estado)
+- GET /api/pedidos/:id - Obtener por ID (con items)
+- POST /api/pedidos - Crear pedido
+- PUT /api/pedidos/:id/completar - Completar pedido (actualiza stock)
+- PUT /api/pedidos/:id/cancelar - Cancelar pedido
 
 ### Telas (Seasonal Fabrics)
 
-- GET /api/telas/temporadas - Filter by season/year (demonstrates 2NF)
+- GET /api/telas/temporadas - Filtrar por temporada/año (demuestra 2NF)
 
-## Database Connection
+## Conexión a Base de Datos
 
-### Configuration (`config/database.js`)
+### Configuración (`config/database.js`)
 
-- Connection pooling with pg.Pool
-- Environment-based DB selection (Blue-Green)
-- Graceful shutdown on SIGTERM/SIGINT
-- Backwards compatibility helper: `query()`
+- Connection pooling con pg.Pool
+- Selección de BD basada en entorno (Blue-Green)
+- Cierre elegante en SIGTERM/SIGINT
+- Helper de compatibilidad hacia atrás: `query()`
 
-### Schema (chamana_db_fase2)
+### Esquema (chamana_db_fase2)
 
-- 12 tables (2NF compliant)
-- Junction tables: telas_temporadas, pedidos_prendas
-- Generated columns: stock_disponible
-- Audit trail: movimientos_inventario
+- 12 tablas (cumpliendo 2NF)
+- Tablas de unión: telas_temporadas, pedidos_prendas
+- Columnas generadas: stock_disponible
+- Auditoría: movimientos_inventario
 
-## Frontend Architecture
+## Arquitectura Frontend
 
-### Pattern: Server-Rendered HTML + Vanilla JS
+### Patrón: HTML Renderizado en Servidor + Vanilla JS
 
-- HTML views in `public/views/`
-- Inline JavaScript (400-800 lines per page)
-- Fetch API for backend communication
-- No framework (educational simplicity)
+- Vistas HTML en `public/views/`
+- JavaScript inline (400-800 líneas por página)
+- Fetch API para comunicación con backend
+- Sin framework (simplicidad educativa)
 
-### Key Pages
+### Páginas Clave
 
 - `index.html` - Dashboard
-- `productos.html` - Product management (with stock breakdown and seasonal filtering)
-- `categorias.html` - Category management
-- `usuarios.html` - User/client management
-- `pedidos.html` - Order management (Phase 2)
+- `productos.html` - Gestión de productos (con desglose de stock y filtrado estacional)
+- `categorias.html` - Gestión de categorías
+- `usuarios.html` - Gestión de usuarios/clientes
+- `pedidos.html` - Gestión de pedidos (Fase 2)
 
-### Phase 2 Frontend Enhancements
+### Mejoras Frontend Fase 2
 
-**Stock Management Features:**
+**Características de Gestión de Stock:**
 
-- Stock breakdown display (inicial, vendido, disponible)
-- Color-coded stock badges (green >10, yellow 1-10, red 0)
-- Stock history modal with inventory movements
-- Last sale date tracking
+- Visualización de desglose de stock (inicial, vendido, disponible)
+- Badges de stock con código de colores (verde >10, amarillo 1-10, rojo 0)
+- Modal de historial de stock con movimientos de inventario
+- Seguimiento de fecha de última venta
 
-**Seasonal Filtering:**
+**Filtrado Estacional:**
 
-- Filter products by temporada (Verano/Invierno)
-- Filter products by año (2024/2025/2026)
-- Combined filtering (intersection logic)
-- API integration with `/api/telas/temporadas`
+- Filtrar productos por temporada (Verano/Invierno)
+- Filtrar productos por año (2024/2025/2026)
+- Filtrado combinado (lógica de intersección)
+- Integración con API `/api/telas/temporadas`
 
-## Migration Readiness (Production)
+## Preparación para Migración (Producción)
 
-### Current Stack → Future Stack
+### Stack Actual → Stack Futuro
 
 - Express routes → tRPC routers
 - pg queries → Prisma ORM
 - Vanilla JS → Next.js + React Server Components
 - PostgreSQL (local) → Neon PostgreSQL (serverless)
 
-### What Migrates Cleanly
+### Lo que Migra Limpiamente
 
-✅ Database schema (export to Prisma)
-✅ Business logic (service layer → tRPC procedures)
-✅ Transaction patterns (Prisma supports)
-✅ Error handling patterns (adapt to tRPC)
+✅ Esquema de base de datos (exportar a Prisma)
+✅ Lógica de negocio (capa de servicios → procedimientos tRPC)
+✅ Patrones de transacción (Prisma soporta)
+✅ Patrones de manejo de errores (adaptar a tRPC)
 
-### What Gets Rewritten
+### Lo que se Reescribe
 
-❌ Frontend (complete rebuild with Next.js)
-❌ API routes (convert to tRPC routers)
-❌ Direct SQL queries (convert to Prisma)
+❌ Frontend (reconstrucción completa con Next.js)
+❌ Rutas de API (convertir a routers tRPC)
+❌ Consultas SQL directas (convertir a Prisma)
 
 ## Quality Gates
 
-### Before Deployment
+### Antes del Deployment
 
-- [ ] All routes return 200 OK for valid requests
-- [ ] Error handling returns 4xx/5xx with messages
-- [ ] Transactions rollback on error
-- [ ] Stock updates reflect in movimientos_inventario
-- [ ] Blue-Green switching works
+- [ ] Todas las rutas retornan 200 OK para peticiones válidas
+- [ ] El manejo de errores retorna 4xx/5xx con mensajes
+- [ ] Las transacciones hacen rollback en error
+- [ ] Las actualizaciones de stock se reflejan en movimientos_inventario
+- [ ] El cambio Blue-Green funciona
 
-### Performance Targets
+### Objetivos de Rendimiento
 
-- API response time: <300ms (p95)
-- Database queries: <100ms (p95)
-- Page load: <2s (full render)
+- Tiempo de respuesta API: <300ms (p95)
+- Consultas de base de datos: <100ms (p95)
+- Carga de página: <2s (render completo)
 
-## Future Enhancements
+## Mejoras Futuras
 
-### Phase 3 (3NF)
+### Fase 3 (3NF)
 
-- Eliminate transitive dependencies
-- Further normalize schema
-- Update web application accordingly
+- Eliminar dependencias transitivas
+- Normalizar esquema aún más
+- Actualizar aplicación web en consecuencia
 
-### Production Migration
+### Migración a Producción
 
-- Add authentication (NextAuth.js)
-- Add rate limiting (express-rate-limit)
-- Add input sanitization (express-validator)
-- Write automated tests (Jest, Playwright)
-- Deploy to Vercel + Neon
+- Agregar autenticación (NextAuth.js)
+- Agregar rate limiting (express-rate-limit)
+- Agregar sanitización de entrada (express-validator)
+- Escribir tests automatizados (Jest, Playwright)
+- Desplegar a Vercel + Neon
 
 ---
 
-**Version**: 2.0.0  
-**Last Updated**: 2025-10-23  
-**Status**: Phase 2 Complete (2NF + Stock Management + Seasonal Filtering)
+**Versión**: 2.0.0  
+**Última Actualización**: 2025-10-23  
+**Estado**: Fase 2 Completa (2NF + Gestión de Stock + Filtrado Estacional)

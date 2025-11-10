@@ -1,65 +1,65 @@
-# Quick Start - CHAMANA Database Setup
+# Inicio Rápido - Configuración de Base de Datos CHAMANA
 
-**For**: First-time execution  
-**Time**: 15-20 minutes  
-**Language**: Commands in English, output in Spanish
+**Para**: Primera ejecución  
+**Tiempo**: 15-20 minutos  
+**Idioma**: Comandos en español, salida en español
 
 ---
 
-## Step 1: Setup (5 min)
+## Paso 1: Configuración (5 min)
 
 ```powershell
-# Navigate to scripts directory
+# Navegar al directorio de scripts
 cd C:\Users\PC\code\universidad\gabriel-db-final\0.comienzo\database\scripts
 
-# Install dependencies
+# Instalar dependencias
 npm install
 
-# Edit 00_db.js and change password
-# Line 13: password: 'password',  <-- CHANGE THIS
+# Editar 00_db.js y cambiar contraseña
+# Línea 13: password: 'password',  <-- CAMBIAR ESTO
 ```
 
 ---
 
-## Step 2: Execute Scripts (10 min)
+## Paso 2: Ejecutar Scripts (10 min)
 
-**Copy and paste these commands one by one:**
+**Copiar y pegar estos comandos uno por uno:**
 
 ```powershell
-# 1. Create database
+# 1. Crear base de datos
 node 01_crear_database.js
 
-# 2. Create tables
+# 2. Crear tablas
 node 02_crear_tablas.js
 
-# 3. Insert categories
+# 3. Insertar categorías
 node 03_insertar_categorias.js
 
-# 4. Insert products (31 real CHAMANA items)
+# 4. Insertar productos (31 items reales de CHAMANA)
 node 04_insertar_prendas_real.js
 
-# 5. Insert clients (20 fictitious)
+# 5. Insertar clientes (20 ficticios)
 node 05_insertar_clientes.js
 
-# 6. Verify everything
+# 6. Verificar todo
 node 06_listar_todo.js
 ```
 
 ---
 
-## Step 3: Verify in pgAdmin (5 min)
+## Paso 3: Verificar en pgAdmin (5 min)
 
-1. Open pgAdmin 4
-2. Refresh Databases
-3. Find `chamana_db_fase0`
-4. Expand: Schemas → public → Tables
-5. Right-click any table → View/Edit Data → All Rows
+1. Abrir pgAdmin 4
+2. Actualizar Bases de Datos
+3. Buscar `chamana_db_fase0`
+4. Expandir: Schemas → public → Tables
+5. Clic derecho en cualquier tabla → View/Edit Data → All Rows
 
 ---
 
-## Expected Results
+## Resultados Esperados
 
-After script 06, you should see:
+Después del script 06, deberías ver:
 
 ```
 📁 Categorías: 5
@@ -72,31 +72,31 @@ After script 06, you should see:
 
 ---
 
-## If Something Goes Wrong
+## Si Algo Sale Mal
 
-**Start over**:
+**Empezar de nuevo**:
 
 ```powershell
 node 01_crear_database.js
 ```
 
-(This drops and recreates everything)
+(Esto elimina y recrea todo)
 
-**See detailed help**:
+**Ver ayuda detallada**:
 
 ```powershell
-# Read the full guide
+# Leer la guía completa
 notepad README_EJECUCION.md
 ```
 
 ---
 
-## Next Steps
+## Próximos Pasos
 
-1. Open pgAdmin and explore the data
-2. Create MER/DER diagrams
-3. Start web server: `cd ../../web && npm install && npm run dev`
+1. Abrir pgAdmin y explorar los datos
+2. Crear diagramas MER/DER
+3. Iniciar servidor web: `cd ../../web && npm install && npm run dev`
 
 ---
 
-**Ready? Start with Step 1!** 🚀
+**¿Listo? ¡Comienza con el Paso 1!** 🚀

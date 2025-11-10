@@ -1,61 +1,61 @@
-# Phase 2 Database Migration Scripts - CHAMANA
+# Scripts de Migración de Base de Datos Fase 2 - CHAMANA
 
-**Project**: CHAMANA - E-commerce de Ropa Femenina  
-**Phase**: 2. relaciones (Segunda Forma Normal - 2NF)  
-**Database**: chamana_db_fase2  
-**Date**: October 22, 2025
-
----
-
-## 📋 Overview
-
-This directory contains migration scripts to create and populate the Phase 2 database following Second Normal Form (2NF) principles.
-
-**Migration Path**: `chamana_db_fase1` → `chamana_db_fase2`
+**Proyecto**: CHAMANA - E-commerce de Ropa Femenina  
+**Fase**: 2. relaciones (Segunda Forma Normal - 2NF)  
+**Base de Datos**: chamana_db_fase2  
+**Fecha**: 22 de Octubre, 2025
 
 ---
 
-## 🗂️ Script Files
+## 📋 Resumen
 
-| Script                               | Purpose                       | Duration | Transactional |
-| ------------------------------------ | ----------------------------- | -------- | ------------- |
-| `00_db.js`                           | Database configuration module | -        | N/A           |
-| `01_crear_database.js`               | Create chamana_db_fase2       | <5s      | No            |
-| `02_crear_tablas.js`                 | Create 11 tables (2NF schema) | <10s     | Yes           |
-| `03_crear_indices.js`                | Create performance indexes    | <5s      | Yes           |
-| `04_migrar_datos_fase1.js`           | Migrate all data from Phase 1 | <30s     | Yes           |
-| `05_inicializar_telas_temporadas.js` | Initialize seasonal fabrics   | <5s      | Yes           |
-| `06_generar_pedidos_prueba.js`       | Generate 10 sample orders     | <10s     | Per-order     |
-| `07_verificar.js`                    | Verify implementation         | <10s     | No            |
+Este directorio contiene scripts de migración para crear y poblar la base de datos de Fase 2 siguiendo los principios de Segunda Forma Normal (2NF).
+
+**Ruta de Migración**: `chamana_db_fase1` → `chamana_db_fase2`
 
 ---
 
-## 🚀 Quick Start
+## 🗂️ Archivos de Scripts
 
-### Prerequisites
+| Script                               | Propósito                        | Duración | Transaccional |
+| ------------------------------------ | -------------------------------- | -------- | ------------- |
+| `00_db.js`                           | Módulo de configuración de BD    | -        | N/A           |
+| `01_crear_database.js`               | Crear chamana_db_fase2           | <5s      | No            |
+| `02_crear_tablas.js`                 | Crear 11 tablas (esquema 2NF)    | <10s     | Sí            |
+| `03_crear_indices.js`                | Crear índices de rendimiento     | <5s      | Sí            |
+| `04_migrar_datos_fase1.js`           | Migrar todos los datos de Fase 1 | <30s     | Sí            |
+| `05_inicializar_telas_temporadas.js` | Inicializar telas estacionales   | <5s      | Sí            |
+| `06_generar_pedidos_prueba.js`       | Generar 10 pedidos de prueba     | <10s     | Por pedido    |
+| `07_verificar.js`                    | Verificar implementación         | <10s     | No            |
+
+---
+
+## 🚀 Inicio Rápido
+
+### Prerrequisitos
 
 ```bash
-# 1. PostgreSQL 17 running
+# 1. PostgreSQL 17 ejecutándose
 pg_isready
 
-# 2. Phase 1 database exists
+# 2. Base de datos Fase 1 existe
 psql -U postgres -l | grep chamana_db_fase1
 
-# 3. Node.js 18+ installed
+# 3. Node.js 18+ instalado
 node --version
 
-# 4. Install dependencies
+# 4. Instalar dependencias
 cd 2.relaciones/database/scripts
 npm install
 ```
 
-### Execute Migration
+### Ejecutar Migración
 
 ```bash
-# Option A: Run all scripts at once
+# Opción A: Ejecutar todos los scripts a la vez
 npm run all
 
-# Option B: Run step by step (recommended for learning)
+# Opción B: Ejecutar paso a paso (recomendado para aprender)
 node 01_crear_database.js
 node 02_crear_tablas.js
 node 03_crear_indices.js
@@ -64,112 +64,112 @@ node 05_inicializar_telas_temporadas.js
 node 06_generar_pedidos_prueba.js
 node 07_verificar.js
 
-# Option C: Run migration only (no verification)
+# Opción C: Ejecutar solo migración (sin verificación)
 npm run migrate
 ```
 
 ---
 
-## 📊 What Gets Created
+## 📊 Lo que se Crea
 
-### Tables (11 total)
+### Tablas (11 en total)
 
-**Base Tables** (from Phase 1):
+**Tablas Base** (de Fase 1):
 
-1. `clientes` - Customer information
-2. `categorias` - Product categories
-3. `disenos` - Design names
-4. `telas` - Fabric types
-5. `años` - Years (2015-2025)
-6. `temporadas` - Seasons (Verano, Invierno)
-7. `colecciones` - Seasonal collections
+1. `clientes` - Información de clientes
+2. `categorias` - Categorías de productos
+3. `disenos` - Nombres de diseños
+4. `telas` - Tipos de tela
+5. `años` - Años (2015-2025)
+6. `temporadas` - Temporadas (Verano, Invierno)
+7. `colecciones` - Colecciones estacionales
 
-**Enhanced Table**: 8. `prendas` - Products (with new stock columns + generated column)
+**Tabla Mejorada**: 8. `prendas` - Productos (con nuevas columnas de stock + columna generada)
 
-**New Tables** (Phase 2 - 2NF): 9. `pedidos` - Customer orders 10. `pedidos_prendas` - Order line items (junction table) 11. `telas_temporadas` - Seasonal fabrics (junction table) 12. `movimientos_inventario` - Inventory movements (audit trail)
+**Nuevas Tablas** (Fase 2 - 2NF): 9. `pedidos` - Pedidos de clientes 10. `pedidos_prendas` - Items de pedido (tabla de unión) 11. `telas_temporadas` - Telas estacionales (tabla de unión) 12. `movimientos_inventario` - Movimientos de inventario (auditoría)
 
-### Key Features
+### Características Clave
 
-- **Generated Column**: `stock_disponible = stock_inicial - stock_vendido` (automatic calculation)
-- **Junction Tables**: Eliminate partial dependencies (2NF requirement)
-- **Foreign Keys**: 12+ relationships for referential integrity
-- **Indexes**: 25+ indexes for query performance
-- **Transaction Safety**: All migrations wrapped in transactions
+- **Columna Generada**: `stock_disponible = stock_inicial - stock_vendido` (cálculo automático)
+- **Tablas de Unión**: Eliminan dependencias parciales (requisito 2NF)
+- **Claves Foráneas**: 12+ relaciones para integridad referencial
+- **Índices**: 25+ índices para rendimiento de consultas
+- **Seguridad de Transacciones**: Todas las migraciones envueltas en transacciones
 
 ---
 
-## 🔍 Detailed Script Descriptions
+## 🔍 Descripciones Detalladas de Scripts
 
 ### 01_crear_database.js
 
-**Purpose**: Creates the Phase 2 database
+**Propósito**: Crea la base de datos de Fase 2
 
-**What it does**:
+**Lo que hace**:
 
-- Connects to `postgres` system database
-- Terminates existing connections to `chamana_db_fase2` (if any)
-- Drops `chamana_db_fase2` if it exists
-- Creates fresh `chamana_db_fase2`
+- Se conecta a la base de datos del sistema `postgres`
+- Termina conexiones existentes a `chamana_db_fase2` (si las hay)
+- Elimina `chamana_db_fase2` si existe
+- Crea `chamana_db_fase2` nueva
 
-**Note**: Phase 1 database (`chamana_db_fase1`) remains untouched as backup.
+**Nota**: La base de datos de Fase 1 (`chamana_db_fase1`) permanece intacta como respaldo.
 
 ---
 
 ### 02_crear_tablas.js
 
-**Purpose**: Creates all 11 tables with 2NF schema
+**Propósito**: Crea todas las 11 tablas con esquema 2NF
 
-**What it does**:
+**Lo que hace**:
 
-- Creates 7 base tables (same structure as Phase 1)
-- Creates enhanced `prendas` table with:
-  - `stock_inicial` (initial stock)
-  - `stock_vendido` (sold stock)
-  - `stock_disponible` (GENERATED ALWAYS AS stored column)
-- Creates 4 new tables for 2NF:
-  - `pedidos` (orders)
-  - `pedidos_prendas` (order items - eliminates partial dependency)
-  - `telas_temporadas` (seasonal fabrics - eliminates partial dependency)
-  - `movimientos_inventario` (inventory audit trail)
+- Crea 7 tablas base (misma estructura que Fase 1)
+- Crea tabla mejorada `prendas` con:
+  - `stock_inicial` (stock inicial)
+  - `stock_vendido` (stock vendido)
+  - `stock_disponible` (columna GENERATED ALWAYS AS almacenada)
+- Crea 4 nuevas tablas para 2NF:
+  - `pedidos` (pedidos)
+  - `pedidos_prendas` (items de pedido - elimina dependencia parcial)
+  - `telas_temporadas` (telas estacionales - elimina dependencia parcial)
+  - `movimientos_inventario` (auditoría de inventario)
 
-**2NF Improvements**:
+**Mejoras 2NF**:
 
-- Junction tables prevent partial dependencies
-- All non-key attributes depend on entire primary key
-- Generated column ensures data consistency
+- Las tablas de unión previenen dependencias parciales
+- Todos los atributos no clave dependen de toda la clave primaria
+- La columna generada asegura consistencia de datos
 
 ---
 
 ### 03_crear_indices.js
 
-**Purpose**: Creates indexes for query performance
+**Propósito**: Crea índices para rendimiento de consultas
 
-**What it does**:
+**Lo que hace**:
 
-- Creates indexes on all foreign key columns
-- Creates indexes on frequently queried columns (estado, activo, fecha)
-- Creates composite index for seasonal queries (temporada + año)
-- Optimizes JOIN operations (10-100x faster)
+- Crea índices en todas las columnas de clave foránea
+- Crea índices en columnas consultadas frecuentemente (estado, activo, fecha)
+- Crea índice compuesto para consultas estacionales (temporada + año)
+- Optimiza operaciones JOIN (10-100x más rápido)
 
-**Total Indexes**: ~29 (excluding primary keys)
+**Total de Índices**: ~29 (excluyendo claves primarias)
 
 ---
 
 ### 04_migrar_datos_fase1.js
 
-**Purpose**: Migrates all data from Phase 1 to Phase 2
+**Propósito**: Migra todos los datos de Fase 1 a Fase 2
 
-**What it does**:
+**Lo que hace**:
 
-- Connects to BOTH databases simultaneously
-- Migrates all 8 tables in a single transaction
-- Initializes new stock columns:
-  - `stock_inicial = old stock_disponible`
+- Se conecta a AMBAS bases de datos simultáneamente
+- Migra todas las 8 tablas en una sola transacción
+- Inicializa nuevas columnas de stock:
+  - `stock_inicial = antiguo stock_disponible`
   - `stock_vendido = 0`
-  - `stock_disponible` auto-calculated
-- Updates all sequences to continue from Phase 1 IDs
+  - `stock_disponible` calculado automáticamente
+- Actualiza todas las secuencias para continuar desde IDs de Fase 1
 
-**Data Migrated**:
+**Datos Migrados**:
 
 - ~20 clientes
 - ~5 categorias
@@ -180,141 +180,141 @@ npm run migrate
 - ~22 colecciones
 - ~30 prendas
 
-**Safety**: Single transaction - if ANY table fails, ALL changes roll back.
+**Seguridad**: Transacción única - si CUALQUIER tabla falla, TODOS los cambios se revierten.
 
 ---
 
 ### 05_inicializar_telas_temporadas.js
 
-**Purpose**: Assigns fabrics to 2025 seasons
+**Propósito**: Asigna telas a temporadas 2025
 
-**What it does**:
+**Lo que hace**:
 
-- Analyzes each fabric type
-- Assigns to seasons based on logic:
-  - **Natural fabrics** (Algodón, Lino, Seda, Lana) → Both seasons
-  - **Winter fabrics** (Plush, Jersey, Polar) → Invierno only
-  - **Summer fabrics** (Poliéster, Rayón, Nylon) → Verano only
-  - **Default**: Both seasons (safe fallback)
-- Creates `telas_temporadas` records for 2025
-- All marked as `activo = true`
+- Analiza cada tipo de tela
+- Asigna a temporadas basado en lógica:
+  - **Telas naturales** (Algodón, Lino, Seda, Lana) → Ambas temporadas
+  - **Telas de invierno** (Plush, Jersey, Polar) → Solo Invierno
+  - **Telas de verano** (Poliéster, Rayón, Nylon) → Solo Verano
+  - **Por defecto**: Ambas temporadas (respaldo seguro)
+- Crea registros `telas_temporadas` para 2025
+- Todos marcados como `activo = true`
 
-**Result**: ~20-30 seasonal fabric assignments
+**Resultado**: ~20-30 asignaciones de telas estacionales
 
 ---
 
 ### 06_generar_pedidos_prueba.js
 
-**Purpose**: Generates 10 sample orders for testing
+**Propósito**: Genera 10 pedidos de prueba para testing
 
-**What it does**:
+**Lo que hace**:
 
-- Creates 10 orders with realistic data:
-  - 6 completed orders (with stock updates)
-  - 3 pending orders (no stock change)
-  - 1 canceled order (no stock change)
-- Each order has 1-3 random items
-- Dates spread across last 60 days
-- **Completed orders**:
-  - Update `stock_vendido` on prendas
-  - `stock_disponible` recalculates automatically
-  - Create `movimientos_inventario` records
-  - Set `fecha_completado`
+- Crea 10 pedidos con datos realistas:
+  - 6 pedidos completados (con actualizaciones de stock)
+  - 3 pedidos pendientes (sin cambio de stock)
+  - 1 pedido cancelado (sin cambio de stock)
+- Cada pedido tiene 1-3 items aleatorios
+- Fechas distribuidas en los últimos 60 días
+- **Pedidos completados**:
+  - Actualizan `stock_vendido` en prendas
+  - `stock_disponible` se recalcula automáticamente
+  - Crean registros `movimientos_inventario`
+  - Establecen `fecha_completado`
 
-**Transaction Strategy**: Micro-transactions (one per order)
+**Estrategia de Transacción**: Micro-transacciones (una por pedido)
 
-- If one order fails, others continue
-- Resilient to data issues
+- Si un pedido falla, los demás continúan
+- Resistente a problemas de datos
 
 ---
 
 ### 07_verificar.js
 
-**Purpose**: Comprehensive verification of Phase 2 implementation
+**Propósito**: Verificación exhaustiva de la implementación de Fase 2
 
-**What it does**:
+**Lo que hace**:
 
-- **9 validation tests**:
-  1. Table count (expects 11)
-  2. Data migration (all records present)
-  3. Foreign keys (12+ relationships)
-  4. Generated column correctness
-  5. Orders system operational
-  6. Seasonal fabrics configured
-  7. Complex JOINs working
-  8. Indexes created
-  9. 2NF compliance
+- **9 tests de validación**:
+  1. Conteo de tablas (espera 11)
+  2. Migración de datos (todos los registros presentes)
+  3. Claves foráneas (12+ relaciones)
+  4. Corrección de columna generada
+  5. Sistema de pedidos operacional
+  6. Telas estacionales configuradas
+  7. JOINs complejos funcionando
+  8. Índices creados
+  9. Cumplimiento 2NF
 
-**Output**:
+**Salida**:
 
-- Pass/Fail for each test
-- Success rate percentage
-- Quality gates status
-- Detailed error reporting
+- Pasar/Fallar para cada test
+- Porcentaje de éxito
+- Estado de quality gates
+- Reporte detallado de errores
 
-**Read-Only**: No data modifications
+**Solo Lectura**: No modifica datos
 
 ---
 
-## 🛡️ Error Handling
+## 🛡️ Manejo de Errores
 
-All scripts include:
+Todos los scripts incluyen:
 
-- **Transaction support** (BEGIN/COMMIT/ROLLBACK)
-- **Standardized error logging** with timestamps and stack traces
-- **Recovery instructions** in comments
-- **Graceful failure** (clear error messages)
+- **Soporte de transacciones** (BEGIN/COMMIT/ROLLBACK)
+- **Logging de errores estandarizado** con timestamps y stack traces
+- **Instrucciones de recuperación** en comentarios
+- **Fallo elegante** (mensajes de error claros)
 
-### Common Issues & Solutions
+### Problemas Comunes y Soluciones
 
-#### Issue: Database already exists
+#### Problema: Base de datos ya existe
 
 ```bash
-# Solution: Script 01 handles this automatically
-# Or manually: psql -U postgres -c "DROP DATABASE chamana_db_fase2;"
+# Solución: El script 01 maneja esto automáticamente
+# O manualmente: psql -U postgres -c "DROP DATABASE chamana_db_fase2;"
 ```
 
-#### Issue: Phase 1 database not found
+#### Problema: Base de datos Fase 1 no encontrada
 
 ```bash
-# Solution: Verify Phase 1 exists
+# Solución: Verificar que Fase 1 existe
 psql -U postgres -l | grep chamana_db_fase1
 
-# If missing, run Phase 1 scripts first
+# Si falta, ejecutar scripts de Fase 1 primero
 cd ../../../1.normalizacion/database/scripts
 npm run all
 ```
 
-#### Issue: Connection refused
+#### Problema: Conexión rechazada
 
 ```bash
-# Solution: Start PostgreSQL
+# Solución: Iniciar PostgreSQL
 sudo service postgresql start  # Linux
 brew services start postgresql  # macOS
 pg_ctl start -D /path/to/data  # Windows
 ```
 
-#### Issue: Permission denied
+#### Problema: Permiso denegado
 
 ```bash
-# Solution: Check postgres user password in 00_db.js
-# Or run with sudo (not recommended)
+# Solución: Verificar contraseña de usuario postgres en 00_db.js
+# O ejecutar con sudo (no recomendado)
 ```
 
 ---
 
-## 🧪 Testing & Validation
+## 🧪 Testing y Validación
 
-### After Migration
+### Después de la Migración
 
 ```bash
-# 1. Run verification script
+# 1. Ejecutar script de verificación
 node 07_verificar.js
 
-# 2. Manual spot checks
+# 2. Verificaciones manuales puntuales
 psql -U postgres -d chamana_db_fase2
 
-# 3. Check table counts
+# 3. Verificar conteos de tablas
 SELECT
   'clientes' AS tabla, COUNT(*) FROM clientes
 UNION ALL
@@ -322,7 +322,7 @@ SELECT 'prendas', COUNT(*) FROM prendas
 UNION ALL
 SELECT 'pedidos', COUNT(*) FROM pedidos;
 
-# 4. Verify stock calculation
+# 4. Verificar cálculo de stock
 SELECT
   nombre,
   stock_inicial,
@@ -331,9 +331,9 @@ SELECT
   (stock_inicial - stock_vendido) AS expected
 FROM prendas
 WHERE stock_disponible <> (stock_inicial - stock_vendido);
--- Should return 0 rows
+-- Debe retornar 0 filas
 
-# 5. Test seasonal query
+# 5. Probar consulta estacional
 SELECT t.nombre, temp.nombre AS temporada, a.año
 FROM telas t
 JOIN telas_temporadas tt ON t.id = tt.tela_id
@@ -344,118 +344,118 @@ WHERE a.año = 2025 AND tt.activo = true;
 
 ---
 
-## 📝 Rollback Strategy
+## 📝 Estrategia de Reversión
 
-### Full Rollback
+### Reversión Completa
 
 ```bash
-# Drop Phase 2 database (Phase 1 remains intact)
+# Eliminar base de datos Fase 2 (Fase 1 permanece intacta)
 psql -U postgres -c "DROP DATABASE IF EXISTS chamana_db_fase2;"
 
-# Re-run migration
+# Re-ejecutar migración
 node 01_crear_database.js
-# ... continue with other scripts
+# ... continuar con otros scripts
 ```
 
-### Partial Rollback
+### Reversión Parcial
 
 ```bash
-# If only data needs reset (tables OK)
+# Si solo los datos necesitan reset (tablas OK)
 psql -U postgres -d chamana_db_fase2
 
 TRUNCATE pedidos, pedidos_prendas, movimientos_inventario, telas_temporadas CASCADE;
 TRUNCATE prendas, colecciones, telas, disenos, categorias, clientes CASCADE;
 
-# Then re-run from script 04
+# Luego re-ejecutar desde script 04
 node 04_migrar_datos_fase1.js
-# ... continue
+# ... continuar
 ```
 
 ---
 
 ## 🎯 Quality Gates
 
-All quality gates must pass in script 07:
+Todos los quality gates deben pasar en el script 07:
 
-- [x] 11 tables created
-- [x] All data migrated (100%)
-- [x] Foreign keys enforced (12+)
-- [x] Generated column correct
-- [x] Orders system functional
-- [x] Seasonal fabrics configured
-- [x] Complex JOINs working
-- [x] Indexes created (25+)
-- [x] 2NF compliant
-
----
-
-## 📚 Next Steps
-
-After successful verification:
-
-1. **Update Web Application**
-
-   - Modify `web/config/database.js` to point to `chamana_db_fase2`
-   - Or use environment variable: `DB_VERSION=fase2`
-
-2. **Run Phase 2 Documentation** (Task Spec Part 2)
-
-   - Create MER diagram
-   - Create DER diagram
-   - Write README
-   - Document comparison with Phase 1
-
-3. **Test Web Application**
-   - Verify all endpoints work
-   - Test new orders functionality
-   - Validate seasonal fabric queries
+- [x] 11 tablas creadas
+- [x] Todos los datos migrados (100%)
+- [x] Claves foráneas aplicadas (12+)
+- [x] Columna generada correcta
+- [x] Sistema de pedidos funcional
+- [x] Telas estacionales configuradas
+- [x] JOINs complejos funcionando
+- [x] Índices creados (25+)
+- [x] Cumplimiento 2NF
 
 ---
 
-## 🔧 Maintenance
+## 📚 Próximos Pasos
 
-### Backup
+Después de verificación exitosa:
+
+1. **Actualizar Aplicación Web**
+
+   - Modificar `web/config/database.js` para apuntar a `chamana_db_fase2`
+   - O usar variable de entorno: `DB_VERSION=fase2`
+
+2. **Ejecutar Documentación Fase 2** (Task Spec Parte 2)
+
+   - Crear diagrama MER
+   - Crear diagrama DER
+   - Escribir README
+   - Documentar comparación con Fase 1
+
+3. **Probar Aplicación Web**
+   - Verificar que todos los endpoints funcionan
+   - Probar nueva funcionalidad de pedidos
+   - Validar consultas de telas estacionales
+
+---
+
+## 🔧 Mantenimiento
+
+### Respaldo
 
 ```bash
-# Backup Phase 2 database
+# Respaldar base de datos Fase 2
 pg_dump -U postgres -d chamana_db_fase2 -F c -f chamana_fase2_backup.dump
 
-# Restore if needed
+# Restaurar si es necesario
 pg_restore -U postgres -d chamana_db_fase2 chamana_fase2_backup.dump
 ```
 
-### Monitor
+### Monitoreo
 
 ```bash
-# Check database size
+# Verificar tamaño de base de datos
 psql -U postgres -d chamana_db_fase2 -c "\l+ chamana_db_fase2"
 
-# Check table sizes
+# Verificar tamaños de tablas
 psql -U postgres -d chamana_db_fase2 -c "\dt+"
 
-# Active connections
+# Conexiones activas
 psql -U postgres -d chamana_db_fase2 -c "SELECT * FROM pg_stat_activity WHERE datname = 'chamana_db_fase2';"
 ```
 
 ---
 
-## 📞 Support
+## 📞 Soporte
 
-**Documentation**:
+**Documentación**:
 
 - Task Spec: `.context/2.development/issues/Phase_02/TASK_SPEC_FASE2_PART1_Implementation.md`
 - Review: `.context/2.development/issues/REVIEW_PHASE02_SPECIFICATIONS_2025-10-22.md`
-- Phase 1 Reference: `1.normalizacion/database/scripts/README_EJECUCION.md`
+- Referencia Fase 1: `1.normalizacion/database/scripts/README_EJECUCION.md`
 
-**Troubleshooting**:
+**Solución de Problemas**:
 
-- Check script comments (each has recovery instructions)
-- Review error logs (standardized format with timestamps)
-- Verify Phase 1 is intact (backup reference)
+- Revisar comentarios de scripts (cada uno tiene instrucciones de recuperación)
+- Revisar logs de errores (formato estandarizado con timestamps)
+- Verificar que Fase 1 está intacta (referencia de respaldo)
 
 ---
 
-**Status**: ✅ Ready for Execution  
-**Estimated Time**: ~2 minutes total  
-**Success Rate**: 100% (when prerequisites met)  
-**Last Updated**: October 22, 2025
+**Estado**: ✅ Listo para Ejecutar  
+**Tiempo Estimado**: ~2 minutos total  
+**Tasa de Éxito**: 100% (cuando se cumplen prerrequisitos)  
+**Última Actualización**: 22 de Octubre, 2025

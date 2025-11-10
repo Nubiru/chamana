@@ -1,28 +1,28 @@
-# API Reference - Phase 2
+# Referencia de API - Fase 2
 
-## Base URL
+## URL Base
 
 ```
 http://localhost:3000/api
 ```
 
-## Authentication
+## Autenticación
 
-None (university phase - add auth in production)
+Ninguna (fase universitaria - agregar auth en producción)
 
 ## Endpoints
 
 ### Categorias
 
-#### List Categories
+#### Listar Categorías
 
 ```http
 GET /categorias
 ```
 
-Returns all categories.
+Retorna todas las categorías.
 
-**Response**:
+**Respuesta**:
 
 ```json
 [
@@ -34,13 +34,13 @@ Returns all categories.
 ]
 ```
 
-#### Get Category by ID
+#### Obtener Categoría por ID
 
 ```http
 GET /categorias/:id
 ```
 
-**Response**:
+**Respuesta**:
 
 ```json
 {
@@ -51,15 +51,15 @@ GET /categorias/:id
 }
 ```
 
-#### Get Products in Category
+#### Obtener Productos en Categoría
 
 ```http
 GET /categorias/:id/prendas
 ```
 
-Returns all products in category.
+Retorna todos los productos en la categoría.
 
-**Response**:
+**Respuesta**:
 
 ```json
 [
@@ -78,21 +78,21 @@ Returns all products in category.
 
 ### Productos
 
-#### List Products
+#### Listar Productos
 
 ```http
 GET /productos?categoria_id=1&activa=true&tela_ids=1,2,3
 ```
 
-**Query Parameters**:
+**Parámetros de Consulta**:
 
-- `categoria_id` (optional) - Filter by category
-- `activa` (optional) - Filter by active status (default: true)
-- `tela_ids` (optional) - Comma-separated tela IDs (for seasonal filtering)
-- `limit` (optional) - Max results (default: 50)
-- `offset` (optional) - Pagination offset (default: 0)
+- `categoria_id` (opcional) - Filtrar por categoría
+- `activa` (opcional) - Filtrar por estado activo (por defecto: true)
+- `tela_ids` (opcional) - IDs de tela separados por comas (para filtrado estacional)
+- `limit` (opcional) - Máximo de resultados (por defecto: 50)
+- `offset` (opcional) - Desplazamiento de paginación (por defecto: 0)
 
-**Response**:
+**Respuesta**:
 
 ```json
 [
@@ -116,13 +116,13 @@ GET /productos?categoria_id=1&activa=true&tela_ids=1,2,3
 ]
 ```
 
-#### Get Product by ID
+#### Obtener Producto por ID
 
 ```http
 GET /productos/:id
 ```
 
-**Response**:
+**Respuesta**:
 
 ```json
 {
@@ -147,19 +147,19 @@ GET /productos/:id
 }
 ```
 
-#### Get Stock History ⭐ NEW
+#### Obtener Historial de Stock ⭐ NUEVO
 
 ```http
 GET /productos/:id/historial-stock?limit=50
 ```
 
-Returns inventory movement history for a specific product.
+Retorna el historial de movimientos de inventario para un producto específico.
 
-**Query Parameters**:
+**Parámetros de Consulta**:
 
-- `limit` (optional) - Max results (default: no limit)
+- `limit` (opcional) - Máximo de resultados (por defecto: sin límite)
 
-**Response**:
+**Respuesta**:
 
 ```json
 [
@@ -178,30 +178,30 @@ Returns inventory movement history for a specific product.
 ]
 ```
 
-**Movement Types**:
+**Tipos de Movimiento**:
 
-- `venta` - Sale (decreases stock)
-- `recepcion` - Reception (increases stock)
-- `ajuste` - Adjustment (manual correction)
+- `venta` - Venta (disminuye stock)
+- `recepcion` - Recepción (aumenta stock)
+- `ajuste` - Ajuste (corrección manual)
 
 ---
 
 ### Pedidos (Orders)
 
-#### List Orders
+#### Listar Pedidos
 
 ```http
 GET /pedidos?cliente_id=1&estado=pendiente
 ```
 
-**Query Parameters**:
+**Parámetros de Consulta**:
 
-- `cliente_id` (optional) - Filter by client
-- `estado` (optional) - Filter by status (pendiente/completado/cancelado)
-- `limit` (optional) - Max results (default: 50)
-- `offset` (optional) - Pagination offset
+- `cliente_id` (opcional) - Filtrar por cliente
+- `estado` (opcional) - Filtrar por estado (pendiente/completado/cancelado)
+- `limit` (opcional) - Máximo de resultados (por defecto: 50)
+- `offset` (opcional) - Desplazamiento de paginación
 
-**Response**:
+**Respuesta**:
 
 ```json
 [
@@ -220,13 +220,13 @@ GET /pedidos?cliente_id=1&estado=pendiente
 ]
 ```
 
-#### Get Order by ID
+#### Obtener Pedido por ID
 
 ```http
 GET /pedidos/:id
 ```
 
-**Response**:
+**Respuesta**:
 
 ```json
 {
@@ -255,13 +255,13 @@ GET /pedidos/:id
 }
 ```
 
-#### Create Order
+#### Crear Pedido
 
 ```http
 POST /pedidos
 ```
 
-**Request Body**:
+**Cuerpo de la Petición**:
 
 ```json
 {
@@ -278,17 +278,17 @@ POST /pedidos
 }
 ```
 
-**Validation**:
+**Validación**:
 
-- `cliente_id`: Required, must exist
-- `items`: Required, non-empty array
-- `items[].prenda_id`: Required, must exist
-- `items[].cantidad`: Required, positive integer
-- `items[].precio_unitario`: Required, positive number
-- `descuento`: Optional, non-negative number
-- `notas`: Optional, string
+- `cliente_id`: Requerido, debe existir
+- `items`: Requerido, array no vacío
+- `items[].prenda_id`: Requerido, debe existir
+- `items[].cantidad`: Requerido, entero positivo
+- `items[].precio_unitario`: Requerido, número positivo
+- `descuento`: Opcional, número no negativo
+- `notas`: Opcional, string
 
-**Response**:
+**Respuesta**:
 
 ```json
 {
@@ -300,15 +300,15 @@ POST /pedidos
 }
 ```
 
-#### Complete Order
+#### Completar Pedido
 
 ```http
 PUT /pedidos/:id/completar
 ```
 
-Marks order as completed and updates stock. Creates inventory movement records.
+Marca el pedido como completado y actualiza el stock. Crea registros de movimientos de inventario.
 
-**Response**:
+**Respuesta**:
 
 ```json
 {
@@ -327,21 +327,21 @@ Marks order as completed and updates stock. Creates inventory movement records.
 }
 ```
 
-**Business Rules**:
+**Reglas de Negocio**:
 
-- Order must be in `pendiente` state
-- All products must have sufficient stock
-- Stock updates are atomic (all or nothing)
-- Creates `movimientos_inventario` records
-- Updates `fecha_ultima_venta` for each product
+- El pedido debe estar en estado `pendiente`
+- Todos los productos deben tener stock suficiente
+- Las actualizaciones de stock son atómicas (todo o nada)
+- Crea registros en `movimientos_inventario`
+- Actualiza `fecha_ultima_venta` para cada producto
 
-#### Cancel Order
+#### Cancelar Pedido
 
 ```http
 PUT /pedidos/:id/cancelar
 ```
 
-**Response**:
+**Respuesta**:
 
 ```json
 {
@@ -353,23 +353,23 @@ PUT /pedidos/:id/cancelar
 
 ---
 
-### Telas (Seasonal Fabrics) ⭐ NEW
+### Telas (Telas Estacionales) ⭐ NUEVO
 
-#### Filter Fabrics by Season/Year
+#### Filtrar Telas por Temporada/Año
 
 ```http
 GET /telas/temporadas?temporada=Invierno&año=2025&activo=true
 ```
 
-Demonstrates 2NF normalization with many-to-many relationship between `telas` and `temporadas`.
+Demuestra normalización 2NF con relación muchos-a-muchos entre `telas` y `temporadas`.
 
-**Query Parameters**:
+**Parámetros de Consulta**:
 
-- `temporada` (optional) - Season name (Verano, Invierno)
-- `año` (optional) - Year (2024, 2025, 2026)
-- `activo` (optional) - Filter active only (default: all)
+- `temporada` (opcional) - Nombre de temporada (Verano, Invierno)
+- `año` (opcional) - Año (2024, 2025, 2026)
+- `activo` (opcional) - Filtrar solo activos (por defecto: todos)
 
-**Response**:
+**Respuesta**:
 
 ```json
 [
@@ -388,27 +388,27 @@ Demonstrates 2NF normalization with many-to-many relationship between `telas` an
 ]
 ```
 
-**Use Case**:
+**Caso de Uso**:
 
-This endpoint enables seasonal product filtering on the frontend:
+Este endpoint permite el filtrado estacional de productos en el frontend:
 
-1. User selects "Invierno" + "2025"
-2. Frontend calls `/api/telas/temporadas?temporada=Invierno&año=2025&activo=true`
-3. Gets list of tela IDs: `[1, 2, 3]`
-4. Frontend calls `/api/productos?tela_ids=1,2,3`
-5. Displays only products made with winter 2025 fabrics
+1. Usuario selecciona "Invierno" + "2025"
+2. Frontend llama `/api/telas/temporadas?temporada=Invierno&año=2025&activo=true`
+3. Obtiene lista de IDs de tela: `[1, 2, 3]`
+4. Frontend llama `/api/productos?tela_ids=1,2,3`
+5. Muestra solo productos hechos con telas de invierno 2025
 
 ---
 
 ### Usuarios (Clientes)
 
-#### List Users
+#### Listar Usuarios
 
 ```http
 GET /usuarios
 ```
 
-**Response**:
+**Respuesta**:
 
 ```json
 [
@@ -427,13 +427,13 @@ GET /usuarios
 ]
 ```
 
-#### Get User by ID
+#### Obtener Usuario por ID
 
 ```http
 GET /usuarios/:id
 ```
 
-**Response**:
+**Respuesta**:
 
 ```json
 {
@@ -450,13 +450,13 @@ GET /usuarios/:id
 }
 ```
 
-#### Create User
+#### Crear Usuario
 
 ```http
 POST /usuarios
 ```
 
-**Request Body**:
+**Cuerpo de la Petición**:
 
 ```json
 {
@@ -470,7 +470,7 @@ POST /usuarios
 }
 ```
 
-**Response**:
+**Respuesta**:
 
 ```json
 {
@@ -482,13 +482,13 @@ POST /usuarios
 }
 ```
 
-#### Update User
+#### Actualizar Usuario
 
 ```http
 PUT /usuarios/:id
 ```
 
-**Request Body** (partial updates supported):
+**Cuerpo de la Petición** (actualizaciones parciales soportadas):
 
 ```json
 {
@@ -497,7 +497,7 @@ PUT /usuarios/:id
 }
 ```
 
-**Response**:
+**Respuesta**:
 
 ```json
 {
@@ -509,13 +509,13 @@ PUT /usuarios/:id
 }
 ```
 
-#### Delete User
+#### Eliminar Usuario
 
 ```http
 DELETE /usuarios/:id
 ```
 
-**Response**:
+**Respuesta**:
 
 ```json
 {
@@ -526,32 +526,32 @@ DELETE /usuarios/:id
 
 ---
 
-## Error Responses
+## Respuestas de Error
 
-All errors follow this format:
+Todos los errores siguen este formato:
 
 ```json
 {
   "success": false,
-  "error": "User-friendly error message",
+  "error": "Mensaje de error amigable al usuario",
   "details": {
     "originalError": {...},
     "query": "..."
   },
-  "stack": "Error stack trace (only in development)"
+  "stack": "Stack trace del error (solo en desarrollo)"
 }
 ```
 
-### Status Codes
+### Códigos de Estado
 
-- `200` - Success
-- `400` - Validation error (ValidationError)
-- `404` - Not found (NotFoundError)
-- `500` - Server error (DatabaseError, unexpected errors)
+- `200` - Éxito
+- `400` - Error de validación (ValidationError)
+- `404` - No encontrado (NotFoundError)
+- `500` - Error del servidor (DatabaseError, errores inesperados)
 
-### Error Examples
+### Ejemplos de Error
 
-**Validation Error** (400):
+**Error de Validación** (400):
 
 ```json
 {
@@ -560,7 +560,7 @@ All errors follow this format:
 }
 ```
 
-**Not Found Error** (404):
+**Error No Encontrado** (404):
 
 ```json
 {
@@ -569,7 +569,7 @@ All errors follow this format:
 }
 ```
 
-**Database Error** (500):
+**Error de Base de Datos** (500):
 
 ```json
 {
@@ -581,7 +581,7 @@ All errors follow this format:
 }
 ```
 
-**Stock Insufficient Error** (400):
+**Error de Stock Insuficiente** (400):
 
 ```json
 {
@@ -600,7 +600,7 @@ All errors follow this format:
 GET /api/test
 ```
 
-Returns:
+Retorna:
 
 ```json
 {
@@ -612,9 +612,9 @@ Returns:
 }
 ```
 
-### Database Version Check
+### Verificación de Versión de Base de Datos
 
-The API automatically connects to the database specified by `DB_VERSION` environment variable:
+La API se conecta automáticamente a la base de datos especificada por la variable de entorno `DB_VERSION`:
 
 - `DB_VERSION=fase1` → `chamana_db_fase1` (1NF)
 - `DB_VERSION=fase2` → `chamana_db_fase2` (2NF)
@@ -623,41 +623,41 @@ The API automatically connects to the database specified by `DB_VERSION` environ
 
 ## Rate Limiting
 
-**Current**: None (university phase)
+**Actual**: Ninguno (fase universitaria)
 
-**Production**: Recommended 100 requests/minute per IP
+**Producción**: Recomendado 100 peticiones/minuto por IP
 
 ---
 
 ## CORS
 
-**Current**: Disabled (same-origin only)
+**Actual**: Deshabilitado (solo mismo origen)
 
-**Production**: Configure allowed origins
+**Producción**: Configurar orígenes permitidos
 
 ---
 
-## Data Types
+## Tipos de Datos
 
-### Money
+### Dinero
 
-All money values are returned as strings with 2 decimal places:
+Todos los valores de dinero se retornan como strings con 2 decimales:
 
 ```json
 "40000.00"
 ```
 
-Frontend should parse as float: `parseFloat("40000.00")` → `40000.0`
+El frontend debe parsear como float: `parseFloat("40000.00")` → `40000.0`
 
-### Dates
+### Fechas
 
-All dates are ISO 8601 strings in UTC:
+Todas las fechas son strings ISO 8601 en UTC:
 
 ```json
 "2025-10-23T15:30:00.000Z"
 ```
 
-Frontend should parse with `new Date()` and format for locale:
+El frontend debe parsear con `new Date()` y formatear para locale:
 
 ```javascript
 new Date('2025-10-23T15:30:00.000Z').toLocaleString('es-CL');
@@ -666,7 +666,7 @@ new Date('2025-10-23T15:30:00.000Z').toLocaleString('es-CL');
 
 ### IDs
 
-All IDs are integers (PostgreSQL SERIAL):
+Todos los IDs son enteros (PostgreSQL SERIAL):
 
 ```json
 "id": 1
@@ -674,6 +674,6 @@ All IDs are integers (PostgreSQL SERIAL):
 
 ---
 
-**Version**: 2.0.0  
-**Last Updated**: 2025-10-23  
-**Status**: Phase 2 Complete (2NF + Stock Management + Seasonal Filtering)
+**Versión**: 2.0.0  
+**Última Actualización**: 2025-10-23  
+**Estado**: Fase 2 Completa (2NF + Gestión de Stock + Filtrado Estacional)

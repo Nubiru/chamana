@@ -1,23 +1,23 @@
-# Phase 4: Database Optimization Scripts
+# Fase 4: Scripts de Optimización de Base de Datos
 
-**Status**: Ready to Execute  
-**Created**: November 7, 2025  
-**Phase**: 4.1 - Database Optimization  
-**Location**: Scripts are in `3.vistas-y-procedimientos/database/scripts/`
+**Estado**: Listo para Ejecutar  
+**Creado**: 7 de Noviembre, 2025  
+**Fase**: 4.1 - Optimización de Base de Datos  
+**Ubicación**: Los scripts están en `3.vistas-y-procedimientos/database/scripts/`
 
 ---
 
-## Overview
+## Resumen
 
-This document describes the Phase 4 database optimization scripts. These scripts improve query performance by:
+Este documento describe los scripts de optimización de base de datos de Fase 4. Estos scripts mejoran el rendimiento de las consultas mediante:
 
-1. **Adding indexes** on frequently queried columns
-2. **Optimizing views** with better JOIN strategies
-3. **Creating materialized views** for heavy reports
+1. **Agregar índices** en columnas consultadas frecuentemente
+2. **Optimizar vistas** con mejores estrategias de JOIN
+3. **Crear vistas materializadas** para reportes pesados
 
-**Expected Performance Improvement**: 50%+ faster queries
+**Mejora de Rendimiento Esperada**: 50%+ más rápido en consultas
 
-**Note**: The actual scripts are located in `3.vistas-y-procedimientos/database/scripts/` because they operate on the Phase 3 database.
+**Nota**: Los scripts reales están ubicados en `3.vistas-y-procedimientos/database/scripts/` porque operan sobre la base de datos de Fase 3.
 
 ---
 
@@ -25,20 +25,20 @@ This document describes the Phase 4 database optimization scripts. These scripts
 
 ### 11_add_indexes.js
 
-Creates 23 indexes on frequently queried columns:
+Crea 23 índices en columnas consultadas frecuentemente:
 
-- **Foreign Key Indexes** (11): For JOIN operations
-- **Filter Indexes** (5): For WHERE clauses
-- **Composite Indexes** (3): For multi-column queries
-- **Partial Indexes** (3): For filtered queries
-- **Text Search Indexes** (1): For full-text search
+- **Índices de Clave Foránea** (11): Para operaciones JOIN
+- **Índices de Filtro** (5): Para cláusulas WHERE
+- **Índices Compuestos** (3): Para consultas multi-columna
+- **Índices Parciales** (3): Para consultas filtradas
+- **Índices de Búsqueda de Texto** (1): Para búsqueda de texto completo
 
-**Execution Time**: ~30 seconds  
-**Impact**: High - improves all query performance
+**Tiempo de Ejecución**: ~30 segundos  
+**Impacto**: Alto - mejora el rendimiento de todas las consultas
 
 ### 12_optimize_views.js
 
-Creates optimized versions of existing views:
+Crea versiones optimizadas de las vistas existentes:
 
 - `vista_ventas_mensuales_optimizada`
 - `vista_inventario_critico_optimizada`
@@ -46,77 +46,77 @@ Creates optimized versions of existing views:
 - `vista_analisis_clientes_optimizada`
 - `vista_rotacion_inventario_optimizada`
 
-**Improvements**:
-- INNER JOIN instead of JOIN
-- Pre-applied WHERE filters
-- HAVING clauses for aggregations
-- Better ORDER BY strategies
+**Mejoras**:
+- INNER JOIN en lugar de JOIN
+- Filtros WHERE aplicados previamente
+- Cláusulas HAVING para agregaciones
+- Mejores estrategias ORDER BY
 
-**Execution Time**: ~10 seconds  
-**Impact**: Medium - improves view query performance
+**Tiempo de Ejecución**: ~10 segundos  
+**Impacto**: Medio - mejora el rendimiento de consultas de vistas
 
 ### 13_materialized_views.js
 
-Creates 4 materialized views for heavy reports:
+Crea 4 vistas materializadas para reportes pesados:
 
-- `mv_ventas_mensuales_resumen` - Refresh daily
-- `mv_top_productos_resumen` - Refresh daily
-- `mv_segmentacion_clientes_resumen` - Refresh weekly
-- `mv_inventario_critico_resumen` - Refresh hourly
+- `mv_ventas_mensuales_resumen` - Actualización diaria
+- `mv_top_productos_resumen` - Actualización diaria
+- `mv_segmentacion_clientes_resumen` - Actualización semanal
+- `mv_inventario_critico_resumen` - Actualización por hora
 
-**Execution Time**: ~1-2 minutes (depends on data volume)  
-**Impact**: Very High - instant queries on pre-computed data
+**Tiempo de Ejecución**: ~1-2 minutos (depende del volumen de datos)  
+**Impacto**: Muy Alto - consultas instantáneas en datos pre-calculados
 
 ---
 
-## Execution Order
+## Orden de Ejecución
 
-**Important**: Execute scripts in this exact order:
+**Importante**: Ejecutar los scripts en este orden exacto:
 
 ```bash
-# 1. Add indexes first (foundation for optimization)
+# 1. Agregar índices primero (fundamento para optimización)
 node 11_add_indexes.js
 
-# 2. Optimize views (uses indexes from step 1)
+# 2. Optimizar vistas (usa índices del paso 1)
 node 12_optimize_views.js
 
-# 3. Create materialized views (uses optimized queries)
+# 3. Crear vistas materializadas (usa consultas optimizadas)
 node 13_materialized_views.js
 ```
 
 ---
 
-## Prerequisites
+## Prerrequisitos
 
-1. **Phase 3 Complete**: Database must have all tables, views, and data
-2. **Database Running**: PostgreSQL must be running
-3. **Connection**: Database credentials in `00_db.js` must be correct
-4. **Permissions**: User must have CREATE INDEX and CREATE MATERIALIZED VIEW permissions
+1. **Fase 3 Completa**: La base de datos debe tener todas las tablas, vistas y datos
+2. **Base de Datos Ejecutándose**: PostgreSQL debe estar corriendo
+3. **Conexión**: Las credenciales de base de datos en `00_db.js` deben ser correctas
+4. **Permisos**: El usuario debe tener permisos CREATE INDEX y CREATE MATERIALIZED VIEW
 
 ---
 
-## Quick Start
+## Inicio Rápido
 
 ```bash
-# Navigate to scripts directory (where scripts are located)
+# Navegar al directorio de scripts (donde están los scripts)
 cd 3.vistas-y-procedimientos/database/scripts
 
-# Run all optimization scripts in order
+# Ejecutar todos los scripts de optimización en orden
 node 11_add_indexes.js
 node 12_optimize_views.js
 node 13_materialized_views.js
 ```
 
-**Important**: Scripts must be run from `3.vistas-y-procedimientos/database/scripts/` directory.
+**Importante**: Los scripts deben ejecutarse desde el directorio `3.vistas-y-procedimientos/database/scripts/`.
 
 ---
 
-## Verification
+## Verificación
 
-### Check Indexes Created
+### Verificar Índices Creados
 
 ```sql
--- List all indexes
+-- Listar todos los índices
 SELECT 
     schemaname,
     tablename,
@@ -127,10 +127,10 @@ WHERE schemaname = 'public'
 ORDER BY tablename, indexname;
 ```
 
-### Check Optimized Views
+### Verificar Vistas Optimizadas
 
 ```sql
--- List all views (original + optimized)
+-- Listar todas las vistas (originales + optimizadas)
 SELECT table_name, table_type
 FROM information_schema.tables
 WHERE table_schema = 'public'
@@ -138,10 +138,10 @@ WHERE table_schema = 'public'
 ORDER BY table_name;
 ```
 
-### Check Materialized Views
+### Verificar Vistas Materializadas
 
 ```sql
--- List materialized views
+-- Listar vistas materializadas
 SELECT 
     schemaname,
     matviewname,
@@ -152,53 +152,53 @@ WHERE schemaname = 'public'
 ORDER BY matviewname;
 ```
 
-### Performance Comparison
+### Comparación de Rendimiento
 
 ```sql
--- Compare original vs optimized view
+-- Comparar vista original vs optimizada
 EXPLAIN ANALYZE SELECT * FROM vista_ventas_mensuales;
 EXPLAIN ANALYZE SELECT * FROM vista_ventas_mensuales_optimizada;
 
--- Compare view vs materialized view
+-- Comparar vista vs vista materializada
 EXPLAIN ANALYZE SELECT * FROM vista_ventas_mensuales;
 EXPLAIN ANALYZE SELECT * FROM mv_ventas_mensuales_resumen;
 ```
 
 ---
 
-## Refresh Materialized Views
+## Actualizar Vistas Materializadas
 
-Materialized views need periodic refresh to stay current:
+Las vistas materializadas necesitan actualización periódica para mantenerse actualizadas:
 
-### Manual Refresh
+### Actualización Manual
 
 ```sql
--- Refresh single view
+-- Actualizar vista individual
 REFRESH MATERIALIZED VIEW CONCURRENTLY mv_ventas_mensuales_resumen;
 
--- Refresh all materialized views
+-- Actualizar todas las vistas materializadas
 REFRESH MATERIALIZED VIEW CONCURRENTLY mv_ventas_mensuales_resumen;
 REFRESH MATERIALIZED VIEW CONCURRENTLY mv_top_productos_resumen;
 REFRESH MATERIALIZED VIEW CONCURRENTLY mv_segmentacion_clientes_resumen;
 REFRESH MATERIALIZED VIEW CONCURRENTLY mv_inventario_critico_resumen;
 ```
 
-### Automated Refresh (Recommended)
+### Actualización Automatizada (Recomendado)
 
-#### Option 1: pg_cron Extension
+#### Opción 1: Extensión pg_cron
 
 ```sql
--- Install pg_cron (if available)
+-- Instalar pg_cron (si está disponible)
 CREATE EXTENSION IF NOT EXISTS pg_cron;
 
--- Schedule daily refresh at 2 AM
+-- Programar actualización diaria a las 2 AM
 SELECT cron.schedule(
     'refresh-ventas-mensuales',
     '0 2 * * *',
     'REFRESH MATERIALIZED VIEW CONCURRENTLY mv_ventas_mensuales_resumen;'
 );
 
--- Schedule hourly refresh for inventory
+-- Programar actualización por hora para inventario
 SELECT cron.schedule(
     'refresh-inventario-critico',
     '0 * * * *',
@@ -206,44 +206,44 @@ SELECT cron.schedule(
 );
 ```
 
-#### Option 2: Cron Job (Linux/Mac)
+#### Opción 2: Cron Job (Linux/Mac)
 
 ```bash
-# Add to crontab (crontab -e)
-# Refresh daily at 2 AM
+# Agregar a crontab (crontab -e)
+# Actualizar diariamente a las 2 AM
 0 2 * * * psql -U postgres -d chamana_db_fase3 -c "REFRESH MATERIALIZED VIEW CONCURRENTLY mv_ventas_mensuales_resumen;"
 
-# Refresh hourly
+# Actualizar por hora
 0 * * * * psql -U postgres -d chamana_db_fase3 -c "REFRESH MATERIALIZED VIEW CONCURRENTLY mv_inventario_critico_resumen;"
 ```
 
-#### Option 3: Node.js Script
+#### Opción 3: Script Node.js
 
-Create a refresh script and run it via cron or task scheduler.
-
----
-
-## Performance Metrics
-
-### Before Optimization
-
-- Average query time: ~200-500ms
-- View execution: ~100-300ms
-- Complex reports: ~500-1000ms
-
-### After Optimization (Expected)
-
-- Average query time: ~50-150ms (60-70% improvement)
-- View execution: ~30-100ms (70% improvement)
-- Materialized view queries: ~5-20ms (95% improvement)
+Crear un script de actualización y ejecutarlo mediante cron o programador de tareas.
 
 ---
 
-## Troubleshooting
+## Métricas de Rendimiento
+
+### Antes de la Optimización
+
+- Tiempo promedio de consulta: ~200-500ms
+- Ejecución de vista: ~100-300ms
+- Reportes complejos: ~500-1000ms
+
+### Después de la Optimización (Esperado)
+
+- Tiempo promedio de consulta: ~50-150ms (mejora del 60-70%)
+- Ejecución de vista: ~30-100ms (mejora del 70%)
+- Consultas de vista materializada: ~5-20ms (mejora del 95%)
+
+---
+
+## Solución de Problemas
 
 ### Error: "index already exists"
 
-**Solution**: Scripts use `IF NOT EXISTS`, so this shouldn't happen. If it does, drop the index first:
+**Solución**: Los scripts usan `IF NOT EXISTS`, así que esto no debería pasar. Si ocurre, eliminar el índice primero:
 
 ```sql
 DROP INDEX IF EXISTS idx_pedidos_cliente_id;
@@ -251,7 +251,7 @@ DROP INDEX IF EXISTS idx_pedidos_cliente_id;
 
 ### Error: "materialized view already exists"
 
-**Solution**: Drop and recreate:
+**Solución**: Eliminar y recrear:
 
 ```sql
 DROP MATERIALIZED VIEW IF EXISTS mv_ventas_mensuales_resumen;
@@ -259,7 +259,7 @@ DROP MATERIALIZED VIEW IF EXISTS mv_ventas_mensuales_resumen;
 
 ### Error: "REFRESH MATERIALIZED VIEW CONCURRENTLY requires unique index"
 
-**Solution**: Scripts create unique indexes automatically. If error persists, check:
+**Solución**: Los scripts crean índices únicos automáticamente. Si el error persiste, verificar:
 
 ```sql
 SELECT indexname, indexdef
@@ -267,34 +267,34 @@ FROM pg_indexes
 WHERE tablename = 'mv_ventas_mensuales_resumen';
 ```
 
-### Slow Materialized View Refresh
+### Actualización Lenta de Vista Materializada
 
-**Solution**: 
-- Refresh during off-peak hours
-- Use `CONCURRENTLY` to avoid locking
-- Consider refreshing less frequently for non-critical views
+**Solución**: 
+- Actualizar durante horas de bajo tráfico
+- Usar `CONCURRENTLY` para evitar bloqueos
+- Considerar actualizar con menos frecuencia para vistas no críticas
 
 ---
 
-## Rollback
+## Reversión
 
-If you need to remove optimizations:
+Si necesitas eliminar las optimizaciones:
 
 ```sql
--- Drop all indexes (be careful!)
+-- Eliminar todos los índices (¡ten cuidado!)
 SELECT 'DROP INDEX IF EXISTS ' || indexname || ';'
 FROM pg_indexes
 WHERE schemaname = 'public'
   AND indexname LIKE 'idx_%';
 
--- Drop optimized views
+-- Eliminar vistas optimizadas
 DROP VIEW IF EXISTS vista_ventas_mensuales_optimizada;
 DROP VIEW IF EXISTS vista_inventario_critico_optimizada;
 DROP VIEW IF EXISTS vista_top_productos_optimizada;
 DROP VIEW IF EXISTS vista_analisis_clientes_optimizada;
 DROP VIEW IF EXISTS vista_rotacion_inventario_optimizada;
 
--- Drop materialized views
+-- Eliminar vistas materializadas
 DROP MATERIALIZED VIEW IF EXISTS mv_ventas_mensuales_resumen;
 DROP MATERIALIZED VIEW IF EXISTS mv_top_productos_resumen;
 DROP MATERIALIZED VIEW IF EXISTS mv_segmentacion_clientes_resumen;
@@ -303,25 +303,24 @@ DROP MATERIALIZED VIEW IF EXISTS mv_inventario_critico_resumen;
 
 ---
 
-## Next Steps
+## Próximos Pasos
 
-After completing database optimization:
+Después de completar la optimización de base de datos:
 
-1. ✅ **Phase 4.1 Complete**: Database Optimization
-2. ⏭️ **Next**: Phase 4.2 - Authentication & Authorization
-3. ⏭️ **Then**: Phase 4.3 - Enhanced Reporting & Visualization
-
----
-
-## References
-
-- [PostgreSQL Indexes Documentation](https://www.postgresql.org/docs/current/indexes.html)
-- [Materialized Views Guide](https://www.postgresql.org/docs/current/sql-creatematerializedview.html)
-- [Query Performance Tuning](https://www.postgresql.org/docs/current/performance-tips.html)
+1. ✅ **Fase 4.1 Completa**: Optimización de Base de Datos
+2. ⏭️ **Siguiente**: Fase 4.2 - Autenticación y Autorización
+3. ⏭️ **Luego**: Fase 4.3 - Reportes y Visualización Mejorados
 
 ---
 
-**Created**: November 7, 2025  
-**Phase**: 4.1 - Database Optimization  
-**Status**: Ready to Execute
+## Referencias
 
+- [Documentación de Índices PostgreSQL](https://www.postgresql.org/docs/current/indexes.html)
+- [Guía de Vistas Materializadas](https://www.postgresql.org/docs/current/sql-creatematerializedview.html)
+- [Ajuste de Rendimiento de Consultas](https://www.postgresql.org/docs/current/performance-tips.html)
+
+---
+
+**Creado**: 7 de Noviembre, 2025  
+**Fase**: 4.1 - Optimización de Base de Datos  
+**Estado**: Listo para Ejecutar
