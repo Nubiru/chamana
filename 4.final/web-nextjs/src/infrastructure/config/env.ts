@@ -26,9 +26,11 @@ if (
   !process.env.NEXT_PHASE
 ) {
   if (!process.env.NEXTAUTH_SECRET) {
-    throw new Error('NEXTAUTH_SECRET is required in production');
+    console.error('❌ CRITICAL: NEXTAUTH_SECRET is required in production but not set');
+    console.error('Set this in Vercel Dashboard → Settings → Environment Variables');
   }
   if (!process.env.DB_PASSWORD) {
-    throw new Error('DB_PASSWORD is required in production');
+    console.error('❌ CRITICAL: DB_PASSWORD is required in production but not set');
+    console.error('Set this in Vercel Dashboard → Settings → Environment Variables');
   }
 }

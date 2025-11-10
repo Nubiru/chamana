@@ -10,6 +10,7 @@ const poolConfig: PoolConfig = {
   max: 20,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
+  ssl: env.app.isProd ? { rejectUnauthorized: false } : false,
 };
 
 // Create singleton pool
