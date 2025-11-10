@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Testing
+__tests__/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+coverage/
+.jest-cache/
+jest.config.js
+jest.setup.js
+jest.polyfills.js
+
+# Development files
+.env.local
+.env*.local
+*.log
+
+# Build artifacts (Vercel handles these)
+.next/
+out/
+
+# Documentation
+*.md
+!README.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Summary files created during development
+BIOME_FIXES_SUMMARY.md
+IMPLEMENTATION_SUMMARY.md
+TESTING_SETUP.md
+TEST_SUITE_SUMMARY.md
+
+# Husky git hooks (not needed in Vercel)
+.husky/
