@@ -6,8 +6,7 @@
   "framework": "nextjs",
   "regions": ["iad1"],
   "env": {
-    "NEXT_PUBLIC_APP_NAME": "CHAMANA E-commerce",
-    "NEXT_PUBLIC_API_URL": "@chamana-api-url"
+    "NEXT_PUBLIC_APP_NAME": "CHAMANA E-commerce"
   },
   "build": {
     "env": {
