@@ -43,13 +43,14 @@ Esta carpeta contiene todos los diagramas que documentan la evolución de la bas
 
 ### Diagramas por Fase
 
-| Fase   | MER (Conceptual)                       | DER (Lógico)                           | Comparación                                             |
-| ------ | -------------------------------------- | -------------------------------------- | ------------------------------------------------------- |
-| Fase 0 | [📄 MER Fase 0](fase0/01_MER_Fase0.md) | [📄 DER Fase 0](fase0/02_DER_Fase0.md) | [🔄 vs Fase 1](comparaciones/01_Fase0_vs_Fase1.md)      |
-| Fase 1 | [📄 MER Fase 1](fase1/01_MER_Fase1.md) | [📄 DER Fase 1](fase1/02_DER_Fase1.md) | [🔄 vs Fase 2](comparaciones/02_Fase1_vs_Fase2.md)      |
-| Fase 2 | [📄 MER Fase 2](fase2/01_MER_Fase2.md) | [📄 DER Fase 2](fase2/02_DER_Fase2.md) | [🔄 vs Fase 3](comparaciones/03_Fase2_vs_Fase3.md)      |
-| Fase 3 | [📄 MER Fase 3](fase3/01_MER_Fase3.md) | [📄 DER Fase 3](fase3/02_DER_Fase3.md) | [🔄 vs Fase 4](comparaciones/04_Fase3_vs_Fase4.md)      |
-| Fase 4 | ⚠️ Usar Fase 3                         | ⚠️ Usar Fase 3                         | [🔄 Optimizaciones](comparaciones/04_Fase3_vs_Fase4.md) |
+| Fase   | MER (Conceptual)                                                        | DER (Lógico)                           | Comparación                                             |
+| ------ | ----------------------------------------------------------------------- | -------------------------------------- | ------------------------------------------------------- |
+| Fase 0 | [📄 MER Fase 0](fase0/01_MER_Fase0.md)                                  | [📄 DER Fase 0](fase0/02_DER_Fase0.md) | [🔄 vs Fase 1](comparaciones/01_Fase0_vs_Fase1.md)      |
+| Fase 1 | [📄 MER Fase 1](fase1/01_MER_Fase1.md)                                  | [📄 DER Fase 1](fase1/02_DER_Fase1.md) | [🔄 vs Fase 2](comparaciones/02_Fase1_vs_Fase2.md)      |
+| Fase 2 | [📄 MER Fase 2](fase2/01_MER_Fase2.md)                                  | [📄 DER Fase 2](fase2/02_DER_Fase2.md) | [🔄 vs Fase 3](comparaciones/03_Fase2_vs_Fase3.md)      |
+| Fase 3 | [📄 MER Fase 3](fase3/01_MER_Fase3.md)                                  | [📄 DER Fase 3](fase3/02_DER_Fase3.md) | [🔄 vs Fase 4](comparaciones/04_Fase3_vs_Fase4.md)      |
+| Fase 4 | ⚠️ Usar Fase 3                                                          | ⚠️ Usar Fase 3                         | [🔄 Optimizaciones](comparaciones/04_Fase3_vs_Fase4.md) |
+| Fase 4 | [📊 Vistas y Procedimientos](fase4/01_Vistas_y_Procedimientos_Fase4.md) | -                                      | -                                                       |
 
 ### Acceso Rápido por Tipo
 
@@ -210,9 +211,22 @@ Esta carpeta contiene todos los diagramas que documentan la evolución de la bas
 │   └── images/                        # Exportaciones PNG/SVG (futuro)
 │       └── .gitkeep
 │
+├── fase3/                             # Fase 3: Tercera Forma Normal (3NF)
+│   ├── 01_MER_Fase3.md                # Modelo conceptual
+│   ├── 02_DER_Fase3.md                # Modelo lógico
+│   └── images/                        # Exportaciones PNG/SVG (futuro)
+│       └── .gitkeep
+│
+├── fase4/                             # Fase 4: Optimización (sin cambios estructurales)
+│   ├── 01_Vistas_y_Procedimientos_Fase4.md  # Vistas, procedimientos y triggers
+│   └── images/                        # Exportaciones PNG/SVG (futuro)
+│       └── .gitkeep
+│
 └── comparaciones/                     # Comparaciones entre fases
     ├── 01_Fase0_vs_Fase1.md           # Evolución Pre-norm → 1NF
     ├── 02_Fase1_vs_Fase2.md           # Evolución 1NF → 2NF
+    ├── 03_Fase2_vs_Fase3.md           # Evolución 2NF → 3NF
+    ├── 04_Fase3_vs_Fase4.md           # Optimización (sin cambios estructurales)
     └── images/                        # Exportaciones PNG/SVG (futuro)
         └── .gitkeep
 ```

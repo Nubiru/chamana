@@ -229,11 +229,11 @@ export class PostgresOrderRepository implements OrderRepository {
       Number.parseFloat(String(row.descuento || 0)),
       Number.parseFloat(String(row.total)),
       String(row.estado) as OrderStatus,
-      row.notas ? String(row.notas) : undefined,
-      row.fecha_pedido ? new Date(row.fecha_pedido as string) : new Date(),
+      new Date(String(row.fecha_pedido)),
       new Date(), // updatedAt - we'll use current time as fallback
-      row.fecha_completado ? new Date(row.fecha_completado as string) : undefined,
-      row.fecha_cancelado ? new Date(row.fecha_cancelado as string) : undefined
+      row.notas ? String(row.notas) : undefined,
+      row.fecha_completado ? new Date(String(row.fecha_completado)) : undefined,
+      row.fecha_cancelado ? new Date(String(row.fecha_cancelado)) : undefined
     );
   }
 }

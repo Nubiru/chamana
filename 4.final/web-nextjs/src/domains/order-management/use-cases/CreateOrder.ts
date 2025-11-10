@@ -44,9 +44,9 @@ export class CreateOrder {
       discount,
       total,
       'pendiente',
-      request.notes,
       new Date(),
-      new Date()
+      new Date(),
+      request.notes
     );
 
     // Save to repository

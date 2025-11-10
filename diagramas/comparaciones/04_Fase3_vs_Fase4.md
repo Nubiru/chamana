@@ -12,6 +12,27 @@
 
 ---
 
+## 📊 Datos Completos de Fase 4
+
+| Métrica | Fase 3 | Fase 4 | Notas |
+|---------|--------|--------|-------|
+| **Tablas** | 19 | 19 | ✅ Sin cambios estructurales |
+| **Llaves Foráneas** | 24 | 24 | ✅ Mismas relaciones |
+| **Vistas** | 5 | 5 + 5 opt + 4 MV | ⚡ 5 originales + 5 optimizadas + 4 materializadas |
+| **Procedimientos** | 3 | 3 | ✅ Sin cambios |
+| **Triggers** | 3 | 3 | ✅ Sin cambios |
+| **Filas de Datos** | ~1,200 | ~1,200 | ✅ Mismos datos (sin migración) |
+| **Consultas SQL** | Procedimientos | Vistas Materializadas | ⚡ Optimización avanzada |
+| **Normalización** | 3NF | 3NF | ✅ Mantiene 3NF completa |
+| **Redundancia** | 0% | 0% | ✅ Sin redundancia |
+| **Integridad** | Si | Si | ✅ Integridad referencial completa |
+
+**Leyenda**:
+- ✅ = Sin cambios
+- ⚡ = Optimización agregada
+
+---
+
 ## Tabla de Comparación
 
 | Criterio                  | Fase 3 (3NF)            | Fase 4 (Optimización)    | Mejora                        |
@@ -277,12 +298,28 @@ Fase 4 demuestra que se puede mejorar significativamente el rendimiento **sin mo
 
 ---
 
+## 📊 Visualización de Vistas y Procedimientos
+
+Para ver la arquitectura completa de vistas, procedimientos y triggers, consulta:
+
+- 📄 [Vistas y Procedimientos Fase 4](../fase4/01_Vistas_y_Procedimientos_Fase4.md)
+
+Este documento incluye:
+- Diagrama Mermaid de la arquitectura completa
+- Catálogo detallado de todas las vistas
+- Documentación de procedimientos almacenados
+- Descripción de triggers automáticos
+- Comparación de performance antes/después
+
+---
+
 ## 📝 Referencias
 
 - [Fase 3 Diagramas](../fase3/)
   - [MER Fase 3](../fase3/01_MER_Fase3.md)
   - [DER Fase 3](../fase3/02_DER_Fase3.md)
   - [ERD Fase 3](../fase3/03_ERD_Fase3.md)
+- [Vistas y Procedimientos Fase 4](../fase4/01_Vistas_y_Procedimientos_Fase4.md) ⭐ NUEVO
 - [Scripts de Optimización](../../4.final/database/scripts/README.md)
 - [PostgreSQL Indexes Documentation](https://www.postgresql.org/docs/current/indexes.html)
 - [Materialized Views Guide](https://www.postgresql.org/docs/current/sql-creatematerializedview.html)
