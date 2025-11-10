@@ -1,0 +1,18 @@
+{
+  "name": "chamana-phase4-database-scripts",
+  "version": "1.0.0",
+  "description": "Phase 4 database migration scripts for CHAMANA e-commerce",
+  "private": true,
+  "scripts": {
+    "migrate": "node 11_add_indexes.js && node 12_optimize_views.js && node 13_materialized_views.js && node 14_create_users_auth.js && node 15_additional_views.js",
+    "11": "node 11_add_indexes.js",
+    "12": "node 12_optimize_views.js",
+    "13": "node 13_materialized_views.js",
+    "14": "node 14_create_users_auth.js",
+    "15": "node 15_additional_views.js"
+  },
+  "dependencies": {
+    "pg": "^8.11.3",
+    "bcrypt": "^5.1.1"
+  }
+}
