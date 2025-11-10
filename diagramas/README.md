@@ -43,11 +43,13 @@ Esta carpeta contiene todos los diagramas que documentan la evolución de la bas
 
 ### Diagramas por Fase
 
-| Fase   | MER (Conceptual)                       | DER (Lógico)                           | Comparación                                          |
-| ------ | -------------------------------------- | -------------------------------------- | ---------------------------------------------------- |
-| Fase 0 | [📄 MER Fase 0](fase0/01_MER_Fase0.md) | [📄 DER Fase 0](fase0/02_DER_Fase0.md) | [🔄 vs Fase 1](comparaciones/01_Fase0_vs_Fase1.md)   |
-| Fase 1 | [📄 MER Fase 1](fase1/01_MER_Fase1.md) | [📄 DER Fase 1](fase1/02_DER_Fase1.md) | [🔄 vs Fase 2](comparaciones/02_Fase1_vs_Fase2.md)   |
-| Fase 2 | [📄 MER Fase 2](fase2/01_MER_Fase2.md) | [📄 DER Fase 2](fase2/02_DER_Fase2.md) | [🔄 Comparación](comparaciones/02_Fase1_vs_Fase2.md) |
+| Fase   | MER (Conceptual)                       | DER (Lógico)                           | Comparación                                             |
+| ------ | -------------------------------------- | -------------------------------------- | ------------------------------------------------------- |
+| Fase 0 | [📄 MER Fase 0](fase0/01_MER_Fase0.md) | [📄 DER Fase 0](fase0/02_DER_Fase0.md) | [🔄 vs Fase 1](comparaciones/01_Fase0_vs_Fase1.md)      |
+| Fase 1 | [📄 MER Fase 1](fase1/01_MER_Fase1.md) | [📄 DER Fase 1](fase1/02_DER_Fase1.md) | [🔄 vs Fase 2](comparaciones/02_Fase1_vs_Fase2.md)      |
+| Fase 2 | [📄 MER Fase 2](fase2/01_MER_Fase2.md) | [📄 DER Fase 2](fase2/02_DER_Fase2.md) | [🔄 vs Fase 3](comparaciones/03_Fase2_vs_Fase3.md)      |
+| Fase 3 | [📄 MER Fase 3](fase3/01_MER_Fase3.md) | [📄 DER Fase 3](fase3/02_DER_Fase3.md) | [🔄 vs Fase 4](comparaciones/04_Fase3_vs_Fase4.md)      |
+| Fase 4 | ⚠️ Usar Fase 3                         | ⚠️ Usar Fase 3                         | [🔄 Optimizaciones](comparaciones/04_Fase3_vs_Fase4.md) |
 
 ### Acceso Rápido por Tipo
 
@@ -56,17 +58,23 @@ Esta carpeta contiene todos los diagramas que documentan la evolución de la bas
 - [Fase 0: Pre-normalizado](fase0/01_MER_Fase0.md)
 - [Fase 1: Primera Forma Normal (1NF)](fase1/01_MER_Fase1.md)
 - [Fase 2: Segunda Forma Normal (2NF)](fase2/01_MER_Fase2.md)
+- [Fase 3: Tercera Forma Normal (3NF)](fase3/01_MER_Fase3.md)
+- [Fase 4: ⚠️ Usar Fase 3 (sin cambios estructurales)](fase3/01_MER_Fase3.md)
 
 **Diagramas Lógicos (DER)**:
 
 - [Fase 0: Especificación Técnica Base](fase0/02_DER_Fase0.md)
 - [Fase 1: Especificación Técnica 1NF](fase1/02_DER_Fase1.md)
 - [Fase 2: Especificación Técnica 2NF](fase2/02_DER_Fase2.md)
+- [Fase 3: Especificación Técnica 3NF](fase3/02_DER_Fase3.md)
+- [Fase 4: ⚠️ Usar Fase 3 (sin cambios estructurales)](fase3/02_DER_Fase3.md)
 
 **Comparaciones**:
 
 - [Fase 0 vs Fase 1: Normalización a 1NF](comparaciones/01_Fase0_vs_Fase1.md)
 - [Fase 1 vs Fase 2: Normalización a 2NF](comparaciones/02_Fase1_vs_Fase2.md)
+- [Fase 2 vs Fase 3: Normalización a 3NF](comparaciones/03_Fase2_vs_Fase3.md)
+- [Fase 3 vs Fase 4: Optimización (sin cambios estructurales)](comparaciones/04_Fase3_vs_Fase4.md)
 
 ---
 
@@ -143,6 +151,38 @@ Esta carpeta contiene todos los diagramas que documentan la evolución de la bas
 - ✅ Junction tables correctas (`pedidos_prendas`, `telas_temporadas`)
 - ✅ Gestión de inventario automática
 - ✅ Auditoría de stock
+
+---
+
+### Fase 3: Tercera Forma Normal (3NF)
+
+- **19 tablas** (+7 nuevas)
+- **24 relaciones** (+9)
+- **3NF completa** (sin dependencias transitivas)
+
+**Mejoras**:
+
+- ✅ Direcciones normalizadas (múltiples por cliente)
+- ✅ Estados de pedido normalizados (workflow)
+- ✅ Tipos de prenda normalizados (catálogo)
+- ✅ 5 vistas de Business Intelligence
+- ✅ 3 procedimientos almacenados
+- ✅ 3 triggers automáticos
+
+---
+
+### Fase 4: Optimización (Sin Cambios Estructurales)
+
+- **19 tablas** (sin cambios)
+- **24 relaciones** (sin cambios)
+- **3NF mantenida** (estructura idéntica)
+
+**Optimizaciones**:
+
+- ✅ 23 nuevos índices (performance 50%+ mejor)
+- ✅ 5 vistas optimizadas (queries más rápidas)
+- ✅ 4 vistas materializadas (reportes instantáneos)
+- ⚠️ **Diagramas**: Usar Fase 3 (estructura idéntica)
 
 ---
 
@@ -236,14 +276,22 @@ comparaciones/images/
 
 ## 📊 Estadísticas de Diagramas
 
-| Métrica                | Fase 0 | Fase 1 | Fase 2 |
-| ---------------------- | ------ | ------ | ------ |
-| **Tablas**             | 3      | 9      | 12     |
-| **Entidades en MER**   | 3      | 9      | 12     |
-| **Relaciones**         | 1      | 8      | 15     |
-| **Junction Tables**    | 0      | 0      | 2      |
-| **Columnas Generadas** | 0      | 0      | 1      |
-| **Foreign Keys**       | 1      | 6      | 14     |
+| Métrica                   | Fase 0 | Fase 1 | Fase 2 | Fase 3 | Fase 4   |
+| ------------------------- | ------ | ------ | ------ | ------ | -------- |
+| **Tablas**                | 3      | 9      | 12     | 19     | 19 ⚠️    |
+| **Entidades en MER**      | 3      | 9      | 12     | 19     | 19 ⚠️    |
+| **Relaciones**            | 1      | 8      | 15     | 24     | 24 ⚠️    |
+| **Junction Tables**       | 0      | 0      | 2      | 2      | 2 ⚠️     |
+| **Columnas Generadas**    | 0      | 0      | 1      | 1      | 1 ⚠️     |
+| **Foreign Keys**          | 1      | 6      | 14     | 24     | 24 ⚠️    |
+| **Vistas**                | 0      | 0      | 0      | 5      | 5 + 5 ⚡ |
+| **Vistas Materializadas** | 0      | 0      | 0      | 0      | 4 ⚡     |
+| **Índices**               | ~3     | ~9     | ~14    | ~14    | ~37 ⚡   |
+| **Procedures**            | 0      | 0      | 0      | 3      | 3 ⚠️     |
+| **Triggers**              | 0      | 0      | 0      | 3      | 3 ⚠️     |
+
+⚠️ = Sin cambios estructurales (usa diagramas de Fase 3)  
+⚡ = Optimizaciones de performance
 
 ---
 
@@ -268,6 +316,7 @@ Estos diagramas demuestran:
 
 ---
 
-**Última Actualización**: 23 de Octubre, 2025  
-**Total de Diagramas**: 8 archivos (6 diagramas principales + 2 comparaciones)  
+**Última Actualización**: Noviembre 2025  
+**Total de Diagramas**: 12 archivos (9 diagramas principales + 3 comparaciones)  
+**Nota Fase 4**: Los diagramas MER/DER/ERD de Fase 3 son válidos para Fase 4 (sin cambios estructurales)  
 **Herramientas**: Mermaid.js, PostgreSQL, VS Code
