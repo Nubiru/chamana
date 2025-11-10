@@ -16,22 +16,23 @@ const DB_CONFIGS = {
     host: 'localhost',
     database: 'chamana_db_fase2',
     password: 'postgres',
-    port: 5432,
+    port: 5432
   },
   fase3: {
     user: 'postgres',
-    host: 'localhost',
-    database: 'chamana_db_fase3',
-    password: 'postgres',
-    port: 5432,
+    host: 'aws-0-us-east-1.pooler.supabase.com', // Your pooler host
+    database: 'postgres',
+    password: 'XLnT9b6_fdYe#XL', // Your actual password
+    port: 6543, // Pooler port
+    ssl: { rejectUnauthorized: false } // Add SSL
   },
   postgres: {
     user: 'postgres',
     host: 'localhost',
     database: 'postgres', // For administrative tasks (create/drop databases)
     password: 'postgres',
-    port: 5432,
-  },
+    port: 5432
+  }
 };
 
 /**
@@ -41,7 +42,9 @@ const DB_CONFIGS = {
  */
 function createPool(dbName = 'fase3') {
   if (!DB_CONFIGS[dbName]) {
-    throw new Error(`Invalid database name: ${dbName}. Must be 'fase2', 'fase3', or 'postgres'.`);
+    throw new Error(
+      `Invalid database name: ${dbName}. Must be 'fase2', 'fase3', or 'postgres'.`
+    );
   }
 
   return new Pool(DB_CONFIGS[dbName]);
@@ -104,5 +107,5 @@ module.exports = {
   logError,
   logSuccess,
   executeQuery,
-  DB_CONFIGS,
+  DB_CONFIGS
 };

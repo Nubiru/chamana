@@ -4,6 +4,10 @@ import { EmptyState } from '@/components/empty-state';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getInventarioCritico, getTopProductos, getVentasMensuales } from '@/lib/db/views';
 
+// Force dynamic rendering - no caching
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function DashboardPage() {
   // Fetch data from database views
   const [ventas, inventario, topProductos] = await Promise.all([
