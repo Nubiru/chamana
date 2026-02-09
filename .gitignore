@@ -1,15 +1,37 @@
 # Dependencies
 node_modules/
 package-lock.json
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
-# Agent Observability Metrics (session-specific)
-.context/2.development/metrics/agent_metrics_*.json
-.context/2.development/metrics/agent_summary.json
+# Testing
+/coverage
+/.jest-cache
+.nyc_output
 
-# Generated dashboards
-.dashboard/
+# Next.js
+/.next/
+/out/
 
-# Logs
+# Production build
+/build
+dist/
+
+# Misc
+.DS_Store
+Thumbs.db
+*.pem
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 *.log
 logs/
 
@@ -19,14 +41,17 @@ pids
 *.seed
 *.pid.lock
 
-# Coverage
-coverage/
-.nyc_output
-
 # Environment variables
 .env
 .env.local
-.env.*.local
+.env.*
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
 
 # Editor directories
 .vscode/
@@ -35,24 +60,18 @@ coverage/
 *.swo
 *~
 
-# OS files
-.DS_Store
-Thumbs.db
-
-#
+# Project tooling
 .human/
 .claude/
 .context/
 .cursor/
 .snapshots/
-gabriel_osemberg_trabajo_final_db_chamana/
+.dashboard/
+.dev/
+.archive/
 
 # Biome
 .biome/
-
-# Build
-dist/
-build/
 
 # Temporary
 *.tmp
@@ -64,3 +83,6 @@ build/
 *.db
 *.sqlite
 *.sqlite3
+
+# Old university project artifacts
+gabriel_osemberg_trabajo_final_db_chamana/

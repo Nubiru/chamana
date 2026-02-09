@@ -1,9 +1,0 @@
-.next/
-node_modules/
-coverage/
-.jest-cache/
-dist/
-build/
-*.log
-.DS_Store
-
