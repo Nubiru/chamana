@@ -24,6 +24,8 @@ export function AddToCartButton({ model, variante }: AddToCartButtonProps) {
       varianteId: variante.id,
       tela1Desc: telaDescripcion(variante.tela1),
       tela2Desc: variante.tela2 ? telaDescripcion(variante.tela2) : undefined,
+      precio: variante.precio,
+      modelImageUrl: model.imagenes?.[0],
     });
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);

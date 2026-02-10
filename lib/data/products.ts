@@ -1,9 +1,11 @@
+import { formatPrice } from '@/lib/utils';
 import { TELAS, type Tela } from './fabrics';
 
 export interface Variante {
   id: string;
   tela1: Tela;
   tela2?: Tela;
+  precio?: number;
 }
 
 export interface ChamanaModel {
@@ -16,11 +18,12 @@ export interface ChamanaModel {
   imagenes?: string[];
 }
 
-function v(id: string, tela1Key: string, tela2Key?: string): Variante {
+function v(id: string, tela1Key: string, tela2Key?: string, precio?: number): Variante {
   return {
     id,
     tela1: TELAS[tela1Key],
     ...(tela2Key ? { tela2: TELAS[tela2Key] } : {}),
+    ...(precio != null ? { precio } : {}),
   };
 }
 
@@ -259,4 +262,22 @@ export function getModelsByTipo(tipo: string): ChamanaModel[] {
 
 export function getAllProductImages(): { src: string; model: ChamanaModel }[] {
   return MODELOS.flatMap((model) => (model.imagenes ?? []).map((src) => ({ src, model })));
+}
+
+export function getModelMinPrice(model: ChamanaModel): number | undefined {
+  const prices = model.variantes.map((v) => v.precio).filter((p): p is number => p != null);
+  return prices.length > 0 ? Math.min(...prices) : undefined;
+}
+
+export function getModelMaxPrice(model: ChamanaModel): number | undefined {
+  const prices = model.variantes.map((v) => v.precio).filter((p): p is number => p != null);
+  return prices.length > 0 ? Math.max(...prices) : undefined;
+}
+
+export function getModelPriceDisplay(model: ChamanaModel): string {
+  const min = getModelMinPrice(model);
+  const max = getModelMaxPrice(model);
+  if (min == null) return 'Consultar precio';
+  if (min === max) return formatPrice(min);
+  return `Desde ${formatPrice(min)}`;
 }

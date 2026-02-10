@@ -2,6 +2,7 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import type { ChamanaModel } from '@/lib/data/products';
+import { getModelPriceDisplay } from '@/lib/data/products';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -84,6 +85,11 @@ export function ProductCard({ model }: { model: ChamanaModel }) {
             {model.tipo}
             {model.detalle ? ` · ${model.detalle}` : ''}
           </p>
+          {model.variantes.length > 0 && (
+            <p className="text-sm font-semibold text-foreground mt-1">
+              {getModelPriceDisplay(model)}
+            </p>
+          )}
         </CardContent>
       </Link>
     </Card>

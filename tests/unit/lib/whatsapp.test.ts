@@ -89,6 +89,77 @@ describe('generateSingleProductUrl', () => {
   });
 });
 
+describe('generateWhatsAppUrl with prices', () => {
+  it('includes prices and total when all items have prices', () => {
+    const items: CartItem[] = [
+      {
+        modelSlug: 'hechizo',
+        modelNombre: 'Hechizo',
+        modelTipo: 'Falda',
+        varianteId: 'hechizo-linmenchoc',
+        tela1Desc: 'Lino Men Chocolate',
+        precio: 25000,
+        quantity: 1,
+      },
+      {
+        modelSlug: 'sabia',
+        modelNombre: 'Sabia',
+        modelTipo: 'Remeron',
+        varianteId: 'sabia-tejnegro',
+        tela1Desc: 'Tejido Formentera Negro',
+        precio: 30000,
+        quantity: 2,
+      },
+    ];
+
+    const url = generateWhatsAppUrl(items);
+    expect(url).toContain('25.000');
+    expect(url).toContain('x2');
+    expect(url).toContain('Total');
+    expect(url).toContain('85.000');
+    expect(url).not.toContain('precios');
+  });
+
+  it('omits total when some items lack price', () => {
+    const items: CartItem[] = [
+      {
+        modelSlug: 'hechizo',
+        modelNombre: 'Hechizo',
+        modelTipo: 'Falda',
+        varianteId: 'hechizo-linmenchoc',
+        tela1Desc: 'Lino Men Chocolate',
+        precio: 25000,
+        quantity: 1,
+      },
+      {
+        modelSlug: 'sabia',
+        modelNombre: 'Sabia',
+        modelTipo: 'Remeron',
+        varianteId: 'sabia-tejnegro',
+        tela1Desc: 'Tejido Formentera Negro',
+        quantity: 1,
+      },
+    ];
+
+    const url = generateWhatsAppUrl(items);
+    expect(url).not.toContain('Total');
+    expect(url).toContain('precios');
+  });
+});
+
+describe('generateSingleProductUrl with price', () => {
+  it('includes price when provided', () => {
+    const url = generateSingleProductUrl('Hechizo', 'Falda', 'Lino Men Chocolate', undefined, 25000);
+    expect(url).toContain('25.000');
+    expect(url).not.toContain('precio!');
+  });
+
+  it('asks for price when not provided', () => {
+    const url = generateSingleProductUrl('Hechizo', 'Falda', 'Lino Men Chocolate');
+    expect(url).toContain('precio');
+  });
+});
+
 describe('generateGeneralWhatsAppUrl', () => {
   it('generates general contact URL', () => {
     const url = generateGeneralWhatsAppUrl();

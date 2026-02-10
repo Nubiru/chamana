@@ -30,10 +30,20 @@ export const metadata: Metadata = {
   title: 'CHAMANA - Ropa Femenina Artesanal | Coleccion Magia',
   description:
     'Ropa femenina artesanal inspirada en la naturaleza. Faldas, vestidos, kimonos, tops y más. Diseñada para la libertad de movimiento y la conexión con tu esencia.',
+  metadataBase: new URL('https://chamana-ashy.vercel.app'),
   openGraph: {
     title: 'CHAMANA - Coleccion Magia',
     description: 'Ropa femenina artesanal inspirada en la naturaleza.',
     type: 'website',
+    url: 'https://chamana-ashy.vercel.app',
+    images: [
+      {
+        url: '/images/brand/logo-dark.png',
+        width: 600,
+        height: 600,
+        alt: 'CHAMANA - Coleccion Magia',
+      },
+    ],
   },
 };
 

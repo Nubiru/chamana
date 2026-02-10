@@ -3,7 +3,9 @@
 import { Button } from '@/components/ui/button';
 import type { CartItem as CartItemType } from '@/lib/stores/cart-store';
 import { useCartStore } from '@/lib/stores/cart-store';
+import { formatPrice } from '@/lib/utils';
 import { Trash2 } from 'lucide-react';
+import Image from 'next/image';
 
 interface CartItemProps {
   item: CartItemType;
@@ -16,9 +18,19 @@ export function CartItem({ item }: CartItemProps) {
 
   return (
     <div className="flex items-center gap-4 py-4 border-b">
-      {/* Placeholder Image */}
-      <div className="w-16 h-20 bg-gradient-to-br from-secondary/30 to-muted/50 rounded-md flex items-center justify-center shrink-0">
-        <span className="text-xl font-titles text-primary/20">{item.modelNombre.charAt(0)}</span>
+      {/* Product Image */}
+      <div className="w-16 h-20 bg-gradient-to-br from-secondary/30 to-muted/50 rounded-md flex items-center justify-center shrink-0 relative overflow-hidden">
+        {item.modelImageUrl ? (
+          <Image
+            src={item.modelImageUrl}
+            alt={item.modelNombre}
+            fill
+            sizes="64px"
+            className="object-cover"
+          />
+        ) : (
+          <span className="text-xl font-titles text-primary/20">{item.modelNombre.charAt(0)}</span>
+        )}
       </div>
 
       {/* Product Info */}
@@ -26,6 +38,19 @@ export function CartItem({ item }: CartItemProps) {
         <h3 className="font-medium text-foreground text-sm">{item.modelNombre}</h3>
         <p className="text-xs text-muted-foreground">{item.modelTipo}</p>
         <p className="text-xs text-muted-foreground/70 mt-0.5">{telaInfo}</p>
+        <div className="flex items-center gap-2 mt-1">
+          {item.precio != null && (
+            <span className="text-sm font-semibold text-foreground">
+              {formatPrice(item.precio)}
+              {item.quantity > 1 && (
+                <span className="text-xs font-normal text-muted-foreground"> x{item.quantity} = {formatPrice(item.precio * item.quantity)}</span>
+              )}
+            </span>
+          )}
+          {item.quantity > 1 && item.precio == null && (
+            <span className="text-xs text-muted-foreground">x{item.quantity}</span>
+          )}
+        </div>
       </div>
 
       {/* Remove */}

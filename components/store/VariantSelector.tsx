@@ -2,7 +2,7 @@
 
 import { telaDescripcion } from '@/lib/data/fabrics';
 import type { Variante } from '@/lib/data/products';
-import { cn } from '@/lib/utils';
+import { cn, formatPrice } from '@/lib/utils';
 
 interface VariantSelectorProps {
   variantes: Variante[];
@@ -13,12 +13,17 @@ interface VariantSelectorProps {
 export function VariantSelector({ variantes, selected, onSelect }: VariantSelectorProps) {
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-medium text-muted-foreground">
-        Variante: <span className="text-foreground">{telaDescripcion(selected.tela1)}</span>
-        {selected.tela2 && (
-          <span className="text-foreground"> / {telaDescripcion(selected.tela2)}</span>
+      <div className="flex items-baseline justify-between gap-2">
+        <h3 className="text-sm font-medium text-muted-foreground">
+          Variante: <span className="text-foreground">{telaDescripcion(selected.tela1)}</span>
+          {selected.tela2 && (
+            <span className="text-foreground"> / {telaDescripcion(selected.tela2)}</span>
+          )}
+        </h3>
+        {selected.precio != null && (
+          <span className="text-lg font-semibold text-foreground">{formatPrice(selected.precio)}</span>
         )}
-      </h3>
+      </div>
 
       <div className="flex flex-wrap gap-2">
         {variantes.map((v) => {

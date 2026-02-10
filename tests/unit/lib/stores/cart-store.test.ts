@@ -94,3 +94,43 @@ describe('cart store', () => {
     expect(useCartStore.getState().getItemCount()).toBe(3);
   });
 });
+
+describe('getTotal', () => {
+  it('returns 0 for empty cart', () => {
+    expect(useCartStore.getState().getTotal()).toBe(0);
+  });
+
+  it('returns null when any item lacks price', () => {
+    act(() => {
+      useCartStore.getState().addItem(sampleItem);
+    });
+    expect(useCartStore.getState().getTotal()).toBeNull();
+  });
+
+  it('returns total when all items have prices', () => {
+    act(() => {
+      useCartStore.getState().addItem({ ...sampleItem, precio: 25000 });
+    });
+    expect(useCartStore.getState().getTotal()).toBe(25000);
+  });
+
+  it('multiplies price by quantity', () => {
+    act(() => {
+      useCartStore.getState().addItem({ ...sampleItem, precio: 25000 });
+      useCartStore.getState().addItem({ ...sampleItem, precio: 25000 });
+    });
+    expect(useCartStore.getState().getTotal()).toBe(50000);
+  });
+
+  it('returns null when mixed priced and unpriced items', () => {
+    act(() => {
+      useCartStore.getState().addItem({ ...sampleItem, precio: 25000 });
+      useCartStore.getState().addItem({
+        ...sampleItem,
+        varianteId: 'hechizo-linmarcho',
+        tela1Desc: 'Lino Marruecos Chocolate',
+      });
+    });
+    expect(useCartStore.getState().getTotal()).toBeNull();
+  });
+});

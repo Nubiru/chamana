@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { telaDescripcion } from '@/lib/data/fabrics';
 import { MODELOS, getModelBySlug } from '@/lib/data/products';
 import type { Variante } from '@/lib/data/products';
+import { formatPrice } from '@/lib/utils';
 import { generateSingleProductUrl } from '@/lib/whatsapp';
 import { ArrowLeft, MessageCircle, Sparkles } from 'lucide-react';
 import Image from 'next/image';
@@ -54,7 +55,8 @@ export default function ProductoPage() {
         model.nombre,
         model.tipo,
         telaDescripcion(selectedVariante.tela1),
-        selectedVariante.tela2 ? telaDescripcion(selectedVariante.tela2) : undefined
+        selectedVariante.tela2 ? telaDescripcion(selectedVariante.tela2) : undefined,
+        selectedVariante.precio
       )
     : generateSingleProductUrl(model.nombre, model.tipo, 'Proximamente');
 
@@ -129,7 +131,14 @@ export default function ProductoPage() {
 
           <h1 className="text-3xl md:text-4xl font-bold font-titles mb-4">{model.nombre}</h1>
 
-          <p className="text-sm text-muted-foreground leading-relaxed mb-8">{model.descripcion}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed mb-4">{model.descripcion}</p>
+
+          {/* Price */}
+          {!isProximamente && selectedVariante && (
+            <p className="text-2xl font-semibold text-foreground mb-6">
+              {formatPrice(selectedVariante.precio)}
+            </p>
+          )}
 
           {isProximamente ? (
             <div className="mb-8 py-4 px-5 rounded-lg bg-muted/30 border border-border/30 text-center">
