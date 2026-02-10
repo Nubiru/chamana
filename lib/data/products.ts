@@ -6,6 +6,7 @@ export interface Variante {
   tela1: Tela;
   tela2?: Tela;
   precio?: number;
+  sinStock?: boolean;
 }
 
 export interface ChamanaModel {
@@ -27,6 +28,10 @@ function v(id: string, tela1Key: string, tela2Key?: string, precio?: number): Va
   };
 }
 
+function vSinStock(id: string, tela1Key: string, tela2Key?: string): Variante {
+  return { ...v(id, tela1Key, tela2Key), sinStock: true };
+}
+
 export const MODELOS: ChamanaModel[] = [
   {
     slug: 'hechizo',
@@ -35,10 +40,10 @@ export const MODELOS: ChamanaModel[] = [
     descripcion:
       'Falda que fluye con cada paso, como un hechizo tejido en tela. Su caida natural acompana el movimiento del cuerpo con gracia y soltura.',
     variantes: [
-      v('hechizo-linmenchoc', 'LinMenChoc'),
-      v('hechizo-linmarcho', 'LinMarCho'),
-      v('hechizo-linmarmalv', 'LinMarMalv'),
-      v('hechizo-linatenneg', 'LinAtenNeg'),
+      vSinStock('hechizo-linmenchoc', 'LinMenChoc'),
+      vSinStock('hechizo-linmarcho', 'LinMarCho'),
+      v('hechizo-linmarmalv', 'LinMarMalv', undefined, 32000),
+      v('hechizo-linatenneg', 'LinAtenNeg', undefined, 32000),
     ],
   },
   {
@@ -60,11 +65,11 @@ export const MODELOS: ChamanaModel[] = [
       '/images/models/intuicion/intuicion-2.webp',
     ],
     variantes: [
-      v('intuicion-ribmarino', 'RibMarino'),
-      v('intuicion-linmengris', 'LinMenGris'),
-      v('intuicion-fibceleste', 'FibCeleste'),
-      v('intuicion-tejmalva', 'TejMalva'),
-      v('intuicion-linmarneg', 'LinMarNeg'),
+      v('intuicion-ribmarino', 'RibMarino', undefined, 42000),
+      vSinStock('intuicion-linmengris', 'LinMenGris'),
+      vSinStock('intuicion-fibceleste', 'FibCeleste'),
+      vSinStock('intuicion-tejmalva', 'TejMalva'),
+      v('intuicion-linmarneg', 'LinMarNeg', undefined, 32000),
     ],
   },
   {
@@ -80,17 +85,17 @@ export const MODELOS: ChamanaModel[] = [
       '/images/models/sabia/sabia-3.webp',
     ],
     variantes: [
-      v('sabia-tejnegro', 'TejNegro'),
-      v('sabia-ribnegro', 'RibNegro'),
-      v('sabia-ribmarino', 'RibMarino'),
-      v('sabia-linmengris', 'LinMenGris'),
-      v('sabia-tejmalva', 'TejMalva'),
-      v('sabia-tusnegro', 'TusNegro'),
-      v('sabia-linmarcho', 'LinMarCho'),
-      v('sabia-linmenverde', 'LinMenVerde'),
-      v('sabia-ribmilitar', 'RibMilitar'),
-      v('sabia-linmarcasc', 'LinMarCasc'),
-      v('sabia-linmarmalv', 'LinMarMalv'),
+      v('sabia-tejnegro', 'TejNegro', undefined, 33000),
+      v('sabia-ribnegro', 'RibNegro', undefined, 28000),
+      v('sabia-ribmarino', 'RibMarino', undefined, 28000),
+      v('sabia-linmengris', 'LinMenGris', undefined, 25000),
+      v('sabia-tejmalva', 'TejMalva', undefined, 33000),
+      vSinStock('sabia-tusnegro', 'TusNegro'),
+      v('sabia-linmarcho', 'LinMarCho', undefined, 28000),
+      v('sabia-linmenverde', 'LinMenVerde', undefined, 25000),
+      v('sabia-ribmilitar', 'RibMilitar', undefined, 28000),
+      v('sabia-linmarcasc', 'LinMarCasc', undefined, 25000),
+      v('sabia-linmarmalv', 'LinMarMalv', undefined, 25000),
     ],
   },
   {
@@ -107,11 +112,11 @@ export const MODELOS: ChamanaModel[] = [
       '/images/models/magnetica/magnetica-4.webp',
     ],
     variantes: [
-      v('magnetica-linspanbei', 'LinSpanBei'),
-      v('magnetica-linmengris', 'LinMenGris'),
-      v('magnetica-linmarneg', 'LinMarNeg'),
-      v('magnetica-linmarcasc', 'LinMarCasc'),
-      v('magnetica-tejmalva', 'TejMalva'),
+      vSinStock('magnetica-linspanbei', 'LinSpanBei'),
+      v('magnetica-linmengris', 'LinMenGris', undefined, 22000),
+      vSinStock('magnetica-linmarneg', 'LinMarNeg'),
+      v('magnetica-linmarcasc', 'LinMarCasc', undefined, 22000),
+      v('magnetica-tejmalva', 'TejMalva', undefined, 22000),
     ],
   },
   {
@@ -128,12 +133,12 @@ export const MODELOS: ChamanaModel[] = [
       '/images/models/espejo/espejo-4.webp',
     ],
     variantes: [
-      v('espejo-ribmilitar-tejnegro', 'RibMilitar', 'TejNegro'),
-      v('espejo-ribnegro-ribmarino', 'RibNegro', 'RibMarino'),
-      v('espejo-ribmilitar-ribnegro', 'RibMilitar', 'RibNegro'),
-      v('espejo-ribmilitar-tejmalva', 'RibMilitar', 'TejMalva'),
-      v('espejo-linmarcasc-tejmalva', 'LinMarCasc', 'TejMalva'),
-      v('espejo-linspanbei-linmarcasc', 'LinSpanBei', 'LinMarCasc'),
+      v('espejo-ribmilitar-tejnegro', 'RibMilitar', 'TejNegro', 28000),
+      v('espejo-ribnegro-ribmarino', 'RibNegro', 'RibMarino', 28000),
+      v('espejo-ribmilitar-ribnegro', 'RibMilitar', 'RibNegro', 28000),
+      v('espejo-ribmilitar-tejmalva', 'RibMilitar', 'TejMalva', 28000),
+      v('espejo-linmarcasc-tejmalva', 'LinMarCasc', 'TejMalva', 25000),
+      v('espejo-linspanbei-linmarcasc', 'LinSpanBei', 'LinMarCasc', 25000),
     ],
   },
   {
@@ -144,12 +149,12 @@ export const MODELOS: ChamanaModel[] = [
     descripcion:
       'Top simple que simboliza la esencia de lo artesanal. Una pieza basica con caracter propio, perfecta para el dia a dia.',
     variantes: [
-      v('simbolo-tejnegro', 'TejNegro'),
-      v('simbolo-linmarcasc', 'LinMarCasc'),
-      v('simbolo-ribnegro', 'RibNegro'),
-      v('simbolo-linspancho', 'LinSpanCho'),
-      v('simbolo-ribmilitar', 'RibMilitar'),
-      v('simbolo-ribmarino', 'RibMarino'),
+      v('simbolo-tejnegro', 'TejNegro', undefined, 22000),
+      v('simbolo-linmarcasc', 'LinMarCasc', undefined, 22000),
+      v('simbolo-ribnegro', 'RibNegro', undefined, 18000),
+      v('simbolo-linspancho', 'LinSpanCho', undefined, 18000),
+      v('simbolo-ribmilitar', 'RibMilitar', undefined, 18000),
+      v('simbolo-ribmarino', 'RibMarino', undefined, 18000),
     ],
   },
   {
@@ -161,9 +166,9 @@ export const MODELOS: ChamanaModel[] = [
       'Top reversible que te ofrece dos looks en una sola prenda. Como el reflejo del agua, cada lado revela una nueva perspectiva.',
     imagenes: ['/images/models/reflejo/reflejo-1.webp', '/images/models/reflejo/reflejo-2.webp'],
     variantes: [
-      v('reflejo-linspancho-linspancho', 'LinSpanCho', 'LinSpanCho'),
-      v('reflejo-tejnegro-tusnegro', 'TejNegro', 'TusNegro'),
-      v('reflejo-tejmalva-ribmilitar', 'TejMalva', 'RibMilitar'),
+      v('reflejo-linspancho-linspancho', 'LinSpanCho', 'LinSpanCho', 22000),
+      v('reflejo-tejnegro-tusnegro', 'TejNegro', 'TusNegro', 22000),
+      v('reflejo-tejmalva-ribmilitar', 'TejMalva', 'RibMilitar', 22000),
     ],
   },
   {
@@ -185,10 +190,10 @@ export const MODELOS: ChamanaModel[] = [
       '/images/models/guerrera/guerrera-2.webp',
     ],
     variantes: [
-      v('guerrera-gabaereo', 'GabAereo'),
-      v('guerrera-gabverde', 'GabVerde'),
-      v('guerrera-tusnegro', 'TusNegro'),
-      v('guerrera-tusazul', 'TusAzul'),
+      v('guerrera-gabaereo', 'GabAereo', undefined, 38000),
+      v('guerrera-gabverde', 'GabVerde', undefined, 38000),
+      v('guerrera-tusnegro', 'TusNegro', undefined, 38000),
+      v('guerrera-tusazul', 'TusAzul', undefined, 38000),
     ],
   },
   {
@@ -198,7 +203,10 @@ export const MODELOS: ChamanaModel[] = [
     detalle: 'Bolsillos',
     descripcion:
       'Short con bolsillos que celebra la belleza de lo simple. Comodo, funcional e ideal para los dias calidos.',
-    variantes: [v('simpleza-gagazul', 'GabAzul'), v('simpleza-gabverde', 'GabVerde')],
+    variantes: [
+      v('simpleza-gagazul', 'GabAzul', undefined, 35000),
+      v('simpleza-gabverde', 'GabVerde', undefined, 35000),
+    ],
   },
   {
     slug: 'dejavu',
@@ -209,11 +217,11 @@ export const MODELOS: ChamanaModel[] = [
       'Palazzo con bolsillos que evoca la sensacion de un dejavu. Su amplitud celebra la libertad de movimiento con funcionalidad.',
     imagenes: ['/images/models/dejavu/dejavu-1.webp', '/images/models/dejavu/dejavu-2.webp'],
     variantes: [
-      v('dejavu-gabaereo', 'GabAereo'),
-      v('dejavu-gabmilitar', 'GabMilitar'),
-      v('dejavu-gabneg', 'GabNeg'),
-      v('dejavu-tusmarino', 'TusMarino'),
-      v('dejavu-tusmaiz', 'TusMaiz'),
+      v('dejavu-gabaereo', 'GabAereo', undefined, 35000),
+      v('dejavu-gabmilitar', 'GabMilitar', undefined, 45000),
+      v('dejavu-gabneg', 'GabNeg', undefined, 45000),
+      v('dejavu-tusmarino', 'TusMarino', undefined, 45000),
+      v('dejavu-tusmaiz', 'TusMaiz', undefined, 45000),
     ],
   },
   {
@@ -240,10 +248,10 @@ export const MODELOS: ChamanaModel[] = [
     descripcion:
       'Palazzo capri con un aire mistico y envolvente. Su largo intermedio es perfecto para transitar entre lo casual y lo elegante.',
     variantes: [
-      v('mistica-linmarmalv', 'LinMarMalv'),
-      v('mistica-linatenneg', 'LinAtenNeg'),
-      v('mistica-ribmarino', 'RibMarino'),
-      v('mistica-ribnegro', 'RibNegro'),
+      v('mistica-linmarmalv', 'LinMarMalv', undefined, 38000),
+      v('mistica-linatenneg', 'LinAtenNeg', undefined, 38000),
+      vSinStock('mistica-ribmarino', 'RibMarino'),
+      vSinStock('mistica-ribnegro', 'RibNegro'),
     ],
   },
 ];

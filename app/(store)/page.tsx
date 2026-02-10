@@ -3,7 +3,6 @@ import { HeroCarousel3D } from '@/components/store/HeroCarousel3D';
 import { InfiniteCarousel } from '@/components/store/InfiniteCarousel';
 import { ProductCard } from '@/components/store/ProductCard';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { MODELOS } from '@/lib/data/products';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import Image from 'next/image';
@@ -87,10 +86,27 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* 3D Carousel */}
-          <div className="mt-8 md:mt-10">
-            <HeroCarousel3D />
+        </div>
+
+        {/* Nuestra Esencia */}
+        <div className="py-12 px-6 md:px-8">
+          <div className="max-w-2xl mx-auto text-center space-y-4">
+            <h2 className="text-2xl font-titles">Nuestra Esencia</h2>
+            <p className="text-sm md:text-base leading-relaxed text-foreground/80">
+              Prendas inspiradas en la mujer de hoy. Todas somos mujeres medicina… cuidamos,
+              trabajamos, nos movemos, bailamos, meditamos, nos escuchamos, abrazamos.
+            </p>
+            <p className="text-sm md:text-base leading-relaxed text-foreground/80">
+              Diseñadas para vos en cada momento, confeccionadas en telas de algodón, livianas,
+              versátiles y súper cómodas. Prendas que resaltan nuestra belleza más auténtica y única.
+              Texturas suaves, paletas de colores que siempre están en sintonía con la naturaleza.
+            </p>
           </div>
+        </div>
+
+        {/* 3D Carousel */}
+        <div className="mt-2 md:mt-4 mb-8">
+          <HeroCarousel3D />
         </div>
       </section>
 
@@ -148,9 +164,18 @@ export default function HomePage() {
         {/* Full Collection Grid */}
         <div className="py-12 px-4">
           <div className="container">
-            <h2 className="text-2xl md:text-3xl font-bold font-titles mb-8 text-center">
-              Colección Completa
-            </h2>
+            <div className="text-center mb-10 space-y-3">
+              <h2 className="text-2xl md:text-3xl font-bold font-titles">Colección Completa</h2>
+              <p className="text-xs uppercase tracking-widest text-muted-foreground">
+                Colección &ldquo;Magia&rdquo; &middot; 2026
+              </p>
+              <p className="text-sm md:text-base leading-relaxed text-foreground/70 max-w-2xl mx-auto">
+                Inspirada en los poderes y habilidades de la energía femenina, donde la belleza se
+                encuentra en la autenticidad, la comodidad y la libertad de ser. Prendas
+                confeccionadas con telas livianas, frescas y texturas suaves, en una paleta de
+                colores que nos conecta con la naturaleza.
+              </p>
+            </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
               {MODELOS.map((model) => (
                 <ProductCard key={model.slug} model={model} />
@@ -160,43 +185,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== BG 4: Thread ===== */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 -z-10 overflow-hidden" style={fadeEdges}>
-          <Image
-            src="/images/brand/bg-thread.jpg"
-            alt=""
-            width={1920}
-            height={1920}
-            className="w-full h-auto opacity-15 absolute top-1/2 left-0 -translate-y-1/2"
-            loading="lazy"
-            aria-hidden="true"
-          />
-        </div>
-
-        {/* Brand Story */}
-        <div className="py-16 px-4">
-          <Card className="max-w-3xl mx-auto border-none shadow-none bg-transparent">
-            <CardHeader className="space-y-3 text-center">
-              <CardTitle className="text-2xl font-titles">Nuestra Esencia</CardTitle>
-              <CardDescription className="text-base">
-                Moda atemporal que celebra la naturaleza y el cuerpo femenino
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4 text-sm">
-              <p className="leading-relaxed text-center">
-                CHAMANA nace de la conexión con los cinco elementos: Aire, Agua, Fuego, Tierra y
-                Éter. Cada hilo, cada curva, cada movimiento está inspirado en la fluidez y
-                sensibilidad de la naturaleza.
-              </p>
-              <p className="leading-relaxed text-center">
-                Creemos en la libertad de movimiento, en la calma que viene de estar conectada con
-                tu naturaleza interna, y en la fuerza que surge de la ternura y la templanza.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
     </div>
   );
 }
