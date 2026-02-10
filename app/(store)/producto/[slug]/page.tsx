@@ -9,6 +9,7 @@ import { MODELOS, getModelBySlug } from '@/lib/data/products';
 import type { Variante } from '@/lib/data/products';
 import { generateSingleProductUrl } from '@/lib/whatsapp';
 import { ArrowLeft, MessageCircle, Sparkles } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound, useParams } from 'next/navigation';
 import { useState } from 'react';
@@ -34,7 +35,12 @@ export default function ProductoPage() {
     notFound();
   }
 
-  const [selectedVariante, setSelectedVariante] = useState<Variante>(model.variantes[0]);
+  const isProximamente = model.variantes.length === 0;
+  const modelImages = model.imagenes ?? [];
+  const [selectedVariante, setSelectedVariante] = useState<Variante | undefined>(
+    model.variantes[0]
+  );
+  const [selectedImageIdx, setSelectedImageIdx] = useState(0);
 
   const gradient = MODEL_GRADIENTS[model.tipo] || 'from-gray-50 to-gray-100';
 
@@ -43,12 +49,14 @@ export default function ProductoPage() {
     4
   );
 
-  const whatsappUrl = generateSingleProductUrl(
-    model.nombre,
-    model.tipo,
-    telaDescripcion(selectedVariante.tela1),
-    selectedVariante.tela2 ? telaDescripcion(selectedVariante.tela2) : undefined
-  );
+  const whatsappUrl = selectedVariante
+    ? generateSingleProductUrl(
+        model.nombre,
+        model.tipo,
+        telaDescripcion(selectedVariante.tela1),
+        selectedVariante.tela2 ? telaDescripcion(selectedVariante.tela2) : undefined
+      )
+    : generateSingleProductUrl(model.nombre, model.tipo, 'Proximamente');
 
   return (
     <div className="container py-6 px-4">
@@ -62,15 +70,54 @@ export default function ProductoPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
         {/* Image */}
-        <div
-          className={`aspect-square bg-gradient-to-br ${gradient} rounded-2xl flex items-center justify-center relative overflow-hidden`}
-        >
-          <div className="text-center">
-            <Sparkles className="h-16 w-16 mx-auto text-foreground/10 mb-2" />
-            <span className="text-7xl font-titles text-foreground/10">
-              {model.nombre.charAt(0)}
-            </span>
+        <div className="space-y-3">
+          <div
+            className={`aspect-square bg-gradient-to-br ${gradient} rounded-2xl flex items-center justify-center relative overflow-hidden`}
+          >
+            {modelImages.length > 0 ? (
+              <Image
+                src={modelImages[selectedImageIdx]}
+                alt={`${model.nombre} - Foto ${selectedImageIdx + 1}`}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+                priority
+              />
+            ) : (
+              <div className="text-center">
+                <Sparkles className="h-16 w-16 mx-auto text-foreground/10 mb-2" />
+                <span className="text-7xl font-titles text-foreground/10">
+                  {model.nombre.charAt(0)}
+                </span>
+              </div>
+            )}
           </div>
+
+          {/* Thumbnail row */}
+          {modelImages.length > 1 && (
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {modelImages.map((src, idx) => (
+                <button
+                  key={src}
+                  type="button"
+                  onClick={() => setSelectedImageIdx(idx)}
+                  className={`relative w-16 h-16 rounded-lg overflow-hidden shrink-0 border-2 transition-all ${
+                    idx === selectedImageIdx
+                      ? 'border-primary ring-1 ring-primary'
+                      : 'border-transparent opacity-70 hover:opacity-100'
+                  }`}
+                >
+                  <Image
+                    src={src}
+                    alt={`${model.nombre} - Miniatura ${idx + 1}`}
+                    fill
+                    sizes="64px"
+                    className="object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Info */}
@@ -84,25 +131,40 @@ export default function ProductoPage() {
 
           <p className="text-sm text-muted-foreground leading-relaxed mb-8">{model.descripcion}</p>
 
-          {/* Variant Selector */}
-          <div className="mb-8">
-            <VariantSelector
-              variantes={model.variantes}
-              selected={selectedVariante}
-              onSelect={setSelectedVariante}
-            />
-          </div>
+          {isProximamente ? (
+            <div className="mb-8 py-4 px-5 rounded-lg bg-muted/30 border border-border/30 text-center">
+              <p className="text-sm font-medium text-muted-foreground">Proximamente</p>
+              <p className="text-xs text-muted-foreground/70 mt-1">
+                Este modelo estara disponible pronto
+              </p>
+            </div>
+          ) : (
+            <>
+              {/* Variant Selector */}
+              {selectedVariante && (
+                <div className="mb-8">
+                  <VariantSelector
+                    variantes={model.variantes}
+                    selected={selectedVariante}
+                    onSelect={setSelectedVariante}
+                  />
+                </div>
+              )}
 
-          {/* Actions */}
-          <div className="space-y-3 mt-auto">
-            <AddToCartButton model={model} variante={selectedVariante} />
-            <Button asChild variant="outline" className="w-full gap-2" size="lg">
-              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                <MessageCircle className="h-5 w-5" />
-                Consultar por WhatsApp
-              </a>
-            </Button>
-          </div>
+              {/* Actions */}
+              {selectedVariante && (
+                <div className="space-y-3 mt-auto">
+                  <AddToCartButton model={model} variante={selectedVariante} />
+                  <Button asChild variant="outline" className="w-full gap-2" size="lg">
+                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                      <MessageCircle className="h-5 w-5" />
+                      Consultar por WhatsApp
+                    </a>
+                  </Button>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
 

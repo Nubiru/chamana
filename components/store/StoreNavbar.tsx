@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/lib/stores/cart-store';
 import { generateGeneralWhatsAppUrl } from '@/lib/whatsapp';
 import { Menu, MessageCircle, ShoppingBag, X } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
@@ -22,16 +23,22 @@ export function StoreNavbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center">
-        {/* Logo */}
-        <div className="mr-4 flex">
+      <div className="container flex h-16 items-center">
+        {/* Logo: Green CHAMANA logotype */}
+        <div className="mr-4 flex -ml-1">
           <Link href="/" className="flex items-center">
-            <span className="font-bold font-titles text-xl tracking-wider">CHAMANA</span>
+            <Image
+              src="/images/brand/logotype-green.png"
+              alt="CHAMANA"
+              width={600}
+              height={222}
+              className="h-8 md:h-10 w-auto"
+            />
           </Link>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6 text-sm flex-1">
+        <nav className="hidden md:flex items-center gap-6 text-base flex-1">
           {navLinks.map((link) => (
             <Link
               key={link.href}

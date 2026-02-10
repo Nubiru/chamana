@@ -7,9 +7,9 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   /* CHAMANA Brand Fonts */
-  --font-titles: var(--font-titles); /* Serif Flowers - for headings */
-  --font-text: var(--font-text); /* Cherolina - for body text */
-  --font-sans: var(--font-text); /* Map sans to brand text font */
+  --font-titles: var(--font-titles); /* Serif Flowers - for display headings */
+  --font-text: var(--font-text); /* Cherolina - decorative accents only */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -50,10 +50,10 @@
   /* Base radius for organic curves */
   --radius: 1rem;
 
-  /* Brand Colors - OPAL: Primary background/light */
-  --background: oklch(0.95 0.01 95); /* Opal #EFEFE9 */
-  --card: oklch(0.95 0.01 95); /* Opal #EFEFE9 */
-  --popover: oklch(0.95 0.01 95); /* Opal #EFEFE9 */
+  /* Brand Colors - Warm earth background (between Opal and Lily) */
+  --background: oklch(0.92 0.02 75); /* Warm sand, softer than pure Opal */
+  --card: oklch(0.93 0.02 80); /* Slightly lighter for cards */
+  --popover: oklch(0.93 0.02 80);
 
   /* Brand Colors - FOREST: Primary text, dark elements */
   --foreground: oklch(0.2 0.01 180); /* Forest Primary #223030 */
@@ -156,25 +156,14 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-text), system-ui, -apple-system, sans-serif;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   }
 
-  /* Apply brand fonts to headings */
+  /* Serif Flowers for display headings only */
   h1,
   h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  h3 {
     font-family: var(--font-titles), Georgia, serif;
-  }
-
-  /* Apply brand font to body text, paragraphs, and descriptions */
-  p,
-  span,
-  div,
-  li {
-    font-family: var(--font-text), system-ui, -apple-system, sans-serif;
   }
 }
 
@@ -183,8 +172,9 @@
   font-family: var(--font-titles), Georgia, serif;
 }
 
-.font-text {
-  font-family: var(--font-text), system-ui, -apple-system, sans-serif;
+/* Cherolina - use ONLY for large decorative text (taglines, hero accents) */
+.font-brand-accent {
+  font-family: var(--font-text), Georgia, serif;
 }
 
 /* CHAMANA Brand Animations - Subtle movement and flow */
@@ -270,12 +260,77 @@
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
+  /* === 3D Hero Carousel === */
+  @keyframes spin3d {
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
+  }
+
+  .carousel-3d-scene {
+    perspective: 900px;
+  }
+
+  .carousel-3d {
+    transform-style: preserve-3d;
+    animation: spin3d 20s linear infinite;
+  }
+
+  .carousel-3d:hover {
+    animation-play-state: paused;
+  }
+
+  .carousel-3d-item {
+    backface-visibility: visible;
+  }
+
+  /* === Infinite Marquee Carousel === */
+  @keyframes marqueeScroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .carousel-marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, #000 5% 95%, transparent);
+  }
+
+  .carousel-marquee-track {
+    animation: marqueeScroll var(--marquee-duration, 40s) linear infinite;
+  }
+
+  .carousel-marquee:hover .carousel-marquee-track {
+    animation-play-state: paused;
+  }
+
+  .carousel-marquee-item {
+    transition: filter 0.3s, transform 0.3s;
+  }
+
+  .carousel-marquee:hover .carousel-marquee-item {
+    filter: grayscale(0.6);
+  }
+
+  .carousel-marquee-item:hover {
+    filter: grayscale(0) !important;
+    transform: scale(1.03);
+  }
+
   /* Respect prefers-reduced-motion */
   @media (prefers-reduced-motion: reduce) {
     .animate-fade-in,
     .animate-slide-up,
     .animate-flow,
-    .animate-gentle-pulse {
+    .animate-gentle-pulse,
+    .carousel-3d,
+    .carousel-marquee-track {
       animation: none;
     }
   }

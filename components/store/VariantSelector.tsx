@@ -38,14 +38,14 @@ export function VariantSelector({ variantes, selected, onSelect }: VariantSelect
               )}
               title={
                 isReversible
-                  ? `${telaDescripcion(v.tela1)} / ${telaDescripcion(v.tela2!)}`
+                  ? `${telaDescripcion(v.tela1)} / ${v.tela2 ? telaDescripcion(v.tela2) : ''}`
                   : telaDescripcion(v.tela1)
               }
             >
               {isReversible ? (
                 <div className="w-8 h-8 rounded-full overflow-hidden flex">
                   <span className="w-1/2 h-full" style={{ backgroundColor: v.tela1.colorHex }} />
-                  <span className="w-1/2 h-full" style={{ backgroundColor: v.tela2!.colorHex }} />
+                  <span className="w-1/2 h-full" style={{ backgroundColor: v.tela2?.colorHex }} />
                 </div>
               ) : (
                 <span

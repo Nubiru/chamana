@@ -13,6 +13,7 @@ export interface ChamanaModel {
   detalle?: string;
   descripcion: string;
   variantes: Variante[];
+  imagenes?: string[];
 }
 
 function v(id: string, tela1Key: string, tela2Key?: string): Variante {
@@ -28,30 +29,86 @@ export const MODELOS: ChamanaModel[] = [
     slug: 'hechizo',
     nombre: 'Hechizo',
     tipo: 'Falda',
-    detalle: 'Oriental',
     descripcion:
-      'Falda oriental que fluye con cada paso, inspirada en el movimiento del aire. Su corte envolvente abraza la silueta con gracia y libertad.',
+      'Falda que fluye con cada paso, como un hechizo tejido en tela. Su caida natural acompana el movimiento del cuerpo con gracia y soltura.',
     variantes: [
       v('hechizo-linmenchoc', 'LinMenChoc'),
-      v('hechizo-linmenneg', 'LinMenNeg'),
-      v('hechizo-linmennat', 'LinMenNat'),
-      v('hechizo-tusneg', 'TusNeg'),
-      v('hechizo-tuschoc', 'TusChoc'),
+      v('hechizo-linmarcho', 'LinMarCho'),
+      v('hechizo-linmarmalv', 'LinMarMalv'),
+      v('hechizo-linatenneg', 'LinAtenNeg'),
     ],
   },
   {
     slug: 'sagrada',
     nombre: 'Sagrada',
-    tipo: 'Falda',
-    detalle: 'Bolsillos',
+    tipo: 'Vestido',
     descripcion:
-      'Falda con bolsillos funcionales y silueta orgánica. Cada prenda es una invitación a caminar descalza sobre la tierra, conectada con la naturaleza.',
+      'Vestido que envuelve el cuerpo como un abrazo sagrado. Cada puntada honra la conexion entre la mujer y la naturaleza.',
+    variantes: [],
+  },
+  {
+    slug: 'intuicion',
+    nombre: 'Intuicion',
+    tipo: 'Kimono',
+    descripcion:
+      'Kimono de corte amplio que sigue el instinto de quien lo lleva. Una pieza envolvente para protegerte del frio con calidez artesanal.',
+    imagenes: [
+      '/images/models/intuicion/intuicion-1.webp',
+      '/images/models/intuicion/intuicion-2.webp',
+    ],
     variantes: [
-      v('sagrada-linmenchoc', 'LinMenChoc'),
-      v('sagrada-linmenneg', 'LinMenNeg'),
-      v('sagrada-gabneg', 'GabNeg'),
-      v('sagrada-gabchoc', 'GabChoc'),
-      v('sagrada-gabmil', 'GabMil'),
+      v('intuicion-ribmarino', 'RibMarino'),
+      v('intuicion-linmengris', 'LinMenGris'),
+      v('intuicion-fibceleste', 'FibCeleste'),
+      v('intuicion-tejmalva', 'TejMalva'),
+      v('intuicion-linmarneg', 'LinMarNeg'),
+    ],
+  },
+  {
+    slug: 'sabia',
+    nombre: 'Sabia',
+    tipo: 'Remeron',
+    detalle: 'Oriental',
+    descripcion:
+      'Remeron oriental amplio y comodo, inspirado en la sabiduria ancestral. Perfecto para esos dias donde la comodidad y el estilo se encuentran.',
+    imagenes: [
+      '/images/models/sabia/sabia-1.webp',
+      '/images/models/sabia/sabia-2.webp',
+      '/images/models/sabia/sabia-3.webp',
+    ],
+    variantes: [
+      v('sabia-tejnegro', 'TejNegro'),
+      v('sabia-ribnegro', 'RibNegro'),
+      v('sabia-ribmarino', 'RibMarino'),
+      v('sabia-linmengris', 'LinMenGris'),
+      v('sabia-tejmalva', 'TejMalva'),
+      v('sabia-tusnegro', 'TusNegro'),
+      v('sabia-linmarcho', 'LinMarCho'),
+      v('sabia-linmenverde', 'LinMenVerde'),
+      v('sabia-ribmilitar', 'RibMilitar'),
+      v('sabia-linmarcasc', 'LinMarCasc'),
+      v('sabia-linmarmalv', 'LinMarMalv'),
+    ],
+  },
+  {
+    slug: 'magnetica',
+    nombre: 'Magnetica',
+    tipo: 'Musculosa',
+    detalle: 'Escote V',
+    descripcion:
+      'Musculosa con escote en V que atrae todas las miradas. Simple, magnetica y perfecta para combinar con cualquier prenda de la coleccion.',
+    imagenes: [
+      '/images/models/magnetica/magnetica-1.webp',
+      '/images/models/magnetica/magnetica-2.webp',
+      '/images/models/magnetica/magnetica-3.webp',
+      '/images/models/magnetica/magnetica-4.webp',
+    ],
+    variantes: [
+      v('magnetica-linspanbei', 'LinSpanBei'),
+      v('magnetica-linmengris', 'LinMenGris'),
+      v('magnetica-linmarneg', 'LinMarNeg'),
+      v('magnetica-linmarcasc', 'LinMarCasc'),
+      v('magnetica-tejmalva', 'TejMalva'),
     ],
   },
   {
@@ -60,163 +117,130 @@ export const MODELOS: ChamanaModel[] = [
     tipo: 'Top',
     detalle: 'Reversible',
     descripcion:
-      'Top reversible que refleja la dualidad de la naturaleza. Dos caras, dos esencias, una sola prenda que se adapta a tu estado de ánimo.',
+      'Top reversible que refleja la dualidad de la naturaleza. Dos caras, dos esencias, una sola prenda que se adapta a tu estado de animo.',
+    imagenes: [
+      '/images/models/espejo/espejo-1.webp',
+      '/images/models/espejo/espejo-2.webp',
+      '/images/models/espejo/espejo-3.webp',
+      '/images/models/espejo/espejo-4.webp',
+    ],
     variantes: [
-      v('espejo-ribneg-tejneg', 'RibNeg', 'TejNeg'),
-      v('espejo-ribchoc-tejchoc', 'RibChoc', 'TejChoc'),
-      v('espejo-ribmil-tejmil', 'RibMil', 'TejMil'),
-      v('espejo-ribnat-tejnat', 'RibNat', 'TejNat'),
+      v('espejo-ribmilitar-tejnegro', 'RibMilitar', 'TejNegro'),
+      v('espejo-ribnegro-ribmarino', 'RibNegro', 'RibMarino'),
+      v('espejo-ribmilitar-ribnegro', 'RibMilitar', 'RibNegro'),
+      v('espejo-ribmilitar-tejmalva', 'RibMilitar', 'TejMalva'),
+      v('espejo-linmarcasc-tejmalva', 'LinMarCasc', 'TejMalva'),
+      v('espejo-linspanbei-linmarcasc', 'LinSpanBei', 'LinMarCasc'),
+    ],
+  },
+  {
+    slug: 'simbolo',
+    nombre: 'Simbolo',
+    tipo: 'Top',
+    detalle: 'Simple',
+    descripcion:
+      'Top simple que simboliza la esencia de lo artesanal. Una pieza basica con caracter propio, perfecta para el dia a dia.',
+    variantes: [
+      v('simbolo-tejnegro', 'TejNegro'),
+      v('simbolo-linmarcasc', 'LinMarCasc'),
+      v('simbolo-ribnegro', 'RibNegro'),
+      v('simbolo-linspancho', 'LinSpanCho'),
+      v('simbolo-ribmilitar', 'RibMilitar'),
+      v('simbolo-ribmarino', 'RibMarino'),
     ],
   },
   {
     slug: 'reflejo',
     nombre: 'Reflejo',
-    tipo: 'Musculosa',
+    tipo: 'Top',
     detalle: 'Reversible',
     descripcion:
-      'Musculosa reversible que te ofrece dos looks en una sola prenda. Como el reflejo del agua, cada lado revela una nueva perspectiva.',
+      'Top reversible que te ofrece dos looks en una sola prenda. Como el reflejo del agua, cada lado revela una nueva perspectiva.',
+    imagenes: ['/images/models/reflejo/reflejo-1.webp', '/images/models/reflejo/reflejo-2.webp'],
     variantes: [
-      v('reflejo-ribneg-tejneg', 'RibNeg', 'TejNeg'),
-      v('reflejo-ribchoc-tejchoc', 'RibChoc', 'TejChoc'),
-      v('reflejo-ribmil-tejmil', 'RibMil', 'TejMil'),
-      v('reflejo-ribblanq-tejnat', 'RibBlanq', 'TejNat'),
+      v('reflejo-linspancho-linspancho', 'LinSpanCho', 'LinSpanCho'),
+      v('reflejo-tejnegro-tusnegro', 'TejNegro', 'TusNegro'),
+      v('reflejo-tejmalva-ribmilitar', 'TejMalva', 'RibMilitar'),
     ],
   },
   {
-    slug: 'ritual',
-    nombre: 'Ritual',
-    tipo: 'Vestido',
+    slug: 'corazonada',
+    nombre: 'Corazonada',
+    tipo: 'Camisa',
     descripcion:
-      'Vestido fluido que acompaña cada ritual cotidiano. Su caída natural envuelve el cuerpo como el agua rodea las piedras de un río.',
-    variantes: [
-      v('ritual-linmenchoc', 'LinMenChoc'),
-      v('ritual-linmenneg', 'LinMenNeg'),
-      v('ritual-linmennat', 'LinMenNat'),
-      v('ritual-fibneg', 'FibNeg'),
-      v('ritual-fibchoc', 'FibChoc'),
+      'Camisa liviana como una corazonada certera. Su corte holgado permite que el aire circule libremente, como la naturaleza lo dispone.',
+    variantes: [],
+  },
+  {
+    slug: 'guerrera',
+    nombre: 'Guerrera',
+    tipo: 'Bermuda',
+    descripcion:
+      'Bermuda de corte relajado para la mujer guerrera. Enraizada en la comodidad, lista para explorar senderos y mercados.',
+    imagenes: [
+      '/images/models/guerrera/guerrera-1.webp',
+      '/images/models/guerrera/guerrera-2.webp',
     ],
+    variantes: [
+      v('guerrera-gabaereo', 'GabAereo'),
+      v('guerrera-gabverde', 'GabVerde'),
+      v('guerrera-tusnegro', 'TusNegro'),
+      v('guerrera-tusazul', 'TusAzul'),
+    ],
+  },
+  {
+    slug: 'simpleza',
+    nombre: 'Simpleza',
+    tipo: 'Short',
+    detalle: 'Bolsillos',
+    descripcion:
+      'Short con bolsillos que celebra la belleza de lo simple. Comodo, funcional e ideal para los dias calidos.',
+    variantes: [v('simpleza-gagazul', 'GabAzul'), v('simpleza-gabverde', 'GabVerde')],
+  },
+  {
+    slug: 'dejavu',
+    nombre: 'Dejavu',
+    tipo: 'Palazzo',
+    detalle: 'Bolsillos',
+    descripcion:
+      'Palazzo con bolsillos que evoca la sensacion de un dejavu. Su amplitud celebra la libertad de movimiento con funcionalidad.',
+    imagenes: ['/images/models/dejavu/dejavu-1.webp', '/images/models/dejavu/dejavu-2.webp'],
+    variantes: [
+      v('dejavu-gabaereo', 'GabAereo'),
+      v('dejavu-gabmilitar', 'GabMilitar'),
+      v('dejavu-gabneg', 'GabNeg'),
+      v('dejavu-tusmarino', 'TusMarino'),
+      v('dejavu-tusmaiz', 'TusMaiz'),
+    ],
+  },
+  {
+    slug: 'luz-y-sombra',
+    nombre: 'Luz y Sombra',
+    tipo: 'Palazzo',
+    detalle: 'Gajos',
+    descripcion:
+      'Palazzo de gajos que juega con la luz y la sombra. Su diseno unico crea un efecto visual que acompana cada paso con elegancia.',
+    imagenes: [
+      '/images/models/luz-y-sombra/luz-y-sombra-1.webp',
+      '/images/models/luz-y-sombra/luz-y-sombra-2.webp',
+      '/images/models/luz-y-sombra/luz-y-sombra-3.webp',
+      '/images/models/luz-y-sombra/luz-y-sombra-4.webp',
+      '/images/models/luz-y-sombra/luz-y-sombra-5.webp',
+    ],
+    variantes: [],
   },
   {
     slug: 'mistica',
-    nombre: 'Mística',
-    tipo: 'Kimono',
-    descripcion:
-      'Kimono de corte amplio que evoca la mística del fuego ceremonial. Una pieza envolvente para protegerte del frío con calidez artesanal.',
-    variantes: [
-      v('mistica-linruschoc', 'LinRusChoc'),
-      v('mistica-linrusnat', 'LinRusNat'),
-      v('mistica-tejneg', 'TejNeg'),
-      v('mistica-tejchoc', 'TejChoc'),
-    ],
-  },
-  {
-    slug: 'aurora',
-    nombre: 'Aurora',
-    tipo: 'Remeron',
-    descripcion:
-      'Remerón amplio y cómodo como las primeras luces del amanecer. Perfecto para esos días donde la comodidad y el estilo se encuentran.',
-    variantes: [
-      v('aurora-linmenchoc', 'LinMenChoc'),
-      v('aurora-linmenneg', 'LinMenNeg'),
-      v('aurora-linmenblanq', 'LinMenBlanq'),
-      v('aurora-fibneg', 'FibNeg'),
-    ],
-  },
-  {
-    slug: 'brisa',
-    nombre: 'Brisa',
-    tipo: 'Camisa',
-    descripcion:
-      'Camisa liviana como la brisa marina. Su corte holgado permite que el aire circule libremente, como la naturaleza lo dispone.',
-    variantes: [
-      v('brisa-linmenchoc', 'LinMenChoc'),
-      v('brisa-linmennat', 'LinMenNat'),
-      v('brisa-linmenblanq', 'LinMenBlanq'),
-      v('brisa-brodnat', 'BrodNat'),
-      v('brisa-brodblanq', 'BrodBlanq'),
-    ],
-  },
-  {
-    slug: 'mantra',
-    nombre: 'Mantra',
+    nombre: 'Mistica',
     tipo: 'Palazzo',
+    detalle: 'Capri',
     descripcion:
-      'Palazzo de pierna ancha que fluye al caminar como un mantra repetido al viento. Su amplitud celebra la libertad de movimiento.',
+      'Palazzo capri con un aire mistico y envolvente. Su largo intermedio es perfecto para transitar entre lo casual y lo elegante.',
     variantes: [
-      v('mantra-linmenchoc', 'LinMenChoc'),
-      v('mantra-linmenneg', 'LinMenNeg'),
-      v('mantra-fibneg', 'FibNeg'),
-      v('mantra-fibmil', 'FibMil'),
-    ],
-  },
-  {
-    slug: 'tierra',
-    nombre: 'Tierra',
-    tipo: 'Bermuda',
-    descripcion:
-      'Bermuda de corte relajado, enraizada en la comodidad y la conexión con la tierra. Para los días de explorar senderos y mercados.',
-    variantes: [
-      v('tierra-linmenchoc', 'LinMenChoc'),
-      v('tierra-linmenneg', 'LinMenNeg'),
-      v('tierra-gabneg', 'GabNeg'),
-      v('tierra-gabmil', 'GabMil'),
-    ],
-  },
-  {
-    slug: 'luna',
-    nombre: 'Luna',
-    tipo: 'Short',
-    descripcion:
-      'Short cómodo y versátil como las noches de luna llena. Su corte simple y funcional es ideal para el verano y los días cálidos.',
-    variantes: [
-      v('luna-linmenchoc', 'LinMenChoc'),
-      v('luna-linmennat', 'LinMenNat'),
-      v('luna-gabneg', 'GabNeg'),
-      v('luna-gabchoc', 'GabChoc'),
-    ],
-  },
-  {
-    slug: 'raiz',
-    nombre: 'Raíz',
-    tipo: 'Musculosa',
-    descripcion:
-      'Musculosa esencial, la raíz de cualquier outfit. Simple, cómoda y perfecta para combinar con cualquier prenda de la colección.',
-    variantes: [
-      v('raiz-ribneg', 'RibNeg'),
-      v('raiz-ribchoc', 'RibChoc'),
-      v('raiz-ribnat', 'RibNat'),
-      v('raiz-ribmil', 'RibMil'),
-      v('raiz-ribblanq', 'RibBlanq'),
-    ],
-  },
-  {
-    slug: 'fuego',
-    nombre: 'Fuego',
-    tipo: 'Top',
-    detalle: 'Strapless',
-    descripcion:
-      'Top strapless que enciende la confianza con su diseño audaz y femenino. Como el fuego, transforma y renueva cada look.',
-    variantes: [
-      v('fuego-ribneg', 'RibNeg'),
-      v('fuego-ribchoc', 'RibChoc'),
-      v('fuego-ribnat', 'RibNat'),
-      v('fuego-crocnat', 'CrocNat'),
-      v('fuego-crocchoc', 'CrocChoc'),
-    ],
-  },
-  {
-    slug: 'alma',
-    nombre: 'Alma',
-    tipo: 'Vestido',
-    detalle: 'Largo',
-    descripcion:
-      'Vestido largo que acaricia el suelo con cada paso. Una pieza que viste el alma con la misma delicadeza con la que la naturaleza viste la tierra.',
-    variantes: [
-      v('alma-linmenchoc', 'LinMenChoc'),
-      v('alma-linmenneg', 'LinMenNeg'),
-      v('alma-linmennat', 'LinMenNat'),
-      v('alma-fibneg', 'FibNeg'),
-      v('alma-fibnat', 'FibNat'),
+      v('mistica-linmarmalv', 'LinMarMalv'),
+      v('mistica-linatenneg', 'LinAtenNeg'),
+      v('mistica-ribmarino', 'RibMarino'),
+      v('mistica-ribnegro', 'RibNegro'),
     ],
   },
 ];
@@ -231,4 +255,8 @@ export function getVarianteById(model: ChamanaModel, varianteId: string): Varian
 
 export function getModelsByTipo(tipo: string): ChamanaModel[] {
   return MODELOS.filter((m) => m.tipo.toLowerCase() === tipo.toLowerCase());
+}
+
+export function getAllProductImages(): { src: string; model: ChamanaModel }[] {
+  return MODELOS.flatMap((model) => (model.imagenes ?? []).map((src) => ({ src, model })));
 }

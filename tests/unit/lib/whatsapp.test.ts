@@ -1,5 +1,9 @@
-import { generateWhatsAppUrl, generateSingleProductUrl, generateGeneralWhatsAppUrl } from '@/lib/whatsapp';
 import type { CartItem } from '@/lib/stores/cart-store';
+import {
+  generateGeneralWhatsAppUrl,
+  generateSingleProductUrl,
+  generateWhatsAppUrl,
+} from '@/lib/whatsapp';
 
 describe('generateWhatsAppUrl', () => {
   it('generates URL with single item', () => {
@@ -27,16 +31,16 @@ describe('generateWhatsAppUrl', () => {
         modelSlug: 'espejo',
         modelNombre: 'Espejo',
         modelTipo: 'Top',
-        varianteId: 'espejo-ribneg-tejneg',
-        tela1Desc: 'Rib Negro',
-        tela2Desc: 'Tejido Negro',
+        varianteId: 'espejo-ribmilitar-tejnegro',
+        tela1Desc: 'Ribb New York Verde Militar',
+        tela2Desc: 'Tejido Formentera Negro',
         quantity: 1,
       },
     ];
 
     const url = generateWhatsAppUrl(items);
-    expect(url).toContain('Rib%20Negro');
-    expect(url).toContain('Tejido%20Negro');
+    expect(url).toContain('Ribb%20New%20York%20Verde%20Militar');
+    expect(url).toContain('Tejido%20Formentera%20Negro');
   });
 
   it('generates URL with multiple items', () => {
@@ -50,18 +54,18 @@ describe('generateWhatsAppUrl', () => {
         quantity: 1,
       },
       {
-        modelSlug: 'ritual',
-        modelNombre: 'Ritual',
-        modelTipo: 'Vestido',
-        varianteId: 'ritual-fibneg',
-        tela1Desc: 'Fibrana Negro',
+        modelSlug: 'sabia',
+        modelNombre: 'Sabia',
+        modelTipo: 'Remeron',
+        varianteId: 'sabia-tejnegro',
+        tela1Desc: 'Tejido Formentera Negro',
         quantity: 1,
       },
     ];
 
     const url = generateWhatsAppUrl(items);
     expect(url).toContain('Hechizo');
-    expect(url).toContain('Ritual');
+    expect(url).toContain('Sabia');
   });
 });
 
@@ -74,9 +78,14 @@ describe('generateSingleProductUrl', () => {
   });
 
   it('includes both telas for reversible', () => {
-    const url = generateSingleProductUrl('Espejo', 'Top', 'Rib Negro', 'Tejido Negro');
-    expect(url).toContain('Rib%20Negro');
-    expect(url).toContain('Tejido%20Negro');
+    const url = generateSingleProductUrl(
+      'Espejo',
+      'Top',
+      'Ribb New York Verde Militar',
+      'Tejido Formentera Negro'
+    );
+    expect(url).toContain('Ribb%20New%20York%20Verde%20Militar');
+    expect(url).toContain('Tejido%20Formentera%20Negro');
   });
 });
 

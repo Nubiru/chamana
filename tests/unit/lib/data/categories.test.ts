@@ -29,7 +29,7 @@ describe('getCategoryBySlug', () => {
   it('returns category for valid slug', () => {
     const cat = getCategoryBySlug('falda');
     expect(cat).toBeDefined();
-    expect(cat!.nombre).toBe('Falda');
+    expect(cat?.nombre).toBe('Falda');
   });
 
   it('returns undefined for invalid slug', () => {

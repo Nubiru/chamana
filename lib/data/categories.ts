@@ -23,6 +23,7 @@ export const CATEGORIAS: Category[] = CATEGORY_ORDER.map((tipo) => ({
   slug: tipo
     .toLowerCase()
     .normalize('NFD')
+    // biome-ignore lint/suspicious/noMisleadingCharacterClass: standard NFD accent-stripping pattern
     .replace(/[\u0300-\u036f]/g, ''),
   nombre: tipo,
   count: MODELOS.filter((m) => m.tipo === tipo).length,

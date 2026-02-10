@@ -49,8 +49,8 @@ describe('cart store', () => {
       useCartStore.getState().addItem(sampleItem);
       useCartStore.getState().addItem({
         ...sampleItem,
-        varianteId: 'hechizo-linmenneg',
-        tela1Desc: 'Lino Men Negro',
+        varianteId: 'hechizo-linmarcho',
+        tela1Desc: 'Lino Marruecos Chocolate',
       });
     });
 
@@ -71,8 +71,8 @@ describe('cart store', () => {
       useCartStore.getState().addItem(sampleItem);
       useCartStore.getState().addItem({
         ...sampleItem,
-        varianteId: 'hechizo-linmenneg',
-        tela1Desc: 'Lino Men Negro',
+        varianteId: 'hechizo-linmarcho',
+        tela1Desc: 'Lino Marruecos Chocolate',
       });
       useCartStore.getState().clearCart();
     });
@@ -86,8 +86,8 @@ describe('cart store', () => {
       useCartStore.getState().addItem(sampleItem);
       useCartStore.getState().addItem({
         ...sampleItem,
-        varianteId: 'hechizo-linmenneg',
-        tela1Desc: 'Lino Men Negro',
+        varianteId: 'hechizo-linmarcho',
+        tela1Desc: 'Lino Marruecos Chocolate',
       });
     });
 

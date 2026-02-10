@@ -21,13 +21,13 @@ describe('fabrics data', () => {
   it('TIPOS_TELA contains expected base materials', () => {
     expect(TIPOS_TELA).toContain('Lino');
     expect(TIPOS_TELA).toContain('Tejido');
-    expect(TIPOS_TELA).toContain('Rib');
+    expect(TIPOS_TELA).toContain('Ribb');
   });
 });
 
 describe('telaDescripcion', () => {
   it('formats tela without subtipo', () => {
-    expect(telaDescripcion(TELAS.TejNeg)).toBe('Tejido Negro');
+    expect(telaDescripcion(TELAS.TusNegro)).toBe('Tusor Negro');
   });
 
   it('formats tela with subtipo', () => {
