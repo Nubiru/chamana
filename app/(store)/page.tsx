@@ -16,15 +16,15 @@ const fadeEdges = {
 export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col">
-      {/* ===== BG 1: SOMOS NATURALEZA (banner, width-fill only) ===== */}
+      {/* ===== BG 1: Woman's back (thread) ===== */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-x-0 top-0 -z-10" style={fadeEdges}>
+        <div className="absolute inset-0 -z-10 overflow-hidden" style={fadeEdges}>
           <Image
-            src="/images/brand/bg-somos-naturaleza.jpg"
+            src="/images/brand/bg-thread.jpg"
             alt=""
             width={1920}
-            height={640}
-            className="w-full h-auto opacity-25"
+            height={1920}
+            className="w-full h-auto opacity-20 absolute top-0 left-0"
             priority
             aria-hidden="true"
           />
@@ -110,7 +110,27 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== BG 2: Fluye en tu interior ===== */}
+      {/* ===== BG 2: Somos Naturaleza ===== */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 -z-10 overflow-hidden" style={fadeEdges}>
+          <Image
+            src="/images/brand/bg-somos-naturaleza.jpg"
+            alt=""
+            width={1920}
+            height={640}
+            className="w-full h-auto opacity-20 absolute top-1/2 left-0 -translate-y-1/2"
+            loading="lazy"
+            aria-hidden="true"
+          />
+        </div>
+
+        {/* Category Circles */}
+        <div className="py-8 px-4">
+          <CategoryCircles />
+        </div>
+      </section>
+
+      {/* ===== BG 3: Fluye en tu interior ===== */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 -z-10 overflow-hidden" style={fadeEdges}>
           <Image
@@ -122,11 +142,6 @@ export default function HomePage() {
             loading="lazy"
             aria-hidden="true"
           />
-        </div>
-
-        {/* Category Circles */}
-        <div className="py-8 px-4">
-          <CategoryCircles />
         </div>
 
         {/* Featured Products — Infinite Marquee */}
@@ -147,7 +162,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== BG 3: Sé tu misma ===== */}
+      {/* ===== BG 4: Sé tu misma ===== */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 -z-10 overflow-hidden" style={fadeEdges}>
           <Image
