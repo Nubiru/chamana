@@ -108,11 +108,11 @@ describe('getAllProductImages', () => {
     }
   });
 
-  it('count matches total images across all models (32)', () => {
+  it('count matches total images across all models (34)', () => {
     const images = getAllProductImages();
     const expectedCount = MODELOS.reduce((sum, m) => sum + (m.imagenes?.length ?? 0), 0);
     expect(images).toHaveLength(expectedCount);
-    expect(images).toHaveLength(32);
+    expect(images).toHaveLength(34);
   });
 });
 

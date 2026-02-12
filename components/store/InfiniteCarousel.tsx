@@ -19,7 +19,7 @@ function MarqueeCard({ model }: { model: ChamanaModel }) {
               alt={model.nombre}
               fill
               sizes="260px"
-              className="object-cover"
+              className="object-contain"
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-secondary/40 to-accent/30">

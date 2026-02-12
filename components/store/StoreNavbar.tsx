@@ -26,14 +26,14 @@ export function StoreNavbar() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
         {/* Logo: Green CHAMANA logotype */}
-        <div className="mr-4 flex -ml-1">
-          <Link href="/" className="flex items-center">
+        <div className="mr-4 flex">
+          <Link href="/" className="flex items-center -my-px">
             <Image
               src="/images/brand/logotype-green.png"
               alt="CHAMANA"
               width={600}
               height={222}
-              className="h-8 md:h-10 w-auto"
+              className="h-16 w-auto"
             />
           </Link>
         </div>

@@ -39,6 +39,10 @@ export const MODELOS: ChamanaModel[] = [
     tipo: 'Falda',
     descripcion:
       'Falda que fluye con cada paso, como un hechizo tejido en tela. Su caida natural acompana el movimiento del cuerpo con gracia y soltura.',
+    imagenes: [
+      '/images/models/hechizo/hechizo-1.webp',
+      '/images/models/hechizo/hechizo-2.webp',
+    ],
     variantes: [
       vSinStock('hechizo-linmenchoc', 'LinMenChoc'),
       vSinStock('hechizo-linmarcho', 'LinMarCho'),

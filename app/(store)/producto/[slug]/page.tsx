@@ -71,7 +71,7 @@ export default function ProductoPage() {
                 alt={`${model.nombre} - Foto ${selectedImageIdx + 1}`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
+                className="object-contain"
                 priority
               />
             ) : (
