@@ -1,14 +1,14 @@
 'use client';
 
 import { useCartStore } from '@/lib/stores/cart-store';
-import { generateGeneralWhatsAppUrl } from '@/lib/whatsapp';
-import { Home, MessageCircle, ShoppingBag, Store } from 'lucide-react';
+import { Home, ShoppingBag, Sparkles, Store } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const tabs = [
   { href: '/', label: 'Inicio', icon: Home },
   { href: '/tienda', label: 'Tienda', icon: Store },
+  { href: '/desfile', label: 'Desfile', icon: Sparkles },
   { href: '/carrito', label: 'Carrito', icon: ShoppingBag },
 ];
 
@@ -48,16 +48,6 @@ export function BottomNav() {
           );
         })}
 
-        {/* WhatsApp tab */}
-        <a
-          href={generateGeneralWhatsAppUrl()}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex flex-col items-center justify-center gap-0.5 w-full h-full text-muted-foreground"
-        >
-          <MessageCircle className="h-5 w-5" />
-          <span className="text-[10px]">WhatsApp</span>
-        </a>
       </div>
     </nav>
   );

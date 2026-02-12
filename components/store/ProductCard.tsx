@@ -1,33 +1,23 @@
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
+import { getCategoryColor } from '@/lib/data/categories';
 import type { ChamanaModel } from '@/lib/data/products';
 import { getModelPriceDisplay } from '@/lib/data/products';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const MODEL_GRADIENTS: Record<string, string> = {
-  Falda: 'from-amber-50 to-orange-100',
-  Vestido: 'from-rose-50 to-pink-100',
-  Kimono: 'from-emerald-50 to-teal-100',
-  Remeron: 'from-sky-50 to-blue-100',
-  Musculosa: 'from-violet-50 to-purple-100',
-  Top: 'from-fuchsia-50 to-pink-100',
-  Camisa: 'from-lime-50 to-green-100',
-  Bermuda: 'from-yellow-50 to-amber-100',
-  Short: 'from-cyan-50 to-sky-100',
-  Palazzo: 'from-indigo-50 to-violet-100',
-};
-
 export function ProductCard({ model }: { model: ChamanaModel }) {
-  const gradient = MODEL_GRADIENTS[model.tipo] || 'from-gray-50 to-gray-100';
   const firstImage = model.imagenes?.[0];
 
   return (
     <Card className="group overflow-hidden transition-all hover:shadow-lg border-border/30 p-0">
       <Link href={`/producto/${model.slug}`}>
         {/* Image / Placeholder */}
-        <div className={`aspect-[3/4] bg-gradient-to-br ${gradient} relative overflow-hidden`}>
+        <div
+          className="aspect-[3/4] earth-gradient relative overflow-hidden"
+          style={{ '--cat-color': getCategoryColor(model.tipo) } as React.CSSProperties}
+        >
           {firstImage ? (
             <Image
               src={firstImage}

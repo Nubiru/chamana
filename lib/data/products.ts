@@ -83,6 +83,7 @@ export const MODELOS: ChamanaModel[] = [
       '/images/models/sabia/sabia-1.webp',
       '/images/models/sabia/sabia-2.webp',
       '/images/models/sabia/sabia-3.webp',
+      '/images/models/sabia/sabia-4.webp',
     ],
     variantes: [
       v('sabia-tejnegro', 'TejNegro', undefined, 33000),
@@ -131,6 +132,7 @@ export const MODELOS: ChamanaModel[] = [
       '/images/models/espejo/espejo-2.webp',
       '/images/models/espejo/espejo-3.webp',
       '/images/models/espejo/espejo-4.webp',
+      '/images/models/espejo/espejo-5.webp',
     ],
     variantes: [
       v('espejo-ribmilitar-tejnegro', 'RibMilitar', 'TejNegro', 28000),
@@ -164,7 +166,12 @@ export const MODELOS: ChamanaModel[] = [
     detalle: 'Reversible',
     descripcion:
       'Top reversible que te ofrece dos looks en una sola prenda. Como el reflejo del agua, cada lado revela una nueva perspectiva.',
-    imagenes: ['/images/models/reflejo/reflejo-1.webp', '/images/models/reflejo/reflejo-2.webp'],
+    imagenes: [
+      '/images/models/reflejo/reflejo-1.webp',
+      '/images/models/reflejo/reflejo-2.webp',
+      '/images/models/reflejo/reflejo-3.webp',
+      '/images/models/reflejo/reflejo-4.webp',
+    ],
     variantes: [
       v('reflejo-linspancho-linspancho', 'LinSpanCho', 'LinSpanCho', 22000),
       v('reflejo-tejnegro-tusnegro', 'TejNegro', 'TusNegro', 22000),
@@ -203,6 +210,10 @@ export const MODELOS: ChamanaModel[] = [
     detalle: 'Bolsillos',
     descripcion:
       'Short con bolsillos que celebra la belleza de lo simple. Comodo, funcional e ideal para los dias calidos.',
+    imagenes: [
+      '/images/models/simpleza/simpleza-1.webp',
+      '/images/models/simpleza/simpleza-2.webp',
+    ],
     variantes: [
       v('simpleza-gagazul', 'GabAzul', undefined, 35000),
       v('simpleza-gabverde', 'GabVerde', undefined, 35000),
@@ -215,7 +226,12 @@ export const MODELOS: ChamanaModel[] = [
     detalle: 'Bolsillos',
     descripcion:
       'Palazzo con bolsillos que evoca la sensacion de un dejavu. Su amplitud celebra la libertad de movimiento con funcionalidad.',
-    imagenes: ['/images/models/dejavu/dejavu-1.webp', '/images/models/dejavu/dejavu-2.webp'],
+    imagenes: [
+      '/images/models/dejavu/dejavu-1.webp',
+      '/images/models/dejavu/dejavu-2.webp',
+      '/images/models/dejavu/dejavu-3.webp',
+      '/images/models/dejavu/dejavu-4.webp',
+    ],
     variantes: [
       v('dejavu-gabaereo', 'GabAereo', undefined, 35000),
       v('dejavu-gabmilitar', 'GabMilitar', undefined, 45000),

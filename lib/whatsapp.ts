@@ -9,7 +9,10 @@ export function generateWhatsAppUrl(items: CartItem[]): string {
   const lines = items.map((item) => {
     const telaInfo = item.tela2Desc ? `${item.tela1Desc} / ${item.tela2Desc}` : item.tela1Desc;
     const qtyStr = item.quantity > 1 ? ` x${item.quantity}` : '';
-    const priceStr = item.precio != null ? ` - ${formatPrice(item.precio)}${item.quantity > 1 ? ` (${formatPrice(item.precio * item.quantity)})` : ''}` : '';
+    const priceStr =
+      item.precio != null
+        ? ` - ${formatPrice(item.precio)}${item.quantity > 1 ? ` (${formatPrice(item.precio * item.quantity)})` : ''}`
+        : '';
     return `  - ${item.modelNombre} (${item.modelTipo}) - ${telaInfo}${qtyStr}${priceStr}`;
   });
 

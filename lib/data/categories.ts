@@ -32,3 +32,8 @@ export const CATEGORIAS: Category[] = CATEGORY_ORDER.map((tipo) => ({
 export function getCategoryBySlug(slug: string): Category | undefined {
   return CATEGORIAS.find((c) => c.slug === slug);
 }
+
+/** Returns the CSS variable reference for a category's earthy accent color. */
+export function getCategoryColor(tipo: string): string {
+  return `var(--earth-${tipo.toLowerCase()})`;
+}

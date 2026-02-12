@@ -85,7 +85,6 @@ export default function HomePage() {
               </Button>
             </div>
           </div>
-
         </div>
 
         {/* Nuestra Esencia */}
@@ -93,13 +92,14 @@ export default function HomePage() {
           <div className="max-w-2xl mx-auto text-center space-y-4">
             <h2 className="text-2xl font-titles">Nuestra Esencia</h2>
             <p className="text-sm md:text-base leading-relaxed text-foreground/80">
-              Prendas inspiradas en la mujer de hoy. Todas somos mujeres medicina… cuidamos,
-              trabajamos, nos movemos, bailamos, meditamos, nos escuchamos, abrazamos.
+              Mi nombre es Cintia, diseñadora y creadora de Chamana, un proyecto nacido en las
+              sierras de Córdoba, Capilla del Monte, donde la naturaleza y la paz invitan a la
+              creatividad.
             </p>
             <p className="text-sm md:text-base leading-relaxed text-foreground/80">
-              Diseñadas para vos en cada momento, confeccionadas en telas de algodón, livianas,
-              versátiles y súper cómodas. Prendas que resaltan nuestra belleza más auténtica y única.
-              Texturas suaves, paletas de colores que siempre están en sintonía con la naturaleza.
+              Nuestras prendas se inspiran en la belleza de la mujer en movimiento, libre y
+              auténtica, para que se sienta cómoda, en armonía con su cuerpo y radiante en su
+              feminidad.
             </p>
           </div>
         </div>
@@ -199,7 +199,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
     </div>
   );
 }

@@ -108,11 +108,11 @@ describe('getAllProductImages', () => {
     }
   });
 
-  it('count matches total images across all models (24)', () => {
+  it('count matches total images across all models (32)', () => {
     const images = getAllProductImages();
     const expectedCount = MODELOS.reduce((sum, m) => sum + (m.imagenes?.length ?? 0), 0);
     expect(images).toHaveLength(expectedCount);
-    expect(images).toHaveLength(24);
+    expect(images).toHaveLength(32);
   });
 });
 
@@ -133,9 +133,7 @@ describe('price helpers', () => {
     nombre: 'Test2',
     tipo: 'Top',
     descripcion: 'Test',
-    variantes: [
-      { id: 'c', tela1: { codigo: 'Z', tipo: 'Z', color: 'Z', colorHex: '#000' } },
-    ],
+    variantes: [{ id: 'c', tela1: { codigo: 'Z', tipo: 'Z', color: 'Z', colorHex: '#000' } }],
   };
 
   const modelSamePrice = {

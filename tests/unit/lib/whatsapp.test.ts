@@ -149,7 +149,13 @@ describe('generateWhatsAppUrl with prices', () => {
 
 describe('generateSingleProductUrl with price', () => {
   it('includes price when provided', () => {
-    const url = generateSingleProductUrl('Hechizo', 'Falda', 'Lino Men Chocolate', undefined, 25000);
+    const url = generateSingleProductUrl(
+      'Hechizo',
+      'Falda',
+      'Lino Men Chocolate',
+      undefined,
+      25000
+    );
     expect(url).toContain('25.000');
     expect(url).not.toContain('precio!');
   });

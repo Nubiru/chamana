@@ -43,7 +43,10 @@ export function CartItem({ item }: CartItemProps) {
             <span className="text-sm font-semibold text-foreground">
               {formatPrice(item.precio)}
               {item.quantity > 1 && (
-                <span className="text-xs font-normal text-muted-foreground"> x{item.quantity} = {formatPrice(item.precio * item.quantity)}</span>
+                <span className="text-xs font-normal text-muted-foreground">
+                  {' '}
+                  x{item.quantity} = {formatPrice(item.precio * item.quantity)}
+                </span>
               )}
             </span>
           )}

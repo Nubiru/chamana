@@ -31,9 +31,7 @@ export function CartSummary() {
         </div>
         <div className="flex justify-between text-sm">
           <span className="text-muted-foreground">Total</span>
-          <span className="font-semibold">
-            {total == null ? 'Consultar' : formatPrice(total)}
-          </span>
+          <span className="font-semibold">{total == null ? 'Consultar' : formatPrice(total)}</span>
         </div>
         <p className="text-xs text-muted-foreground">
           {hasPrices

@@ -50,6 +50,20 @@
   /* Base radius for organic curves */
   --radius: 1rem;
 
+  /* Earthy category accent palette
+     Derived from: colorhunt.co/palette/5749649f8383c8aaaaffdab3
+                   colorhunt.co/palette/2d3c5994a378e5ba41d1855c */
+  --earth-falda: #d4a574;
+  --earth-vestido: #c8928a;
+  --earth-kimono: #94a378;
+  --earth-remeron: #d1855c;
+  --earth-musculosa: #7b6b8a;
+  --earth-top: #9f8383;
+  --earth-camisa: #c4a84d;
+  --earth-bermuda: #6b8a8a;
+  --earth-short: #8a9878;
+  --earth-palazzo: #bba58f;
+
   /* Brand Colors - Warm earth background (between Opal and Lily) */
   --background: oklch(0.92 0.02 75); /* Warm sand, softer than pure Opal */
   --card: oklch(0.93 0.02 80); /* Slightly lighter for cards */
@@ -170,6 +184,19 @@
 /* Brand font utility classes */
 .font-titles {
   font-family: var(--font-titles), Georgia, serif;
+}
+
+/* Earthy category color utilities — set --cat-color via inline style */
+.earth-circle {
+  background: color-mix(in srgb, var(--cat-color) 40%, #f0ebe3);
+}
+
+.earth-gradient {
+  background: linear-gradient(
+    to bottom right,
+    color-mix(in srgb, var(--cat-color) 10%, #f0ebe3),
+    color-mix(in srgb, var(--cat-color) 22%, #f0ebe3)
+  );
 }
 
 /* Cherolina - use ONLY for large decorative text (taglines, hero accents) */

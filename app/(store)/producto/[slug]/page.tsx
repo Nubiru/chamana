@@ -4,6 +4,7 @@ import { AddToCartButton } from '@/components/store/AddToCartButton';
 import { ProductCard } from '@/components/store/ProductCard';
 import { VariantSelector } from '@/components/store/VariantSelector';
 import { Button } from '@/components/ui/button';
+import { getCategoryColor } from '@/lib/data/categories';
 import { telaDescripcion } from '@/lib/data/fabrics';
 import { MODELOS, getModelBySlug } from '@/lib/data/products';
 import type { Variante } from '@/lib/data/products';
@@ -14,19 +15,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound, useParams } from 'next/navigation';
 import { useState } from 'react';
-
-const MODEL_GRADIENTS: Record<string, string> = {
-  Falda: 'from-amber-50 to-orange-100',
-  Vestido: 'from-rose-50 to-pink-100',
-  Kimono: 'from-emerald-50 to-teal-100',
-  Remeron: 'from-sky-50 to-blue-100',
-  Musculosa: 'from-violet-50 to-purple-100',
-  Top: 'from-fuchsia-50 to-pink-100',
-  Camisa: 'from-lime-50 to-green-100',
-  Bermuda: 'from-yellow-50 to-amber-100',
-  Short: 'from-cyan-50 to-sky-100',
-  Palazzo: 'from-indigo-50 to-violet-100',
-};
 
 export default function ProductoPage() {
   const params = useParams<{ slug: string }>();
@@ -43,7 +31,7 @@ export default function ProductoPage() {
   );
   const [selectedImageIdx, setSelectedImageIdx] = useState(0);
 
-  const gradient = MODEL_GRADIENTS[model.tipo] || 'from-gray-50 to-gray-100';
+  const catColor = getCategoryColor(model.tipo);
 
   const relatedModels = MODELOS.filter((m) => m.tipo === model.tipo && m.slug !== model.slug).slice(
     0,
@@ -74,7 +62,8 @@ export default function ProductoPage() {
         {/* Image */}
         <div className="space-y-3">
           <div
-            className={`aspect-square bg-gradient-to-br ${gradient} rounded-2xl flex items-center justify-center relative overflow-hidden`}
+            className="aspect-square earth-gradient rounded-2xl flex items-center justify-center relative overflow-hidden"
+            style={{ '--cat-color': catColor } as React.CSSProperties}
           >
             {modelImages.length > 0 ? (
               <Image

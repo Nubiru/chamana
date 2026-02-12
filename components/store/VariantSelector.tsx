@@ -21,7 +21,9 @@ export function VariantSelector({ variantes, selected, onSelect }: VariantSelect
           )}
         </h3>
         {selected.precio != null && (
-          <span className="text-lg font-semibold text-foreground">{formatPrice(selected.precio)}</span>
+          <span className="text-lg font-semibold text-foreground">
+            {formatPrice(selected.precio)}
+          </span>
         )}
       </div>
 
