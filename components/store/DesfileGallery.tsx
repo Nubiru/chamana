@@ -44,12 +44,11 @@ export function DesfileGallery({ images }: { images: DesfileImage[] }) {
 
       {/* Lightbox */}
       {lightboxIndex !== null && (
-        <div
-          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center"
+        <dialog
+          open
+          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center m-0 max-w-none max-h-none w-full h-full border-none"
           onClick={closeLightbox}
           onKeyDown={(e) => e.key === 'Escape' && closeLightbox()}
-          role="dialog"
-          aria-modal="true"
           aria-label="Foto ampliada"
         >
           <button
@@ -63,7 +62,7 @@ export function DesfileGallery({ images }: { images: DesfileImage[] }) {
           <div
             className="relative w-[90vw] h-[90vh]"
             onClick={(e) => e.stopPropagation()}
-            onKeyDown={() => {}}
+            onKeyDown={(e) => e.stopPropagation()}
           >
             <Image
               src={images[lightboxIndex].src}
@@ -74,7 +73,7 @@ export function DesfileGallery({ images }: { images: DesfileImage[] }) {
               priority
             />
           </div>
-        </div>
+        </dialog>
       )}
     </>
   );

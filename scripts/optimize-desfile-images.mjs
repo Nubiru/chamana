@@ -4,7 +4,7 @@ import sharp from 'sharp';
 
 const SOURCE_DIR = join(
   import.meta.dirname,
-  '../.context/3.Client/Brand-data/FOTOS DESFILE-20260211T231408Z-1-001/FOTOS DESFILE',
+  '../.context/3.Client/Brand-data/FOTOS DESFILE-20260211T231408Z-1-001/FOTOS DESFILE'
 );
 const OUTPUT_DIR = join(import.meta.dirname, '../public/images/desfile');
 const MAX_WIDTH = 1400;
@@ -30,7 +30,10 @@ for (let i = 0; i < files.length; i++) {
   const idx = String(i + 1).padStart(2, '0');
   const out = join(OUTPUT_DIR, `desfile-${idx}.webp`);
 
-  await sharp(src).resize({ width: MAX_WIDTH, withoutEnlargement: true }).webp({ quality: QUALITY }).toFile(out);
+  await sharp(src)
+    .resize({ width: MAX_WIDTH, withoutEnlargement: true })
+    .webp({ quality: QUALITY })
+    .toFile(out);
 
   console.log(`  ${files[i]} → desfile-${idx}.webp`);
 }

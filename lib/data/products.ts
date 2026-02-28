@@ -39,10 +39,7 @@ export const MODELOS: ChamanaModel[] = [
     tipo: 'Falda',
     descripcion:
       'Falda que fluye con cada paso, como un hechizo tejido en tela. Su caida natural acompana el movimiento del cuerpo con gracia y soltura.',
-    imagenes: [
-      '/images/models/hechizo/hechizo-1.webp',
-      '/images/models/hechizo/hechizo-2.webp',
-    ],
+    imagenes: ['/images/models/hechizo/hechizo-1.webp', '/images/models/hechizo/hechizo-2.webp'],
     variantes: [
       vSinStock('hechizo-linmenchoc', 'LinMenChoc'),
       vSinStock('hechizo-linmarcho', 'LinMarCho'),
@@ -56,6 +53,7 @@ export const MODELOS: ChamanaModel[] = [
     tipo: 'Vestido',
     descripcion:
       'Vestido que envuelve el cuerpo como un abrazo sagrado. Cada puntada honra la conexion entre la mujer y la naturaleza.',
+    imagenes: ['/images/models/sagrada/sagrada-1.webp', '/images/models/sagrada/sagrada-2.webp'],
     variantes: [],
   },
   {
@@ -67,6 +65,10 @@ export const MODELOS: ChamanaModel[] = [
     imagenes: [
       '/images/models/intuicion/intuicion-1.webp',
       '/images/models/intuicion/intuicion-2.webp',
+      '/images/models/intuicion/intuicion-3.webp',
+      '/images/models/intuicion/intuicion-4.webp',
+      '/images/models/intuicion/intuicion-5.webp',
+      '/images/models/intuicion/intuicion-6.webp',
     ],
     variantes: [
       v('intuicion-ribmarino', 'RibMarino', undefined, 42000),
@@ -267,6 +269,13 @@ export const MODELOS: ChamanaModel[] = [
     detalle: 'Capri',
     descripcion:
       'Palazzo capri con un aire mistico y envolvente. Su largo intermedio es perfecto para transitar entre lo casual y lo elegante.',
+    imagenes: [
+      '/images/models/mistica/mistica-1.webp',
+      '/images/models/mistica/mistica-2.webp',
+      '/images/models/mistica/mistica-3.webp',
+      '/images/models/mistica/mistica-4.webp',
+      '/images/models/mistica/mistica-5.webp',
+    ],
     variantes: [
       v('mistica-linmarmalv', 'LinMarMalv', undefined, 38000),
       v('mistica-linatenneg', 'LinAtenNeg', undefined, 38000),
