@@ -54,7 +54,7 @@ export const MODELOS: ChamanaModel[] = [
     descripcion:
       'Vestido que envuelve el cuerpo como un abrazo sagrado. Cada puntada honra la conexion entre la mujer y la naturaleza.',
     imagenes: ['/images/models/sagrada/sagrada-1.webp', '/images/models/sagrada/sagrada-2.webp'],
-    variantes: [],
+    variantes: [v('sagrada-ribnegro', 'RibNegro', undefined, 68000)],
   },
   {
     slug: 'intuicion',
@@ -260,7 +260,10 @@ export const MODELOS: ChamanaModel[] = [
       '/images/models/luz-y-sombra/luz-y-sombra-4.webp',
       '/images/models/luz-y-sombra/luz-y-sombra-5.webp',
     ],
-    variantes: [],
+    variantes: [
+      v('luz-y-sombra-tusmaiz', 'TusMaiz', undefined, 48000),
+      v('luz-y-sombra-tusnegro', 'TusNegro', undefined, 48000),
+    ],
   },
   {
     slug: 'mistica',

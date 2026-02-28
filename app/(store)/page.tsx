@@ -50,7 +50,7 @@ export default function HomePage() {
             {/* Full brand logo with faded edges */}
             <div className="flex justify-center">
               <div
-                className="rounded-3xl overflow-hidden"
+                className="rounded-full overflow-hidden"
                 style={{
                   maskImage:
                     'radial-gradient(ellipse 70% 70% at center, black 40%, transparent 100%)',

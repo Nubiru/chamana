@@ -47,12 +47,17 @@ describe('products data', () => {
   });
 
   it('proximamente models have empty variantes', () => {
-    const sagrada = getModelBySlug('sagrada');
     const corazonada = getModelBySlug('corazonada');
-    const luzYSombra = getModelBySlug('luz-y-sombra');
-    expect(sagrada?.variantes).toHaveLength(0);
     expect(corazonada?.variantes).toHaveLength(0);
-    expect(luzYSombra?.variantes).toHaveLength(0);
+  });
+
+  it('sagrada and luz-y-sombra have variants and prices', () => {
+    const sagrada = getModelBySlug('sagrada');
+    const luzYSombra = getModelBySlug('luz-y-sombra');
+    expect(sagrada?.variantes.length).toBeGreaterThan(0);
+    expect(sagrada?.variantes[0].precio).toBe(68000);
+    expect(luzYSombra?.variantes.length).toBeGreaterThan(0);
+    expect(luzYSombra?.variantes[0].precio).toBe(48000);
   });
 });
 
