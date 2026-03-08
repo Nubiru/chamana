@@ -12,12 +12,15 @@ type Args = {
   children: React.ReactNode;
 };
 
-const serverFunctions: ServerFunctionClient = async (args) =>
-  handleServerFunctions({
+// biome-ignore lint/complexity/useArrowFunction: 'use server' directive requires function expression, not arrow
+const serverFunctions: ServerFunctionClient = async function (args) {
+  'use server';
+  return handleServerFunctions({
     ...args,
     config,
     importMap,
   });
+};
 
 const Layout = ({ children }: Args) => (
   <RootLayout config={config} importMap={importMap} serverFunction={serverFunctions}>
