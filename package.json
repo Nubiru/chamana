@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npx payload generate:importmap --disable-transpile && next build",
+    "build": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON node_modules/.bin/payload generate:importmap --disable-transpile && next build",
     "start": "next start",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",

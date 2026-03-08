@@ -20,7 +20,8 @@
       "src",
       "database",
       "*.config.js",
-      "*.config.mjs"
+      "*.config.mjs",
+      "app/(payload)/admin/importMap.js"
     ]
   },
   "formatter": {
