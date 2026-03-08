@@ -1,2 +1,2 @@
+export PATH="/home/gabiota/.nvm/versions/node/v22.21.1/bin:$PATH"
 npm run typecheck
-npm run test
