@@ -1,1 +1,2 @@
+export PATH="/home/gabiota/.nvm/versions/node/v22.21.1/bin:$PATH"
 npx lint-staged
