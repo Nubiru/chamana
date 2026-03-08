@@ -1,7 +1,7 @@
 import type { ChamanaModel } from '@/lib/data/products';
 import { getModelMaxPrice, getModelMinPrice } from '@/lib/data/products';
 
-const BASE_URL = 'https://chamana-ashy.vercel.app';
+const BASE_URL = 'https://chamana.app';
 
 export function organizationJsonLd() {
   return {

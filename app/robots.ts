@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/carrito'],
     },
-    sitemap: 'https://chamana-ashy.vercel.app/sitemap.xml',
+    sitemap: 'https://chamana.app/sitemap.xml',
   };
 }

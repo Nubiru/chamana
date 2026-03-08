@@ -1,7 +1,7 @@
 import { getModelos } from '@/lib/payload/queries';
 import type { MetadataRoute } from 'next';
 
-const BASE_URL = 'https://chamana-ashy.vercel.app';
+const BASE_URL = 'https://chamana.app';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const modelos = await getModelos();

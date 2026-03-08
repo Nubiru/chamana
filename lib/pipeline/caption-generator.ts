@@ -15,7 +15,7 @@ import {
 } from './transmutacion-data';
 
 const WHATSAPP_NUMBER = '542215475727';
-const WEBSITE_URL = 'https://chamana-ashy.vercel.app';
+const WEBSITE_URL = 'https://chamana.app';
 const IG_HANDLE = '@chamanasomostodas';
 
 export interface Caption {
