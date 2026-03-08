@@ -1,0 +1,108 @@
+import path from 'path'
+import { fileURLToPath } from 'url'
+import { buildConfig } from 'payload'
+import { postgresAdapter } from '@payloadcms/db-postgres'
+import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import sharp from 'sharp'
+import { resendAdapter } from '@payloadcms/email-resend'
+import { es } from '@payloadcms/translations/languages/es'
+
+import { Users } from './collections/Users.ts'
+import { Media } from './collections/Media.ts'
+import { Telas } from './collections/Telas.ts'
+import { Modelos } from './collections/Modelos.ts'
+import { Colecciones } from './collections/Colecciones.ts'
+import { Prototipos } from './collections/Prototipos.ts'
+import { Eventos } from './collections/Eventos.ts'
+import { Ventas } from './collections/Ventas.ts'
+
+import { ConfiguracionSitio } from './globals/ConfiguracionSitio.ts'
+import { ContenidoInicio } from './globals/ContenidoInicio.ts'
+import { PreguntasFrecuentes } from './globals/PreguntasFrecuentes.ts'
+import { Garantias } from './globals/Garantias.ts'
+import { GuiaTalles } from './globals/GuiaTalles.ts'
+
+const filename = fileURLToPath(import.meta.url)
+const dirname = path.dirname(filename)
+
+export default buildConfig({
+  admin: {
+    user: Users.slug,
+    meta: {
+      titleSuffix: ' — CHAMANA',
+      title: 'CHAMANA Admin',
+      description: 'Panel de administracion de CHAMANA',
+      icons: [
+        {
+          type: 'image/png',
+          url: '/favicon.ico',
+        },
+      ],
+    },
+    importMap: {
+      baseDir: path.resolve(dirname),
+    },
+    components: {
+      graphics: {
+        Logo: '/components/admin/Logo',
+        Icon: '/components/admin/Icon',
+      },
+    },
+  },
+
+  i18n: {
+    supportedLanguages: { es },
+    fallbackLanguage: 'es',
+  },
+
+  collections: [Users, Media, Telas, Modelos, Colecciones, Prototipos, Eventos, Ventas],
+
+  globals: [ConfiguracionSitio, ContenidoInicio, PreguntasFrecuentes, Garantias, GuiaTalles],
+
+  db: process.env.POSTGRES_URL
+    ? postgresAdapter({
+        pool: {
+          connectionString: process.env.POSTGRES_URL,
+        },
+      })
+    : sqliteAdapter({
+        client: {
+          url: 'file:./chamana.db',
+        },
+      }),
+
+  editor: lexicalEditor(),
+
+  secret: process.env.PAYLOAD_SECRET || 'CHANGE-ME-IN-PRODUCTION',
+
+  typescript: {
+    outputFile: path.resolve(dirname, 'payload-types.ts'),
+  },
+
+  sharp,
+
+  ...(process.env.RESEND_API_KEY
+    ? {
+        email: resendAdapter({
+          defaultFromAddress: 'admin@chamana.app',
+          defaultFromName: 'CHAMANA',
+          apiKey: process.env.RESEND_API_KEY || '',
+        }),
+      }
+    : {}),
+
+  plugins: [
+    ...(process.env.BLOB_READ_WRITE_TOKEN
+      ? [
+          vercelBlobStorage({
+            collections: {
+              media: true,
+            },
+            token: process.env.BLOB_READ_WRITE_TOKEN,
+          }),
+        ]
+      : []),
+  ],
+})

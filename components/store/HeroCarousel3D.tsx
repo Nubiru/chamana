@@ -1,4 +1,4 @@
-import { MODELOS } from '@/lib/data/products';
+import type { ChamanaModel } from '@/lib/data/products';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -6,13 +6,17 @@ const CARD_W = 120;
 const CARD_H = 160;
 const RADIUS = 440;
 
-export function HeroCarousel3D() {
-  const total = MODELOS.length;
+interface HeroCarousel3DProps {
+  modelos: ChamanaModel[];
+}
+
+export function HeroCarousel3D({ modelos }: HeroCarousel3DProps) {
+  const total = modelos.length;
 
   return (
     <div className="carousel-3d-scene mx-auto w-[300px] h-[220px] md:w-[460px] md:h-[260px]">
       <div className="carousel-3d relative w-full h-full">
-        {MODELOS.map((model, i) => {
+        {modelos.map((model, i) => {
           const angle = (360 / total) * i;
           const firstImage = model.imagenes?.[0];
 
@@ -38,7 +42,8 @@ export function HeroCarousel3D() {
                     height={CARD_H}
                     className="w-full h-full object-cover"
                     sizes={`${CARD_W}px`}
-                    loading="lazy"
+                    priority={i < 3}
+                    loading={i < 3 ? undefined : 'lazy'}
                   />
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-secondary/40 to-accent/30">

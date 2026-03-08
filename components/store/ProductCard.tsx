@@ -4,11 +4,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import { getCategoryColor } from '@/lib/data/categories';
 import type { ChamanaModel } from '@/lib/data/products';
 import { getModelPriceDisplay } from '@/lib/data/products';
+import { formatPrice } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export function ProductCard({ model }: { model: ChamanaModel }) {
   const firstImage = model.imagenes?.[0];
+  const hasStrikethrough = model.variantes.some((v) => v.precioAnterior);
 
   return (
     <Card className="group overflow-hidden transition-all hover:shadow-lg border-border/30 p-0">
@@ -40,6 +42,15 @@ export function ProductCard({ model }: { model: ChamanaModel }) {
               {model.tipo}
             </span>
           </div>
+
+          {/* Model badge */}
+          {model.badge && (
+            <div className="absolute top-2 right-2">
+              <span className="text-[10px] font-semibold bg-cta text-cta-foreground px-2 py-0.5 rounded-full">
+                {model.badge}
+              </span>
+            </div>
+          )}
 
           {/* Color swatches or Proximamente badge */}
           <div className="absolute bottom-2 left-2 flex gap-1">
@@ -76,9 +87,16 @@ export function ProductCard({ model }: { model: ChamanaModel }) {
             {model.detalle ? ` · ${model.detalle}` : ''}
           </p>
           {model.variantes.length > 0 && (
-            <p className="text-sm font-semibold text-foreground mt-1">
-              {getModelPriceDisplay(model)}
-            </p>
+            <div className="flex items-center gap-2 mt-1">
+              <p className="text-sm font-semibold text-foreground">
+                {getModelPriceDisplay(model)}
+              </p>
+              {hasStrikethrough && (
+                <span className="text-xs text-muted-foreground line-through">
+                  {formatPrice(model.variantes.find((v) => v.precioAnterior)?.precioAnterior)}
+                </span>
+              )}
+            </div>
           )}
         </CardContent>
       </Link>

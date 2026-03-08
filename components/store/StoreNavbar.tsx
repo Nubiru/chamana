@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { trackWhatsAppClick } from '@/lib/analytics';
 import { useCartStore } from '@/lib/stores/cart-store';
 import { generateGeneralWhatsAppUrl } from '@/lib/whatsapp';
 import { Menu, MessageCircle, ShoppingBag, X } from 'lucide-react';
@@ -61,6 +62,7 @@ export function StoreNavbar() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp"
+              onClick={() => trackWhatsAppClick('general', 'navbar-desktop')}
             >
               <MessageCircle className="h-5 w-5" />
             </a>
@@ -118,7 +120,10 @@ export function StoreNavbar() {
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-foreground/60 hover:text-foreground transition-colors flex items-center gap-2"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => {
+                trackWhatsAppClick('general', 'navbar-mobile');
+                setMobileMenuOpen(false);
+              }}
             >
               <MessageCircle className="h-4 w-4" />
               WhatsApp

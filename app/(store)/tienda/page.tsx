@@ -1,42 +1,10 @@
-'use client';
-
-import { ProductFilters } from '@/components/store/ProductFilters';
-import { ProductGrid } from '@/components/store/ProductGrid';
-import { CATEGORIAS } from '@/lib/data/categories';
-import { MODELOS } from '@/lib/data/products';
-import { useSearchParams } from 'next/navigation';
+import { TiendaContent } from '@/components/store/TiendaContent';
+import { getModelos, getCategorias } from '@/lib/payload/queries';
 import { Suspense } from 'react';
 
-function TiendaContent() {
-  const searchParams = useSearchParams();
-  const categoriaSlug = searchParams.get('categoria');
+export default async function TiendaPage() {
+  const [modelos, categorias] = await Promise.all([getModelos(), getCategorias()]);
 
-  const filteredModels = categoriaSlug
-    ? MODELOS.filter((m) => {
-        const cat = CATEGORIAS.find((c) => c.slug === categoriaSlug);
-        return cat ? m.tipo === cat.nombre : true;
-      })
-    : MODELOS;
-
-  return (
-    <div className="container py-6 px-4">
-      <div className="mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold font-titles mb-2">Colección Magia</h1>
-        <p className="text-sm text-muted-foreground">
-          {filteredModels.length} modelo{filteredModels.length !== 1 ? 's' : ''}
-        </p>
-      </div>
-
-      <div className="mb-6">
-        <ProductFilters />
-      </div>
-
-      <ProductGrid models={filteredModels} />
-    </div>
-  );
-}
-
-export default function TiendaPage() {
   return (
     <Suspense
       fallback={
@@ -50,7 +18,7 @@ export default function TiendaPage() {
         </div>
       }
     >
-      <TiendaContent />
+      <TiendaContent modelos={modelos} categorias={categorias} />
     </Suspense>
   );
 }

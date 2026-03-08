@@ -6,6 +6,8 @@ export interface Variante {
   tela1: Tela;
   tela2?: Tela;
   precio?: number;
+  precioAnterior?: number;
+  descuento?: number;
   sinStock?: boolean;
 }
 
@@ -17,6 +19,9 @@ export interface ChamanaModel {
   descripcion: string;
   variantes: Variante[];
   imagenes?: string[];
+  badge?: string;
+  featured?: boolean;
+  bundleId?: string;
 }
 
 function v(id: string, tela1Key: string, tela2Key?: string, precio?: number): Variante {
@@ -60,6 +65,7 @@ export const MODELOS: ChamanaModel[] = [
     slug: 'intuicion',
     nombre: 'Intuicion',
     tipo: 'Kimono',
+    featured: true,
     descripcion:
       'Kimono de corte amplio que sigue el instinto de quien lo lleva. Una pieza envolvente para protegerte del frio con calidez artesanal.',
     imagenes: [
@@ -83,6 +89,7 @@ export const MODELOS: ChamanaModel[] = [
     nombre: 'Sabia',
     tipo: 'Remeron',
     detalle: 'Oriental',
+    featured: true,
     descripcion:
       'Remeron oriental amplio y comodo, inspirado en la sabiduria ancestral. Perfecto para esos dias donde la comodidad y el estilo se encuentran.',
     imagenes: [
@@ -131,6 +138,7 @@ export const MODELOS: ChamanaModel[] = [
     nombre: 'Espejo',
     tipo: 'Top',
     detalle: 'Reversible',
+    featured: true,
     descripcion:
       'Top reversible que refleja la dualidad de la naturaleza. Dos caras, dos esencias, una sola prenda que se adapta a tu estado de animo.',
     imagenes: [
@@ -230,6 +238,7 @@ export const MODELOS: ChamanaModel[] = [
     nombre: 'Dejavu',
     tipo: 'Palazzo',
     detalle: 'Bolsillos',
+    featured: true,
     descripcion:
       'Palazzo con bolsillos que evoca la sensacion de un dejavu. Su amplitud celebra la libertad de movimiento con funcionalidad.',
     imagenes: [

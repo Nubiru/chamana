@@ -3,6 +3,11 @@ import localFont from 'next/font/local';
 import './globals.css';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { ToastProvider } from '@/components/ui/toast';
+import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
+import { CookieConsent } from '@/components/analytics/CookieConsent';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { organizationJsonLd, websiteJsonLd } from '@/lib/structured-data';
 
 const serifFlowers = localFont({
   src: [
@@ -45,6 +50,15 @@ export const metadata: Metadata = {
       },
     ],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'CHAMANA - Ropa Femenina Artesanal',
+    description: 'Ropa femenina artesanal inspirada en la naturaleza.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -55,9 +69,21 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${serifFlowers.variable} ${cherolina.variable}`}>
       <body className="antialiased font-sans">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
+        />
+        <GoogleAnalytics />
         <ErrorBoundary>
           <ToastProvider>{children}</ToastProvider>
         </ErrorBoundary>
+        <Analytics />
+        <SpeedInsights />
+        <CookieConsent />
       </body>
     </html>
   );

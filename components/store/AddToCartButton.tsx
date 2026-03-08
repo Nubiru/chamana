@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { trackAddToCart } from '@/lib/analytics';
 import { telaDescripcion } from '@/lib/data/fabrics';
 import type { ChamanaModel, Variante } from '@/lib/data/products';
 import { useCartStore } from '@/lib/stores/cart-store';
@@ -27,6 +28,7 @@ export function AddToCartButton({ model, variante }: AddToCartButtonProps) {
       precio: variante.precio,
       modelImageUrl: model.imagenes?.[0],
     });
+    trackAddToCart(model.slug, model.nombre, model.tipo, variante.id, variante.precio);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };

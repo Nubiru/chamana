@@ -27,6 +27,8 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-cta: var(--cta);
+  --color-cta-foreground: var(--cta-foreground);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -92,6 +94,10 @@
   /* Destructive (keep red for errors) */
   --destructive: oklch(0.577 0.245 27.325);
 
+  /* CTA - Warm earthy orange for call-to-action buttons */
+  --cta: oklch(0.68 0.19 50);
+  --cta-foreground: oklch(0.98 0.005 90);
+
   /* Chart colors derived from brand palette */
   --chart-1: oklch(0.2 0.01 180); /* Forest Primary */
   --chart-2: oklch(0.64 0.02 130); /* Meadow */
@@ -145,6 +151,10 @@
 
   /* Destructive (keep red for errors) */
   --destructive: oklch(0.704 0.191 22.216);
+
+  /* CTA - Warm earthy orange for call-to-action buttons (dark mode) */
+  --cta: oklch(0.72 0.17 52);
+  --cta-foreground: oklch(0.98 0.005 90);
 
   /* Chart colors for dark mode - adjusted for visibility */
   --chart-1: oklch(0.88 0.03 65); /* Lily Primary */
@@ -314,50 +324,13 @@
     backface-visibility: visible;
   }
 
-  /* === Infinite Marquee Carousel === */
-  @keyframes marqueeScroll {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
-
-  .carousel-marquee {
-    overflow: hidden;
-    mask-image: linear-gradient(to right, transparent, #000 5% 95%, transparent);
-  }
-
-  .carousel-marquee-track {
-    animation: marqueeScroll var(--marquee-duration, 40s) linear infinite;
-  }
-
-  .carousel-marquee:hover .carousel-marquee-track {
-    animation-play-state: paused;
-  }
-
-  .carousel-marquee-item {
-    transition: filter 0.3s, transform 0.3s;
-  }
-
-  .carousel-marquee:hover .carousel-marquee-item {
-    filter: grayscale(0.6);
-  }
-
-  .carousel-marquee-item:hover {
-    filter: grayscale(0) !important;
-    transform: scale(1.03);
-  }
-
   /* Respect prefers-reduced-motion */
   @media (prefers-reduced-motion: reduce) {
     .animate-fade-in,
     .animate-slide-up,
     .animate-flow,
     .animate-gentle-pulse,
-    .carousel-3d,
-    .carousel-marquee-track {
+    .carousel-3d {
       animation: none;
     }
   }

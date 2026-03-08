@@ -1,4 +1,5 @@
 import { BottomNav } from '@/components/store/BottomNav';
+import { LeadMagnetPopup } from '@/components/store/LeadMagnetPopup';
 import { StoreFooter } from '@/components/store/StoreFooter';
 import { StoreNavbar } from '@/components/store/StoreNavbar';
 import { WhatsAppFab } from '@/components/store/WhatsAppFab';
@@ -15,6 +16,7 @@ export default function StoreLayout({
       <StoreFooter />
       <BottomNav />
       <WhatsAppFab />
+      <LeadMagnetPopup />
     </div>
   );
 }

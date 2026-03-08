@@ -1,9 +1,8 @@
 import { CategoryCircles } from '@/components/store/CategoryCircles';
 import { HeroCarousel3D } from '@/components/store/HeroCarousel3D';
-import { InfiniteCarousel } from '@/components/store/InfiniteCarousel';
 import { ProductCard } from '@/components/store/ProductCard';
 import { Button } from '@/components/ui/button';
-import { MODELOS } from '@/lib/data/products';
+import { getModelos, getModelosFeatured } from '@/lib/payload/queries';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,7 +12,8 @@ const fadeEdges = {
   WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)',
 } as React.CSSProperties;
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [modelos, featured] = await Promise.all([getModelos(), getModelosFeatured()]);
   return (
     <div className="flex min-h-screen flex-col">
       {/* ===== BG 1: Woman's back (thread) ===== */}
@@ -106,7 +106,7 @@ export default function HomePage() {
 
         {/* 3D Carousel */}
         <div className="mt-2 md:mt-4 mb-8">
-          <HeroCarousel3D />
+          <HeroCarousel3D modelos={modelos} />
         </div>
       </section>
 
@@ -157,7 +157,11 @@ export default function HomePage() {
               </Button>
             </div>
 
-            <InfiniteCarousel />
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+              {featured.map((model) => (
+                <ProductCard key={model.slug} model={model} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -192,7 +196,7 @@ export default function HomePage() {
               </p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
-              {MODELOS.map((model) => (
+              {modelos.map((model) => (
                 <ProductCard key={model.slug} model={model} />
               ))}
             </div>

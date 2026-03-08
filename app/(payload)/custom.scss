@@ -1,0 +1,210 @@
+/* CHAMANA Admin Panel — Brand Identity System */
+
+:root {
+  /* Override Payload CSS variables with CHAMANA palette */
+  --theme-elevation-0: #EFEFE9;      /* Opal — background */
+  --theme-elevation-50: #E8E8E2;     /* Opal darker */
+  --theme-elevation-100: #E0DED6;    /* Opal even darker */
+  --theme-elevation-150: #D8D6CE;
+  --theme-elevation-200: #D0CEC6;
+  --theme-elevation-250: #C8C5BD;
+  --theme-elevation-300: #BBA58F;    /* Lily */
+  --theme-elevation-350: #A89580;
+  --theme-elevation-400: #959D90;    /* Meadow */
+  --theme-elevation-450: #7A8275;
+  --theme-elevation-500: #5E665A;
+  --theme-elevation-600: #3D4A40;
+  --theme-elevation-700: #2D3A32;
+  --theme-elevation-800: #223030;    /* Forest */
+  --theme-elevation-900: #1A2424;
+  --theme-elevation-950: #111818;
+  --theme-elevation-1000: #0A0F0F;
+
+  /* Brand accent */
+  --theme-success-500: #959D90;      /* Meadow */
+  --theme-error-500: #9B3B3B;        /* Warm red, not harsh */
+  --theme-warning-500: #BBA58F;      /* Lily */
+
+  /* Text colors */
+  --theme-text: #223030;             /* Forest */
+
+  /* Font */
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ===== LOGIN PAGE ===== */
+.login {
+  background-color: #EFEFE9 !important;
+
+  &__brand {
+    /* Hide default Payload logo */
+    img {
+      display: none;
+    }
+
+    /* CHAMANA text branding */
+    &::before {
+      content: 'CHAMANA';
+      display: block;
+      font-family: serif;
+      font-size: 2.5rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      color: #223030;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    &::after {
+      content: 'Administracion';
+      display: block;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #959D90;
+      text-align: center;
+    }
+  }
+
+  /* Login form card */
+  .form-submit .btn {
+    background-color: #223030 !important;
+    border-color: #223030 !important;
+    color: #EFEFE9 !important;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+
+    &:hover {
+      background-color: #523D35 !important;
+      border-color: #523D35 !important;
+    }
+  }
+}
+
+/* ===== NAVIGATION ===== */
+.nav {
+  background-color: #223030 !important;
+
+  &__label {
+    color: #959D90 !important;
+    text-transform: uppercase;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+  }
+
+  a {
+    color: #EFEFE9 !important;
+
+    &:hover,
+    &.active {
+      background-color: rgba(149, 157, 144, 0.15) !important;
+    }
+  }
+}
+
+/* ===== HEADER ===== */
+.app-header {
+  background-color: #EFEFE9 !important;
+  border-bottom: 1px solid #D8D6CE;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  border-radius: 2px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  font-size: 0.8rem;
+
+  &--style-primary {
+    background-color: #223030 !important;
+    color: #EFEFE9 !important;
+
+    &:hover {
+      background-color: #523D35 !important;
+    }
+  }
+
+  &--style-secondary {
+    border-color: #BBA58F !important;
+    color: #223030 !important;
+
+    &:hover {
+      background-color: #E8D9CD !important;
+    }
+  }
+}
+
+/* ===== CARDS & COLLECTIONS ===== */
+.collection-list {
+  .card {
+    border-radius: 4px;
+    border-color: #D8D6CE;
+  }
+}
+
+/* ===== TABLE ===== */
+.table {
+  .row {
+    &:hover {
+      background-color: rgba(232, 217, 205, 0.3) !important; /* Lily transparent */
+    }
+  }
+
+  .sort-column {
+    &.active {
+      color: #223030;
+    }
+  }
+}
+
+/* ===== FORM FIELDS ===== */
+.field-type {
+  input,
+  textarea,
+  select {
+    border-radius: 2px !important;
+    border-color: #D8D6CE !important;
+
+    &:focus {
+      border-color: #959D90 !important;
+      box-shadow: 0 0 0 2px rgba(149, 157, 144, 0.2) !important;
+    }
+  }
+}
+
+/* ===== PILL / BADGE ===== */
+.pill {
+  border-radius: 2px !important;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+}
+
+/* ===== STATUS INDICATORS ===== */
+.status-indicator {
+  &--active {
+    background-color: #959D90;
+  }
+
+  &--draft {
+    background-color: #BBA58F;
+  }
+}
+
+/* ===== DASHBOARD ===== */
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .login__brand::before {
+    font-size: 2rem;
+    letter-spacing: 0.2em;
+  }
+}

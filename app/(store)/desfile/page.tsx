@@ -1,15 +1,30 @@
 import { DesfileGallery } from '@/components/store/DesfileGallery';
-import { DESFILE_EVENTS } from '@/lib/data/desfile';
+import { getDesfileEvents } from '@/lib/payload/queries';
 import { Calendar, MapPin } from 'lucide-react';
+import type { Metadata } from 'next';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
+
+export const metadata: Metadata = {
+  title: 'Desfile en Utopia - CHAMANA',
+  description:
+    'Galeria de fotos del desfile de CHAMANA en Utopia, Capilla del Monte. Coleccion Magia - Ropa femenina artesanal.',
+  openGraph: {
+    title: 'Desfile CHAMANA - Coleccion Magia',
+    description: 'Galeria de fotos del desfile de CHAMANA en Utopia, Capilla del Monte.',
+    type: 'website',
+  },
+};
 
 const fadeEdges = {
   maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)',
   WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)',
 } as React.CSSProperties;
 
-export default function DesfilePage() {
-  const event = DESFILE_EVENTS[0];
+export default async function DesfilePage() {
+  const events = await getDesfileEvents();
+  const event = events[0];
+  if (!event) notFound();
 
   return (
     <div className="flex min-h-screen flex-col">

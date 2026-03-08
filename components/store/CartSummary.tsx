@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { trackWhatsAppClick } from '@/lib/analytics';
 import { useCartStore } from '@/lib/stores/cart-store';
 import { formatPrice } from '@/lib/utils';
 import { generateWhatsAppUrl } from '@/lib/whatsapp';
@@ -40,10 +41,15 @@ export function CartSummary() {
         </p>
       </CardContent>
       <CardFooter>
-        <Button asChild className="w-full gap-2" size="lg">
-          <a href={generateWhatsAppUrl(items)} target="_blank" rel="noopener noreferrer">
+        <Button asChild variant="cta" className="w-full gap-2" size="lg">
+          <a
+            href={generateWhatsAppUrl(items)}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackWhatsAppClick('cart', `${itemCount} items`, total ?? undefined)}
+          >
             <MessageCircle className="h-5 w-5" />
-            {hasPrices ? 'Pedir por WhatsApp' : 'Consultar por WhatsApp'}
+            Pedir por WhatsApp
           </a>
         </Button>
       </CardFooter>
