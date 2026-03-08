@@ -2,6 +2,7 @@ import type { CollectionMeta } from '@/lib/data/collections';
 import type { Tela } from '@/lib/data/fabrics';
 import type { FAQ } from '@/lib/data/faqs';
 import type { Guarantee } from '@/lib/data/guarantees';
+import { MODELOS } from '@/lib/data/products';
 import type { ChamanaModel, Variante } from '@/lib/data/products';
 import type { SizeGuideEntry } from '@/lib/data/size-guide';
 import config from '@payload-config';
@@ -85,7 +86,9 @@ function adaptModelo(doc: Record<string, unknown>): ChamanaModel {
     ...(doc.detalle ? { detalle: doc.detalle as string } : {}),
     descripcion: doc.descripcion as string,
     variantes: variantes.map(adaptVariante),
-    ...(imageUrls.length > 0 ? { imagenes: imageUrls } : {}),
+    ...(imageUrls.length > 0
+      ? { imagenes: imageUrls }
+      : { imagenes: MODELOS.find((m) => m.slug === (doc.slug as string))?.imagenes ?? [] }),
     ...(doc.badge ? { badge: doc.badge as string } : {}),
     ...(doc.featured ? { featured: true } : {}),
     ...(doc.bundleId ? { bundleId: doc.bundleId as string } : {}),
