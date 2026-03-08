@@ -52,16 +52,23 @@ async function seed() {
   const payload = await getPayload({ config });
 
   // ------------------------------------------------------------------
-  // 1. Admin users
+  // 1. Admin user (Cintia — single admin account)
   // ------------------------------------------------------------------
-  console.log('[1/5] Creating admin users...');
+  console.log('[1/5] Creating admin user...');
+
+  const ADMIN_PASSWORD = process.env.SEED_ADMIN_PASSWORD;
+  if (!ADMIN_PASSWORD) {
+    console.error('ERROR: Set SEED_ADMIN_PASSWORD env var before seeding.');
+    console.error('  Example: SEED_ADMIN_PASSWORD=YourSecurePassword npm run seed');
+    process.exit(1);
+  }
 
   try {
     await payload.create({
       collection: 'users',
       data: {
         email: 'chamanasomostodas@gmail.com',
-        password: 'chamana2026',
+        password: ADMIN_PASSWORD,
         nombre: 'Cintia',
         role: 'admin',
       },
@@ -79,32 +86,6 @@ async function seed() {
       console.log('  ⊘ Cintia already exists, skipping');
     } else {
       console.error('  ✗ Error creating Cintia:', msg);
-    }
-  }
-
-  try {
-    await payload.create({
-      collection: 'users',
-      data: {
-        email: 'osemberg.gabi@gmail.com',
-        password: 'chamana-dev-2026',
-        nombre: 'Gabriel',
-        role: 'admin',
-      },
-    });
-    summary.users++;
-    console.log('  ✓ Gabriel (osemberg.gabi@gmail.com)');
-  } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : String(err);
-    if (
-      msg.includes('duplicate') ||
-      msg.includes('unique') ||
-      msg.includes('already exists') ||
-      msg.includes('UNIQUE')
-    ) {
-      console.log('  ⊘ Gabriel already exists, skipping');
-    } else {
-      console.error('  ✗ Error creating Gabriel:', msg);
     }
   }
 
