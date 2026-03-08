@@ -1,6 +1,6 @@
-import type { CollectionConfig } from 'payload'
-import { isAdmin } from '../lib/payload/access.ts'
-import { ventasStateMachine } from '../lib/payload/hooks/ventas-state-machine.ts'
+import type { CollectionConfig } from 'payload';
+import { isAdmin } from '../lib/payload/access.ts';
+import { ventasStateMachine } from '../lib/payload/hooks/ventas-state-machine.ts';
 
 export const Ventas: CollectionConfig = {
   slug: 'ventas',
@@ -142,4 +142,4 @@ export const Ventas: CollectionConfig = {
     update: isAdmin,
     delete: isAdmin,
   },
-}
+};

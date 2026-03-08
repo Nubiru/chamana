@@ -50,9 +50,7 @@ export function StoreFooter() {
         </div>
 
         {/* Trust */}
-        <p className="text-xs text-muted-foreground/80 italic">
-          Hecho a mano en Cordoba
-        </p>
+        <p className="text-xs text-muted-foreground/80 italic">Hecho a mano en Cordoba</p>
         <p className="text-[11px] text-muted-foreground/50">
           Mercado Pago &middot; Transferencia &middot; Efectivo
         </p>

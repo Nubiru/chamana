@@ -67,8 +67,6 @@ export const FAQS: FAQ[] = [
 
 export function getFAQsForProduct(tipo: string): FAQ[] {
   return FAQS.filter(
-    (faq) =>
-      faq.global ||
-      (faq.categorias && faq.categorias.some((c) => c.toLowerCase() === tipo.toLowerCase()))
+    (faq) => faq.global || faq.categorias?.some((c) => c.toLowerCase() === tipo.toLowerCase())
   );
 }

@@ -1,5 +1,5 @@
-import type { CollectionConfig } from 'payload'
-import { isAdmin, isPublic } from '../lib/payload/access.ts'
+import type { CollectionConfig } from 'payload';
+import { isAdmin, isPublic } from '../lib/payload/access.ts';
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -45,4 +45,4 @@ export const Media: CollectionConfig = {
     update: isAdmin,
     delete: isAdmin,
   },
-}
+};

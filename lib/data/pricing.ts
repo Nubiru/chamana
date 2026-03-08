@@ -33,7 +33,5 @@ export function getBundleById(id: string): Bundle | undefined {
 }
 
 export function getCodigoDescuento(codigo: string): CodigoDescuento | undefined {
-  return CODIGOS_DESCUENTO.find(
-    (c) => c.codigo.toLowerCase() === codigo.toLowerCase()
-  );
+  return CODIGOS_DESCUENTO.find((c) => c.codigo.toLowerCase() === codigo.toLowerCase());
 }

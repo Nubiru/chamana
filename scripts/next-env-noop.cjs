@@ -3,8 +3,12 @@ const noop = {
   loadEnvConfig: () => ({ loadedEnvFiles: [] }),
   processEnv: process.env,
   initialEnv: {},
-  updateInitialEnv: () => {},
-  resetEnv: () => {},
-}
-module.exports = noop
-module.exports.default = noop
+  updateInitialEnv: () => {
+    /* noop */
+  },
+  resetEnv: () => {
+    /* noop */
+  },
+};
+module.exports = noop;
+module.exports.default = noop;

@@ -1,31 +1,31 @@
-import path from 'path'
-import { fileURLToPath } from 'url'
-import { buildConfig } from 'payload'
-import { postgresAdapter } from '@payloadcms/db-postgres'
-import { sqliteAdapter } from '@payloadcms/db-sqlite'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
-import sharp from 'sharp'
-import { resendAdapter } from '@payloadcms/email-resend'
-import { es } from '@payloadcms/translations/languages/es'
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { postgresAdapter } from '@payloadcms/db-postgres';
+import { sqliteAdapter } from '@payloadcms/db-sqlite';
+import { resendAdapter } from '@payloadcms/email-resend';
+import { lexicalEditor } from '@payloadcms/richtext-lexical';
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';
+import { es } from '@payloadcms/translations/languages/es';
+import { buildConfig } from 'payload';
+import sharp from 'sharp';
 
-import { Users } from './collections/Users.ts'
-import { Media } from './collections/Media.ts'
-import { Telas } from './collections/Telas.ts'
-import { Modelos } from './collections/Modelos.ts'
-import { Colecciones } from './collections/Colecciones.ts'
-import { Prototipos } from './collections/Prototipos.ts'
-import { Eventos } from './collections/Eventos.ts'
-import { Ventas } from './collections/Ventas.ts'
+import { Colecciones } from './collections/Colecciones.ts';
+import { Eventos } from './collections/Eventos.ts';
+import { Media } from './collections/Media.ts';
+import { Modelos } from './collections/Modelos.ts';
+import { Prototipos } from './collections/Prototipos.ts';
+import { Telas } from './collections/Telas.ts';
+import { Users } from './collections/Users.ts';
+import { Ventas } from './collections/Ventas.ts';
 
-import { ConfiguracionSitio } from './globals/ConfiguracionSitio.ts'
-import { ContenidoInicio } from './globals/ContenidoInicio.ts'
-import { PreguntasFrecuentes } from './globals/PreguntasFrecuentes.ts'
-import { Garantias } from './globals/Garantias.ts'
-import { GuiaTalles } from './globals/GuiaTalles.ts'
+import { ConfiguracionSitio } from './globals/ConfiguracionSitio.ts';
+import { ContenidoInicio } from './globals/ContenidoInicio.ts';
+import { Garantias } from './globals/Garantias.ts';
+import { GuiaTalles } from './globals/GuiaTalles.ts';
+import { PreguntasFrecuentes } from './globals/PreguntasFrecuentes.ts';
 
-const filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(filename)
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 
 export default buildConfig({
   admin: {
@@ -105,4 +105,4 @@ export default buildConfig({
         ]
       : []),
   ],
-})
+});

@@ -1,8 +1,8 @@
-import { getPayload } from 'payload'
-import config from '../payload.config'
+import { getPayload } from 'payload';
+import config from '../payload.config';
 
 async function seed() {
-  const payload = await getPayload({ config })
+  const payload = await getPayload({ config });
 
   await payload.create({
     collection: 'users',
@@ -12,11 +12,11 @@ async function seed() {
       nombre: 'Cintia',
       role: 'admin',
     },
-  })
+  });
 
-  console.log('Admin creada: chamanasomostodas@gmail.com')
-  console.log('IMPORTANTE: Cambiar contraseña inmediatamente en chamana.app/admin')
-  process.exit(0)
+  console.log('Admin creada: chamanasomostodas@gmail.com');
+  console.log('IMPORTANTE: Cambiar contraseña inmediatamente en chamana.app/admin');
+  process.exit(0);
 }
 
-seed()
+seed();

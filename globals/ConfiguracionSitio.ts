@@ -1,5 +1,5 @@
-import type { GlobalConfig } from 'payload'
-import { isAdmin, isPublic } from '../lib/payload/access.ts'
+import type { GlobalConfig } from 'payload';
+import { isAdmin, isPublic } from '../lib/payload/access.ts';
 
 export const ConfiguracionSitio: GlobalConfig = {
   slug: 'configuracion-sitio',
@@ -37,11 +37,11 @@ export const ConfiguracionSitio: GlobalConfig = {
         description: 'Numero con codigo de pais, sin + ni espacios (ej: 542215475727)',
       },
       validate: (value: string | null | undefined) => {
-        if (!value) return true
+        if (!value) return true;
         if (!/^\d{10,15}$/.test(value)) {
-          return 'Debe ser un numero de 10-15 digitos sin espacios ni simbolos'
+          return 'Debe ser un numero de 10-15 digitos sin espacios ni simbolos';
         }
-        return true
+        return true;
       },
     },
     {
@@ -80,4 +80,4 @@ export const ConfiguracionSitio: GlobalConfig = {
     read: isPublic,
     update: isAdmin,
   },
-}
+};

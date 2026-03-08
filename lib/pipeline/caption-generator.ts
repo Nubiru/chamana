@@ -19,10 +19,10 @@ const WEBSITE_URL = 'https://chamana-ashy.vercel.app';
 const IG_HANDLE = '@chamanasomostodas';
 
 export interface Caption {
-  full: string;       // Complete caption ready to paste
-  hook: string;       // First line (scroll-stopper)
-  body: string;       // Narrative
-  cta: string;        // Call to action
+  full: string; // Complete caption ready to paste
+  hook: string; // First line (scroll-stopper)
+  body: string; // Narrative
+  cta: string; // Call to action
   whatsappLink: string;
   websiteLink: string;
 }
@@ -80,9 +80,7 @@ export function generateCapaCaption(capaName: CapaName): Caption | null {
   if (!capa) return null;
 
   const garments = getGarmentsByCapa(capaName);
-  const garmentList = garments
-    .map(g => `${g.type} ${g.name}`)
-    .join(' · ');
+  const garmentList = garments.map((g) => `${g.type} ${g.name}`).join(' · ');
 
   const hook = `${capa.displayName}\n${capa.subtitle}.`;
   const body = [
@@ -155,7 +153,7 @@ export function generateCollectionCaption(): Caption {
 
 // --- Helpers ---
 
-function pickVocabLine(words: readonly string[], capa: CapaName): string {
+function pickVocabLine(_words: readonly string[], capa: CapaName): string {
   const lines: Record<CapaName, string[]> = {
     tierra: [
       'Naturaleza que sostiene. Camino que transforma.',
@@ -186,8 +184,10 @@ function pickVocabLine(words: readonly string[], capa: CapaName): string {
 
 function getCapaStory(capa: CapaName): string {
   const stories: Record<CapaName, string> = {
-    tierra: 'La tierra no se resiste al cambio. Se transforma desde adentro. La roca se convierte en cristal, la semilla se rompe para nacer, la obsidiana se forja en el fuego del volcan.',
-    fuego: 'El fuego no destruye — purifica. Quema lo que ya no sirve para dejar espacio a lo nuevo. La ceniza es tierra fertil, la brasa es calor que perdura, la lava crea suelo donde antes no habia nada.',
+    tierra:
+      'La tierra no se resiste al cambio. Se transforma desde adentro. La roca se convierte en cristal, la semilla se rompe para nacer, la obsidiana se forja en el fuego del volcan.',
+    fuego:
+      'El fuego no destruye — purifica. Quema lo que ya no sirve para dejar espacio a lo nuevo. La ceniza es tierra fertil, la brasa es calor que perdura, la lava crea suelo donde antes no habia nada.',
     agua: 'El agua no lucha contra la piedra — la transforma gota a gota. Fluye, se adapta, encuentra su camino. La cascada cae libre, la perla nace de una herida, todo lo que fluye llega.',
     aire: 'El aire no se ve pero se siente. Eleva, libera, expande. El fenix renace, la libelula cambia de elemento, el condor vuela sin aletear. Soltar es la forma mas valiente de transformarse.',
   };

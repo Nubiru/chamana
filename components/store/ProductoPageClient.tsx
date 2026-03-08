@@ -11,9 +11,9 @@ import { Button } from '@/components/ui/button';
 import { trackProductView, trackWhatsAppClick } from '@/lib/analytics';
 import { getCategoryColor } from '@/lib/data/categories';
 import { telaDescripcion } from '@/lib/data/fabrics';
+import type { FAQ } from '@/lib/data/faqs';
 import type { ChamanaModel, Variante } from '@/lib/data/products';
 import { getModelMinPrice } from '@/lib/data/products';
-import type { FAQ } from '@/lib/data/faqs';
 import { formatPrice } from '@/lib/utils';
 import { generateSingleProductUrl } from '@/lib/whatsapp';
 import { ArrowLeft, MessageCircle, Sparkles } from 'lucide-react';
@@ -38,7 +38,7 @@ export function ProductoPageClient({ model, faqs, relatedModels }: ProductoPageC
 
   useEffect(() => {
     trackProductView(model.slug, model.nombre, model.tipo, getModelMinPrice(model));
-  }, [model.slug, model.nombre, model.tipo]);
+  }, [model]);
 
   const catColor = getCategoryColor(model.tipo);
 

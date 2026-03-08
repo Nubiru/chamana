@@ -1,5 +1,5 @@
-import type { GlobalConfig } from 'payload'
-import { isAdmin, isPublic } from '../lib/payload/access.ts'
+import type { GlobalConfig } from 'payload';
+import { isAdmin, isPublic } from '../lib/payload/access.ts';
 
 export const GuiaTalles: GlobalConfig = {
   slug: 'guia-talles',
@@ -80,4 +80,4 @@ export const GuiaTalles: GlobalConfig = {
     read: isPublic,
     update: isAdmin,
   },
-}
+};

@@ -56,9 +56,7 @@ export function productJsonLd(model: ChamanaModel) {
             lowPrice: minPrice.toString(),
             highPrice: (maxPrice ?? minPrice).toString(),
             priceCurrency: 'ARS',
-            availability: hasStock
-              ? 'https://schema.org/InStock'
-              : 'https://schema.org/OutOfStock',
+            availability: hasStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
             url: `${BASE_URL}/producto/${model.slug}`,
           },
         }

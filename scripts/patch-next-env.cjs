@@ -3,20 +3,20 @@
  * Env vars are loaded via --env-file flag instead.
  * Use: node --require ./scripts/patch-next-env.cjs ...
  */
-const Module = require('module')
-const origResolve = Module._resolveFilename
+const Module = require('node:module');
+const origResolve = Module._resolveFilename;
 
 // Track whether we're resolving recursively
-let patching = false
+let patching = false;
 
 Module._resolveFilename = function (request, parent, isMain, options) {
   if (request === '@next/env' && !patching) {
-    patching = true
+    patching = true;
     try {
-      return require.resolve('./next-env-noop.cjs')
+      return require.resolve('./next-env-noop.cjs');
     } finally {
-      patching = false
+      patching = false;
     }
   }
-  return origResolve.call(this, request, parent, isMain, options)
-}
+  return origResolve.call(this, request, parent, isMain, options);
+};

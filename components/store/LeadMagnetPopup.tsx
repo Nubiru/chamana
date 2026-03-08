@@ -114,9 +114,7 @@ export function LeadMagnetPopup() {
                   Quiero mi guia + descuento
                 </button>
               </form>
-              <p className="text-[11px] text-muted-foreground/60">
-                No spam. Solo magia.
-              </p>
+              <p className="text-[11px] text-muted-foreground/60">No spam. Solo magia.</p>
             </>
           )}
         </div>

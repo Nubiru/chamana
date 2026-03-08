@@ -1,5 +1,5 @@
-import type { GlobalConfig } from 'payload'
-import { isAdmin, isPublic } from '../lib/payload/access.ts'
+import type { GlobalConfig } from 'payload';
+import { isAdmin, isPublic } from '../lib/payload/access.ts';
 
 const TIPOS_PRENDA = [
   { label: 'Falda', value: 'Falda' },
@@ -12,7 +12,7 @@ const TIPOS_PRENDA = [
   { label: 'Bermuda', value: 'Bermuda' },
   { label: 'Short', value: 'Short' },
   { label: 'Palazzo', value: 'Palazzo' },
-]
+];
 
 export const PreguntasFrecuentes: GlobalConfig = {
   slug: 'preguntas-frecuentes',
@@ -67,4 +67,4 @@ export const PreguntasFrecuentes: GlobalConfig = {
     read: isPublic,
     update: isAdmin,
   },
-}
+};

@@ -24,15 +24,19 @@
  *   custom     — reads TITLE and SUBTITLE from env vars
  */
 
+import { readFileSync } from 'node:fs';
+import { basename, dirname, extname, resolve } from 'node:path';
 import sharp from 'sharp';
-import { readFileSync } from 'fs';
-import { resolve, basename, dirname, extname } from 'path';
 
 const FONTS_DIR = resolve(import.meta.dirname, '../public/fonts');
 
 // Load fonts as base64 for SVG embedding
-const serifFlowersB64 = readFileSync(resolve(FONTS_DIR, 'serif-flowers/SerifFlowers-Regular.ttf')).toString('base64');
-const cherolinaB64 = readFileSync(resolve(FONTS_DIR, 'cherolina/Cherolina-Regular.ttf')).toString('base64');
+const serifFlowersB64 = readFileSync(
+  resolve(FONTS_DIR, 'serif-flowers/SerifFlowers-Regular.ttf')
+).toString('base64');
+const cherolinaB64 = readFileSync(resolve(FONTS_DIR, 'cherolina/Cherolina-Regular.ttf')).toString(
+  'base64'
+);
 
 // CHAMANA brand colors
 const COLORS = {
@@ -87,13 +91,12 @@ async function analyzeImageBrightness(imagePath, width, height) {
 
   // Analyze bottom region (where brand mark goes)
   const bottomRegion = await sharp(imagePath)
-    .extract({ left: 0, top: Math.round(height * 0.90), width, height: Math.round(height * 0.10) })
+    .extract({ left: 0, top: Math.round(height * 0.9), width, height: Math.round(height * 0.1) })
     .stats();
 
-  const topBrightness = topRegion.channels.slice(0, 3)
-    .reduce((sum, ch) => sum + ch.mean, 0) / 3;
-  const bottomBrightness = bottomRegion.channels.slice(0, 3)
-    .reduce((sum, ch) => sum + ch.mean, 0) / 3;
+  const topBrightness = topRegion.channels.slice(0, 3).reduce((sum, ch) => sum + ch.mean, 0) / 3;
+  const bottomBrightness =
+    bottomRegion.channels.slice(0, 3).reduce((sum, ch) => sum + ch.mean, 0) / 3;
 
   return {
     topIsLight: topBrightness > 140,
@@ -117,13 +120,13 @@ function createOverlaySvg(width, height, preset, brightness) {
   const baseLetterSpacing = titleLen > 18 ? 0.004 : titleLen > 12 ? 0.007 : 0.011;
 
   const titleSize = Math.round(width * baseTitleSize);
-  const subtitleSize = Math.round(width * 0.030);
+  const subtitleSize = Math.round(width * 0.03);
   const brandSize = Math.round(width * 0.016);
   const letterSpacing = Math.round(width * baseLetterSpacing);
 
   // Padding to prevent font clipping (generous margins)
   const padTop = Math.round(titleSize * 0.8);
-  const padSide = Math.round(width * 0.05);
+  const _padSide = Math.round(width * 0.05);
 
   // Position: centered horizontally, with padding from top
   const titleY = padTop + Math.round(height * 0.08);
@@ -137,10 +140,12 @@ function createOverlaySvg(width, height, preset, brightness) {
     ? subtitleY + Math.round(subtitleSize * 0.8)
     : titleY + Math.round(titleSize * 0.6);
 
-  const shadowFilter = useShadow ? `
+  const shadowFilter = useShadow
+    ? `
     <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
       <feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="#000000" flood-opacity="0.6"/>
-    </filter>` : '';
+    </filter>`
+    : '';
 
   const filterAttr = useShadow ? 'filter="url(#shadow)"' : '';
 
@@ -175,7 +180,9 @@ function createOverlaySvg(width, height, preset, brightness) {
     ${filterAttr}
   >${title}</text>
 
-  ${subtitle ? `<!-- Subtitle: Cherolina -->
+  ${
+    subtitle
+      ? `<!-- Subtitle: Cherolina -->
   <text
     x="${centerX}" y="${subtitleY}"
     font-family="Cherolina, cursive"
@@ -184,7 +191,9 @@ function createOverlaySvg(width, height, preset, brightness) {
     text-anchor="middle"
     text-rendering="geometricPrecision"
     ${filterAttr}
-  >${subtitle}</text>` : ''}
+  >${subtitle}</text>`
+      : ''
+  }
 
   <!-- Brand mark: small CHAMANA at bottom -->
   <rect x="0" y="${brandY - Math.round(brandSize * 1.5)}" width="${width}" height="${Math.round(brandSize * 3)}" fill="${bottomIsLight ? 'rgba(255,255,255,0.20)' : 'rgba(0,0,0,0.25)'}" />
@@ -208,7 +217,9 @@ async function main() {
   if (!inputPath) {
     console.log('Usage: node scripts/text-overlay.mjs <input-image> <preset> [output-path]');
     console.log('Presets:', Object.keys(PRESETS).join(', '));
-    console.log('Custom: TITLE="My Title" SUBTITLE="My sub" node scripts/text-overlay.mjs input.png custom');
+    console.log(
+      'Custom: TITLE="My Title" SUBTITLE="My sub" node scripts/text-overlay.mjs input.png custom'
+    );
     process.exit(1);
   }
 
@@ -225,7 +236,9 @@ async function main() {
   // Auto-detect brightness for contrast
   const brightness = await analyzeImageBrightness(resolvedInput, width, height);
   console.log(`Input: ${width}x${height} — "${preset.title}" / "${preset.subtitle}"`);
-  console.log(`Background: top=${brightness.topIsLight ? 'LIGHT→dark text' : 'DARK→light text'}, bottom=${brightness.bottomIsLight ? 'LIGHT→dark text' : 'DARK→light text'}`);
+  console.log(
+    `Background: top=${brightness.topIsLight ? 'LIGHT→dark text' : 'DARK→light text'}, bottom=${brightness.bottomIsLight ? 'LIGHT→dark text' : 'DARK→light text'}`
+  );
 
   // Create SVG overlay with auto-contrast
   const svg = createOverlaySvg(width, height, preset, brightness);
@@ -233,17 +246,25 @@ async function main() {
   // Composite onto image
   const output = outputPath
     ? resolve(outputPath)
-    : resolve(dirname(resolvedInput), `${basename(resolvedInput, extname(resolvedInput))}-${presetName}${extname(resolvedInput)}`);
+    : resolve(
+        dirname(resolvedInput),
+        `${basename(resolvedInput, extname(resolvedInput))}-${presetName}${extname(resolvedInput)}`
+      );
 
   await sharp(resolvedInput)
-    .composite([{
-      input: Buffer.from(svg),
-      top: 0,
-      left: 0,
-    }])
+    .composite([
+      {
+        input: Buffer.from(svg),
+        top: 0,
+        left: 0,
+      },
+    ])
     .toFile(output);
 
   console.log(`Output: ${output}`);
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

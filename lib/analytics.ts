@@ -17,12 +17,7 @@ export function trackEvent({ action, category, label, value, ...rest }: GtagEven
   }
 }
 
-export function trackProductView(
-  slug: string,
-  nombre: string,
-  tipo: string,
-  precio?: number
-) {
+export function trackProductView(slug: string, nombre: string, tipo: string, precio?: number) {
   trackEvent({
     action: 'view_item',
     category: 'ecommerce',

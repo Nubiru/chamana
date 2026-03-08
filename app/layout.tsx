@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
+import { CookieConsent } from '@/components/analytics/CookieConsent';
+import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { ToastProvider } from '@/components/ui/toast';
-import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
-import { CookieConsent } from '@/components/analytics/CookieConsent';
+import { organizationJsonLd, websiteJsonLd } from '@/lib/structured-data';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { organizationJsonLd, websiteJsonLd } from '@/lib/structured-data';
 
 const serifFlowers = localFont({
   src: [
@@ -71,10 +71,12 @@ export default function RootLayout({
       <body className="antialiased font-sans">
         <script
           type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
         />
         <script
           type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
         />
         <GoogleAnalytics />

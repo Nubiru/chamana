@@ -1,5 +1,5 @@
-import type { CollectionConfig } from 'payload'
-import { isAdmin, isPublic } from '../lib/payload/access.ts'
+import type { CollectionConfig } from 'payload';
+import { isAdmin, isPublic } from '../lib/payload/access.ts';
 
 export const Eventos: CollectionConfig = {
   slug: 'eventos',
@@ -92,4 +92,4 @@ export const Eventos: CollectionConfig = {
     update: isAdmin,
     delete: isAdmin,
   },
-}
+};

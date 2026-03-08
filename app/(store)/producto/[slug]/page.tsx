@@ -1,7 +1,13 @@
 import { ProductoPageClient } from '@/components/store/ProductoPageClient';
-import { getModeloBySlug, getModelos, getModelMinPrice, getModelMaxPrice, getModelosByTipo } from '@/lib/payload/queries';
+import {
+  getModelMaxPrice,
+  getModelMinPrice,
+  getModeloBySlug,
+  getModelos,
+  getModelosByTipo,
+} from '@/lib/payload/queries';
 import { getFAQsForProduct } from '@/lib/payload/queries';
-import { productJsonLd, breadcrumbJsonLd } from '@/lib/structured-data';
+import { breadcrumbJsonLd, productJsonLd } from '@/lib/structured-data';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
@@ -34,7 +40,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: model.descripcion,
       type: 'website',
       images: model.imagenes?.[0]
-        ? [{ url: model.imagenes[0], width: 800, height: 800, alt: `${model.nombre} - ${model.tipo}` }]
+        ? [
+            {
+              url: model.imagenes[0],
+              width: 800,
+              height: 800,
+              alt: `${model.nombre} - ${model.tipo}`,
+            },
+          ]
         : [],
     },
     twitter: {
@@ -46,8 +59,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  const modelos = await getModelos();
-  return modelos.map((model) => ({ slug: model.slug }));
+  try {
+    const modelos = await getModelos();
+    return modelos.map((model) => ({ slug: model.slug }));
+  } catch {
+    // Tables may not exist yet on first deploy before seeding
+    return [];
+  }
 }
 
 export default async function ProductoPage({ params }: Props) {
@@ -69,10 +87,12 @@ export default async function ProductoPage({ params }: Props) {
     <>
       <script
         type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd(model)) }}
       />
       <script
         type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(model)) }}
       />
       <ProductoPageClient model={model} faqs={faqs} relatedModels={related} />

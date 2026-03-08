@@ -8,15 +8,15 @@
  * Uses Payload Local API — no REST server needed.
  */
 
-import { getPayload } from 'payload'
-import config from '../payload.config'
+import { getPayload } from 'payload';
+import config from '../payload.config';
 
-import { TELAS } from '../lib/data/fabrics'
-import { MODELOS } from '../lib/data/products'
-import { COLECCIONES } from '../lib/data/collections'
-import { FAQS } from '../lib/data/faqs'
-import { GARANTIAS } from '../lib/data/guarantees'
-import { SIZE_GUIDE } from '../lib/data/size-guide'
+import { COLECCIONES } from '../lib/data/collections';
+import { TELAS } from '../lib/data/fabrics';
+import { FAQS } from '../lib/data/faqs';
+import { GARANTIAS } from '../lib/data/guarantees';
+import { MODELOS } from '../lib/data/products';
+import { SIZE_GUIDE } from '../lib/data/size-guide';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -24,7 +24,7 @@ import { SIZE_GUIDE } from '../lib/data/size-guide'
 
 /** Build a human-readable name from a Tela's fields: "Lino Spandex Beige" */
 function buildTelaName(tela: { tipo: string; subtipo?: string; color: string }): string {
-  return [tela.tipo, tela.subtipo, tela.color].filter(Boolean).join(' ')
+  return [tela.tipo, tela.subtipo, tela.color].filter(Boolean).join(' ');
 }
 
 // ---------------------------------------------------------------------------
@@ -38,23 +38,23 @@ const summary = {
   modelos: 0,
   variantes: 0,
   globals: [] as string[],
-}
+};
 
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
 async function seed() {
-  console.log('\n========================================')
-  console.log('  CHAMANA — Seed Payload CMS')
-  console.log('========================================\n')
+  console.log('\n========================================');
+  console.log('  CHAMANA — Seed Payload CMS');
+  console.log('========================================\n');
 
-  const payload = await getPayload({ config })
+  const payload = await getPayload({ config });
 
   // ------------------------------------------------------------------
   // 1. Admin users
   // ------------------------------------------------------------------
-  console.log('[1/5] Creating admin users...')
+  console.log('[1/5] Creating admin users...');
 
   try {
     await payload.create({
@@ -65,15 +65,20 @@ async function seed() {
         nombre: 'Cintia',
         role: 'admin',
       },
-    })
-    summary.users++
-    console.log('  ✓ Cintia (chamanasomostodas@gmail.com)')
+    });
+    summary.users++;
+    console.log('  ✓ Cintia (chamanasomostodas@gmail.com)');
   } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : String(err)
-    if (msg.includes('duplicate') || msg.includes('unique') || msg.includes('already exists') || msg.includes('UNIQUE')) {
-      console.log('  ⊘ Cintia already exists, skipping')
+    const msg = err instanceof Error ? err.message : String(err);
+    if (
+      msg.includes('duplicate') ||
+      msg.includes('unique') ||
+      msg.includes('already exists') ||
+      msg.includes('UNIQUE')
+    ) {
+      console.log('  ⊘ Cintia already exists, skipping');
     } else {
-      console.error('  ✗ Error creating Cintia:', msg)
+      console.error('  ✗ Error creating Cintia:', msg);
     }
   }
 
@@ -86,25 +91,30 @@ async function seed() {
         nombre: 'Gabriel',
         role: 'admin',
       },
-    })
-    summary.users++
-    console.log('  ✓ Gabriel (osemberg.gabi@gmail.com)')
+    });
+    summary.users++;
+    console.log('  ✓ Gabriel (osemberg.gabi@gmail.com)');
   } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : String(err)
-    if (msg.includes('duplicate') || msg.includes('unique') || msg.includes('already exists') || msg.includes('UNIQUE')) {
-      console.log('  ⊘ Gabriel already exists, skipping')
+    const msg = err instanceof Error ? err.message : String(err);
+    if (
+      msg.includes('duplicate') ||
+      msg.includes('unique') ||
+      msg.includes('already exists') ||
+      msg.includes('UNIQUE')
+    ) {
+      console.log('  ⊘ Gabriel already exists, skipping');
     } else {
-      console.error('  ✗ Error creating Gabriel:', msg)
+      console.error('  ✗ Error creating Gabriel:', msg);
     }
   }
 
   // ------------------------------------------------------------------
   // 2. Telas — build a Map<codigo, payloadId>
   // ------------------------------------------------------------------
-  console.log('\n[2/5] Creating telas...')
+  console.log('\n[2/5] Creating telas...');
 
-  const telaIdMap = new Map<string, number | string>()
-  const telasArray = Object.values(TELAS)
+  const telaIdMap = new Map<string, number | string>();
+  const telasArray = Object.values(TELAS);
 
   for (const tela of telasArray) {
     try {
@@ -118,42 +128,42 @@ async function seed() {
           color: tela.color,
           colorHex: tela.colorHex,
         },
-      })
-      telaIdMap.set(tela.codigo, created.id)
-      summary.telas++
-      console.log(`  ✓ ${tela.codigo} → ID ${created.id}`)
+      });
+      telaIdMap.set(tela.codigo, created.id);
+      summary.telas++;
+      console.log(`  ✓ ${tela.codigo} → ID ${created.id}`);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : String(err)
+      const msg = err instanceof Error ? err.message : String(err);
       if (msg.includes('duplicate') || msg.includes('unique') || msg.includes('UNIQUE')) {
         // If it already exists, look it up so we can still use the ID
-        console.log(`  ⊘ ${tela.codigo} already exists, looking up ID...`)
+        console.log(`  ⊘ ${tela.codigo} already exists, looking up ID...`);
         try {
           const existing = await payload.find({
             collection: 'telas',
             where: { codigo: { equals: tela.codigo } },
             limit: 1,
-          })
+          });
           if (existing.docs.length > 0) {
-            telaIdMap.set(tela.codigo, existing.docs[0].id)
-            console.log(`     Found ID ${existing.docs[0].id}`)
+            telaIdMap.set(tela.codigo, existing.docs[0].id);
+            console.log(`     Found ID ${existing.docs[0].id}`);
           }
-        } catch (lookupErr) {
-          console.error(`     Could not look up existing tela ${tela.codigo}`)
+        } catch (_lookupErr) {
+          console.error(`     Could not look up existing tela ${tela.codigo}`);
         }
       } else {
-        console.error(`  ✗ Error creating tela ${tela.codigo}:`, msg)
+        console.error(`  ✗ Error creating tela ${tela.codigo}:`, msg);
       }
     }
   }
 
-  console.log(`  Total telas in map: ${telaIdMap.size}/${telasArray.length}`)
+  console.log(`  Total telas in map: ${telaIdMap.size}/${telasArray.length}`);
 
   // ------------------------------------------------------------------
   // 3. Colecciones — build a Map<slug, payloadId>
   // ------------------------------------------------------------------
-  console.log('\n[3/5] Creating colecciones...')
+  console.log('\n[3/5] Creating colecciones...');
 
-  const coleccionIdMap = new Map<string, number | string>()
+  const coleccionIdMap = new Map<string, number | string>();
 
   for (const col of COLECCIONES) {
     try {
@@ -169,29 +179,29 @@ async function seed() {
           descripcion: col.descripcion,
           ejes: col.ejes.map((eje) => ({ eje })),
         },
-      })
-      coleccionIdMap.set(col.slug, created.id)
-      summary.colecciones++
-      console.log(`  ✓ ${col.nombreCompleto} → ID ${created.id}`)
+      });
+      coleccionIdMap.set(col.slug, created.id);
+      summary.colecciones++;
+      console.log(`  ✓ ${col.nombreCompleto} → ID ${created.id}`);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : String(err)
+      const msg = err instanceof Error ? err.message : String(err);
       if (msg.includes('duplicate') || msg.includes('unique') || msg.includes('UNIQUE')) {
-        console.log(`  ⊘ ${col.nombreCompleto} already exists, looking up ID...`)
+        console.log(`  ⊘ ${col.nombreCompleto} already exists, looking up ID...`);
         try {
           const existing = await payload.find({
             collection: 'colecciones',
             where: { slug: { equals: col.slug } },
             limit: 1,
-          })
+          });
           if (existing.docs.length > 0) {
-            coleccionIdMap.set(col.slug, existing.docs[0].id)
-            console.log(`     Found ID ${existing.docs[0].id}`)
+            coleccionIdMap.set(col.slug, existing.docs[0].id);
+            console.log(`     Found ID ${existing.docs[0].id}`);
           }
-        } catch (lookupErr) {
-          console.error(`     Could not look up existing coleccion ${col.slug}`)
+        } catch (_lookupErr) {
+          console.error(`     Could not look up existing coleccion ${col.slug}`);
         }
       } else {
-        console.error(`  ✗ Error creating coleccion ${col.nombreCompleto}:`, msg)
+        console.error(`  ✗ Error creating coleccion ${col.nombreCompleto}:`, msg);
       }
     }
   }
@@ -199,45 +209,49 @@ async function seed() {
   // ------------------------------------------------------------------
   // 4. Modelos with variantes
   // ------------------------------------------------------------------
-  console.log('\n[4/5] Creating modelos with variantes...')
+  console.log('\n[4/5] Creating modelos with variantes...');
 
   // All current static models belong to Coleccion Magia
-  const magiaId = coleccionIdMap.get('magia')
+  const magiaId = coleccionIdMap.get('magia');
 
   for (const modelo of MODELOS) {
     // Build the variantes array with tela IDs resolved from the map
     const payloadVariantes = modelo.variantes.map((variante) => {
-      const tela1Id = variante.tela1 ? telaIdMap.get(variante.tela1.codigo) : undefined
-      const tela2Id = variante.tela2 ? telaIdMap.get(variante.tela2.codigo) : undefined
+      const tela1Id = variante.tela1 ? telaIdMap.get(variante.tela1.codigo) : undefined;
+      const tela2Id = variante.tela2 ? telaIdMap.get(variante.tela2.codigo) : undefined;
 
       if (!tela1Id && variante.tela1) {
-        console.warn(`    ⚠ Variante ${variante.id}: tela1 "${variante.tela1.codigo}" not found in map`)
+        console.warn(
+          `    ⚠ Variante ${variante.id}: tela1 "${variante.tela1.codigo}" not found in map`
+        );
       }
       if (variante.tela2 && !tela2Id) {
-        console.warn(`    ⚠ Variante ${variante.id}: tela2 "${variante.tela2.codigo}" not found in map`)
+        console.warn(
+          `    ⚠ Variante ${variante.id}: tela2 "${variante.tela2.codigo}" not found in map`
+        );
       }
 
       const payloadVariante: Record<string, unknown> = {
         varianteId: variante.id,
         tela1: tela1Id,
         sinStock: variante.sinStock ?? false,
-      }
+      };
 
       if (tela2Id) {
-        payloadVariante.tela2 = tela2Id
+        payloadVariante.tela2 = tela2Id;
       }
       if (variante.precio != null) {
-        payloadVariante.precio = variante.precio
+        payloadVariante.precio = variante.precio;
       }
       if (variante.precioAnterior != null) {
-        payloadVariante.precioAnterior = variante.precioAnterior
+        payloadVariante.precioAnterior = variante.precioAnterior;
       }
       if (variante.descuento != null) {
-        payloadVariante.descuento = variante.descuento
+        payloadVariante.descuento = variante.descuento;
       }
 
-      return payloadVariante
-    })
+      return payloadVariante;
+    });
 
     try {
       const modeloData: Record<string, unknown> = {
@@ -247,19 +261,19 @@ async function seed() {
         descripcion: modelo.descripcion,
         variantes: payloadVariantes,
         featured: modelo.featured ?? false,
-      }
+      };
 
       if (modelo.detalle) {
-        modeloData.detalle = modelo.detalle
+        modeloData.detalle = modelo.detalle;
       }
       if (modelo.badge) {
-        modeloData.badge = modelo.badge
+        modeloData.badge = modelo.badge;
       }
       if (modelo.bundleId) {
-        modeloData.bundleId = modelo.bundleId
+        modeloData.bundleId = modelo.bundleId;
       }
       if (magiaId) {
-        modeloData.coleccion = magiaId
+        modeloData.coleccion = magiaId;
       }
 
       // Skip imagenes — we keep using public/ images for now
@@ -267,16 +281,16 @@ async function seed() {
       await payload.create({
         collection: 'modelos',
         data: modeloData,
-      })
-      summary.modelos++
-      summary.variantes += modelo.variantes.length
-      console.log(`  ✓ ${modelo.nombre} (${modelo.tipo}) — ${modelo.variantes.length} variantes`)
+      });
+      summary.modelos++;
+      summary.variantes += modelo.variantes.length;
+      console.log(`  ✓ ${modelo.nombre} (${modelo.tipo}) — ${modelo.variantes.length} variantes`);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : String(err)
+      const msg = err instanceof Error ? err.message : String(err);
       if (msg.includes('duplicate') || msg.includes('unique') || msg.includes('UNIQUE')) {
-        console.log(`  ⊘ ${modelo.nombre} already exists, skipping`)
+        console.log(`  ⊘ ${modelo.nombre} already exists, skipping`);
       } else {
-        console.error(`  ✗ Error creating modelo ${modelo.nombre}:`, msg)
+        console.error(`  ✗ Error creating modelo ${modelo.nombre}:`, msg);
       }
     }
   }
@@ -284,16 +298,16 @@ async function seed() {
   // ------------------------------------------------------------------
   // 5. Evento (Desfile)
   // ------------------------------------------------------------------
-  console.log('\n[5/6] Creating evento...')
+  console.log('\n[5/6] Creating evento...');
 
   try {
     const existingEvento = await payload.find({
       collection: 'eventos',
       where: { slug: { equals: 'utopia-capilla-2026' } },
       limit: 1,
-    })
+    });
     if (existingEvento.docs.length > 0) {
-      console.log('  ⊘ Desfile en Utopía already exists, skipping')
+      console.log('  ⊘ Desfile en Utopía already exists, skipping');
     } else {
       await payload.create({
         collection: 'eventos',
@@ -306,17 +320,17 @@ async function seed() {
             'Una noche mágica donde la Colección Magia cobró vida. Modelos locales desfilaron entre luces y naturaleza, celebrando la esencia de CHAMANA en el corazón de las sierras cordobesas.',
           images: [],
         },
-      })
-      console.log('  ✓ Desfile en Utopía')
+      });
+      console.log('  ✓ Desfile en Utopía');
     }
   } catch (err: unknown) {
-    console.error('  ✗ Error creating evento:', err instanceof Error ? err.message : err)
+    console.error('  ✗ Error creating evento:', err instanceof Error ? err.message : err);
   }
 
   // ------------------------------------------------------------------
   // 6. Globals
   // ------------------------------------------------------------------
-  console.log('\n[6/6] Setting globals...')
+  console.log('\n[6/6] Setting globals...');
 
   // 5a. Preguntas Frecuentes
   try {
@@ -330,11 +344,14 @@ async function seed() {
           ...(faq.categorias && !faq.global ? { categorias: faq.categorias } : {}),
         })),
       },
-    })
-    summary.globals.push('preguntas-frecuentes')
-    console.log(`  ✓ Preguntas Frecuentes (${FAQS.length} FAQs)`)
+    });
+    summary.globals.push('preguntas-frecuentes');
+    console.log(`  ✓ Preguntas Frecuentes (${FAQS.length} FAQs)`);
   } catch (err: unknown) {
-    console.error('  ✗ Error setting Preguntas Frecuentes:', err instanceof Error ? err.message : err)
+    console.error(
+      '  ✗ Error setting Preguntas Frecuentes:',
+      err instanceof Error ? err.message : err
+    );
   }
 
   // 5b. Garantias
@@ -350,11 +367,11 @@ async function seed() {
           iconName: g.iconName,
         })),
       },
-    })
-    summary.globals.push('garantias')
-    console.log(`  ✓ Garantias (${GARANTIAS.length} entries)`)
+    });
+    summary.globals.push('garantias');
+    console.log(`  ✓ Garantias (${GARANTIAS.length} entries)`);
   } catch (err: unknown) {
-    console.error('  ✗ Error setting Garantias:', err instanceof Error ? err.message : err)
+    console.error('  ✗ Error setting Garantias:', err instanceof Error ? err.message : err);
   }
 
   // 5c. Guia de Talles
@@ -372,11 +389,11 @@ async function seed() {
           ...(entry.notas ? { notas: entry.notas } : {}),
         })),
       },
-    })
-    summary.globals.push('guia-talles')
-    console.log(`  ✓ Guia de Talles (${SIZE_GUIDE.length} tipos)`)
+    });
+    summary.globals.push('guia-talles');
+    console.log(`  ✓ Guia de Talles (${SIZE_GUIDE.length} tipos)`);
   } catch (err: unknown) {
-    console.error('  ✗ Error setting Guia de Talles:', err instanceof Error ? err.message : err)
+    console.error('  ✗ Error setting Guia de Talles:', err instanceof Error ? err.message : err);
   }
 
   // 5d. Configuracion del Sitio
@@ -388,17 +405,19 @@ async function seed() {
         descripcionMarca:
           'Ropa femenina artesanal inspirada en la naturaleza. Prendas unicas confeccionadas a mano con telas nobles.',
         whatsappNumero: '542215475727',
-        whatsappMensajeGeneral:
-          'Hola! Quiero consultar sobre la Coleccion Magia de CHAMANA 🌿',
+        whatsappMensajeGeneral: 'Hola! Quiero consultar sobre la Coleccion Magia de CHAMANA 🌿',
         instagramHandle: '@chamanasomostodas',
         instagramUrl: 'https://www.instagram.com/chamanasomostodas',
         siteUrl: 'https://chamana.app',
       },
-    })
-    summary.globals.push('configuracion-sitio')
-    console.log('  ✓ Configuracion del Sitio')
+    });
+    summary.globals.push('configuracion-sitio');
+    console.log('  ✓ Configuracion del Sitio');
   } catch (err: unknown) {
-    console.error('  ✗ Error setting Configuracion del Sitio:', err instanceof Error ? err.message : err)
+    console.error(
+      '  ✗ Error setting Configuracion del Sitio:',
+      err instanceof Error ? err.message : err
+    );
   }
 
   // 5e. Contenido de Inicio
@@ -418,31 +437,34 @@ async function seed() {
           titulo: 'Coleccion Magia',
         },
       },
-    })
-    summary.globals.push('contenido-inicio')
-    console.log('  ✓ Contenido de Inicio')
+    });
+    summary.globals.push('contenido-inicio');
+    console.log('  ✓ Contenido de Inicio');
   } catch (err: unknown) {
-    console.error('  ✗ Error setting Contenido de Inicio:', err instanceof Error ? err.message : err)
+    console.error(
+      '  ✗ Error setting Contenido de Inicio:',
+      err instanceof Error ? err.message : err
+    );
   }
 
   // ------------------------------------------------------------------
   // Summary
   // ------------------------------------------------------------------
-  console.log('\n========================================')
-  console.log('  Seed complete!')
-  console.log('========================================')
-  console.log(`  Users created:       ${summary.users}`)
-  console.log(`  Telas created:       ${summary.telas}`)
-  console.log(`  Colecciones created: ${summary.colecciones}`)
-  console.log(`  Modelos created:     ${summary.modelos}`)
-  console.log(`  Variantes total:     ${summary.variantes}`)
-  console.log(`  Globals updated:     ${summary.globals.join(', ') || 'none'}`)
-  console.log('========================================\n')
+  console.log('\n========================================');
+  console.log('  Seed complete!');
+  console.log('========================================');
+  console.log(`  Users created:       ${summary.users}`);
+  console.log(`  Telas created:       ${summary.telas}`);
+  console.log(`  Colecciones created: ${summary.colecciones}`);
+  console.log(`  Modelos created:     ${summary.modelos}`);
+  console.log(`  Variantes total:     ${summary.variantes}`);
+  console.log(`  Globals updated:     ${summary.globals.join(', ') || 'none'}`);
+  console.log('========================================\n');
 
-  process.exit(0)
+  process.exit(0);
 }
 
 seed().catch((err) => {
-  console.error('\n✗ Fatal error during seed:', err)
-  process.exit(1)
-})
+  console.error('\n✗ Fatal error during seed:', err);
+  process.exit(1);
+});

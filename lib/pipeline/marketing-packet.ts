@@ -12,10 +12,14 @@
  * image + caption + hashtags + CTA + timing + alt text.
  */
 
-import type { CapaName } from './transmutacion-data';
-import { getGarment, getCapa, getGarmentsByCapa } from './transmutacion-data';
-import { generateGarmentCaption, generateCapaCaption, generateCollectionCaption } from './caption-generator';
+import {
+  generateCapaCaption,
+  generateCollectionCaption,
+  generateGarmentCaption,
+} from './caption-generator';
 import { getHashtagSet, getTodayRotationIndex } from './hashtag-rotator';
+import type { CapaName } from './transmutacion-data';
+import { getCapa, getGarment, getGarmentsByCapa } from './transmutacion-data';
 
 export interface MarketingPacket {
   version: '1.0';
@@ -86,7 +90,7 @@ const POSTING_SCHEDULE = [
  */
 export function generateGarmentPacket(
   garmentName: string,
-  imageBaseName: string,
+  imageBaseName: string
 ): MarketingPacket | null {
   const garment = getGarment(garmentName);
   if (!garment) return null;
@@ -160,7 +164,7 @@ export function generateGarmentPacket(
  */
 export function generateCapaPacket(
   capaName: CapaName,
-  imageBaseName: string,
+  imageBaseName: string
 ): MarketingPacket | null {
   const capa = getCapa(capaName);
   if (!capa) return null;
@@ -210,7 +214,7 @@ export function generateCapaPacket(
         'transmutacion',
         'coleccion transmutacion',
         'ropa artesanal',
-        ...garments.map(g => g.name.toLowerCase()),
+        ...garments.map((g) => g.name.toLowerCase()),
       ],
       pinterestDescription: `${capa.displayName}: ${capa.subtitle} | ${garments.length} prendas artesanales inspiradas en la ${capa.element.toLowerCase()}. Coleccion Transmutacion de CHAMANA — hecha a mano en Capilla del Monte. #chamana #transmutacion`,
     },

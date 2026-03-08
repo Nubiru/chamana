@@ -1,5 +1,5 @@
 import { TiendaContent } from '@/components/store/TiendaContent';
-import { getModelos, getCategorias } from '@/lib/payload/queries';
+import { getCategorias, getModelos } from '@/lib/payload/queries';
 import { Suspense } from 'react';
 
 export default async function TiendaPage() {

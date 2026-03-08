@@ -88,9 +88,7 @@ export function ProductCard({ model }: { model: ChamanaModel }) {
           </p>
           {model.variantes.length > 0 && (
             <div className="flex items-center gap-2 mt-1">
-              <p className="text-sm font-semibold text-foreground">
-                {getModelPriceDisplay(model)}
-              </p>
+              <p className="text-sm font-semibold text-foreground">{getModelPriceDisplay(model)}</p>
               {hasStrikethrough && (
                 <span className="text-xs text-muted-foreground line-through">
                   {formatPrice(model.variantes.find((v) => v.precioAnterior)?.precioAnterior)}

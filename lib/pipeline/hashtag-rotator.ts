@@ -11,11 +11,36 @@ import type { CapaName } from './transmutacion-data';
 // Hashtag pools (matches HASHTAG_LIBRARY.json, with ONDA→CAPA fix)
 const POOLS = {
   brand: ['#chamana', '#chamanasomostodas', '#somosnaturaleza', '#colecciontransmutacion'],
-  transmutacion: ['#transmutacion', '#otonoinvierno2026', '#chamana2026', '#naturalezaquesetransforma'],
-  product_general: ['#ropaartesanal', '#modaartesanal', '#ropafemenina', '#ropadediseno', '#prendaartesanal'],
+  transmutacion: [
+    '#transmutacion',
+    '#otonoinvierno2026',
+    '#chamana2026',
+    '#naturalezaquesetransforma',
+  ],
+  product_general: [
+    '#ropaartesanal',
+    '#modaartesanal',
+    '#ropafemenina',
+    '#ropadediseno',
+    '#prendaartesanal',
+  ],
   fabric: ['#linopuro', '#telasnaturales', '#fibranatura', '#telaartesanal', '#ropadelin'],
-  location: ['#capilladelmonte', '#cordobaargentina', '#sierrasdecordoba', '#disenoargentino', '#modaargentina', '#hechoenargentina'],
-  lifestyle: ['#modaconsciente', '#slowfashion', '#modasustentable', '#mujeresreales', '#mujeresautenticas', '#feminidadsagrada'],
+  location: [
+    '#capilladelmonte',
+    '#cordobaargentina',
+    '#sierrasdecordoba',
+    '#disenoargentino',
+    '#modaargentina',
+    '#hechoenargentina',
+  ],
+  lifestyle: [
+    '#modaconsciente',
+    '#slowfashion',
+    '#modasustentable',
+    '#mujeresreales',
+    '#mujeresautenticas',
+    '#feminidadsagrada',
+  ],
   process: ['#hechoamano', '#handmade', '#procesocreativo', '#artesanal', '#mujeresemprendedoras'],
   engagement: ['#outfitdeldia', '#looknatural', '#estilofemenino', '#inspiracionmoda'],
   seasonal: ['#otonoinvierno', '#modainvierno', '#abrigartesanal', '#calideznatural'],
@@ -27,23 +52,32 @@ const POOLS = {
     aire: ['#aire', '#elementoaire', '#capaaire', '#loquenoslibera'],
   },
   garments: {
-    Obsidiana: '#CamperaObsidiana', Cuarzo: '#PantalonCuarzo',
-    Escama: '#ChalecoEscama', Muda: '#CamisaMuda',
-    Brasa: '#TopBrasa', Ceniza: '#MusculosaCeniza',
-    Lava: '#SweaterLava', Semilla: '#RemeraSemilla',
-    Cascada: '#PalazzoCascada', Llama: '#FaldaLlama',
-    Crisalida: '#VestidoCrisalida', Perla: '#VestidoPerla',
-    Fenix: '#VestidoFenix', Libelula: '#KimonoLibelula',
-    Condor: '#PonchoCondor', Eclipse: '#TapadoEclipse',
-    Pluma: '#BufandaPluma', Seda: '#ChalinaSeda',
+    Obsidiana: '#CamperaObsidiana',
+    Cuarzo: '#PantalonCuarzo',
+    Escama: '#ChalecoEscama',
+    Muda: '#CamisaMuda',
+    Brasa: '#TopBrasa',
+    Ceniza: '#MusculosaCeniza',
+    Lava: '#SweaterLava',
+    Semilla: '#RemeraSemilla',
+    Cascada: '#PalazzoCascada',
+    Llama: '#FaldaLlama',
+    Crisalida: '#VestidoCrisalida',
+    Perla: '#VestidoPerla',
+    Fenix: '#VestidoFenix',
+    Libelula: '#KimonoLibelula',
+    Condor: '#PonchoCondor',
+    Eclipse: '#TapadoEclipse',
+    Pluma: '#BufandaPluma',
+    Seda: '#ChalinaSeda',
   } as Record<string, string>,
 };
 
 export interface HashtagSet {
   name: string;
   tags: string[];
-  formatted: string;       // Space-separated for caption
-  firstComment: string;    // Dot-separated for first comment strategy
+  formatted: string; // Space-separated for caption
+  firstComment: string; // Dot-separated for first comment strategy
   count: number;
 }
 
@@ -67,7 +101,7 @@ const ROTATION_SETS = [
 export function getHashtagSet(
   rotationIndex: number,
   capa?: CapaName,
-  garmentName?: string,
+  garmentName?: string
 ): HashtagSet {
   const setDef = ROTATION_SETS[rotationIndex % ROTATION_SETS.length];
   const tags: string[] = [];
@@ -97,7 +131,7 @@ export function getHashtagSet(
     name: setDef.name,
     tags: unique,
     formatted: unique.join(' '),
-    firstComment: '.\n.\n.\n' + unique.join(' '),
+    firstComment: `.\n.\n.\n${unique.join(' ')}`,
     count: unique.length,
   };
 }

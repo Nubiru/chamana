@@ -1,5 +1,5 @@
-import type { GlobalConfig } from 'payload'
-import { isAdmin, isPublic } from '../lib/payload/access.ts'
+import type { GlobalConfig } from 'payload';
+import { isAdmin, isPublic } from '../lib/payload/access.ts';
 
 export const ContenidoInicio: GlobalConfig = {
   slug: 'contenido-inicio',
@@ -92,4 +92,4 @@ export const ContenidoInicio: GlobalConfig = {
     read: isPublic,
     update: isAdmin,
   },
-}
+};

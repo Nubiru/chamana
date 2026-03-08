@@ -1,7 +1,7 @@
-import type { CollectionConfig } from 'payload'
-import { isAdmin, isPublic } from '../lib/payload/access.ts'
-import { autoSlug } from '../lib/payload/hooks/auto-slug.ts'
-import { autoStock } from '../lib/payload/hooks/auto-stock.ts'
+import type { CollectionConfig } from 'payload';
+import { isAdmin, isPublic } from '../lib/payload/access.ts';
+import { autoSlug } from '../lib/payload/hooks/auto-slug.ts';
+import { autoStock } from '../lib/payload/hooks/auto-stock.ts';
 
 export const Modelos: CollectionConfig = {
   slug: 'modelos',
@@ -254,4 +254,4 @@ export const Modelos: CollectionConfig = {
     update: isAdmin,
     delete: isAdmin,
   },
-}
+};

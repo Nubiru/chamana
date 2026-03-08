@@ -1,5 +1,5 @@
-import type { CollectionConfig } from 'payload'
-import { isAdmin, isPublic } from '../lib/payload/access.ts'
+import type { CollectionConfig } from 'payload';
+import { isAdmin, isPublic } from '../lib/payload/access.ts';
 
 export const Telas: CollectionConfig = {
   slug: 'telas',
@@ -85,11 +85,11 @@ export const Telas: CollectionConfig = {
         description: 'Codigo hexadecimal del color para la muestra visual',
       },
       validate: (value: string | null | undefined) => {
-        if (!value) return true
+        if (!value) return true;
         if (!/^#[0-9A-Fa-f]{6}$/.test(value)) {
-          return 'Debe ser un color HEX valido (ej: #1A1A1A)'
+          return 'Debe ser un color HEX valido (ej: #1A1A1A)';
         }
-        return true
+        return true;
       },
     },
     {
@@ -180,4 +180,4 @@ export const Telas: CollectionConfig = {
     update: isAdmin,
     delete: isAdmin,
   },
-}
+};

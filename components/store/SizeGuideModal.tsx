@@ -23,8 +23,12 @@ export function SizeGuideModal({ tipo, onClose }: SizeGuideModalProps) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/40"
+      role="presentation"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') onClose();
       }}
     >
       <div className="bg-background rounded-t-2xl md:rounded-2xl w-full max-w-md max-h-[85vh] overflow-y-auto shadow-xl">
@@ -43,8 +47,8 @@ export function SizeGuideModal({ tipo, onClose }: SizeGuideModalProps) {
         <div className="p-4 space-y-4">
           {guide?.talleUnico && (
             <p className="text-sm text-muted-foreground">
-              Nuestras prendas son <strong>talle unico</strong>, disenadas con cortes amplios
-              que se adaptan a distintos cuerpos.
+              Nuestras prendas son <strong>talle unico</strong>, disenadas con cortes amplios que se
+              adaptan a distintos cuerpos.
             </p>
           )}
 
@@ -71,13 +75,11 @@ export function SizeGuideModal({ tipo, onClose }: SizeGuideModalProps) {
             </p>
           )}
 
-          {guide?.notas && (
-            <p className="text-xs text-muted-foreground/70 italic">{guide.notas}</p>
-          )}
+          {guide?.notas && <p className="text-xs text-muted-foreground/70 italic">{guide.notas}</p>}
 
           <p className="text-xs text-muted-foreground/70">
-            Las medidas son aproximadas y pueden variar ligeramente entre prendas artesanales.
-            Si tenes dudas, escribinos por WhatsApp.
+            Las medidas son aproximadas y pueden variar ligeramente entre prendas artesanales. Si
+            tenes dudas, escribinos por WhatsApp.
           </p>
         </div>
       </div>

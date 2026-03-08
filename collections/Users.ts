@@ -1,5 +1,5 @@
-import type { CollectionConfig } from 'payload'
-import { isAdmin, isAdminField, isAdminOrSelf } from '../lib/payload/access.ts'
+import type { CollectionConfig } from 'payload';
+import { isAdmin, isAdminField, isAdminOrSelf } from '../lib/payload/access.ts';
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -37,4 +37,4 @@ export const Users: CollectionConfig = {
     update: isAdminOrSelf,
     delete: isAdmin,
   },
-}
+};
