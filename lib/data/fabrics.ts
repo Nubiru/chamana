@@ -1,10 +1,5 @@
-export interface Tela {
-  codigo: string;
-  tipo: string;
-  subtipo?: string;
-  color: string;
-  colorHex: string;
-}
+import type { Tela } from '@/lib/domain/catalog';
+export type { Tela } from '@/lib/domain/catalog';
 
 export const TELAS: Record<string, Tela> = {
   // ── Lino Spandex ──

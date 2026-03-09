@@ -1,10 +1,7 @@
-import { MODELOS } from './products';
+import type { Category } from '@/lib/domain/catalog';
+export type { Category } from '@/lib/domain/catalog';
 
-export interface Category {
-  slug: string;
-  nombre: string;
-  count: number;
-}
+import { MODELOS } from './products';
 
 const CATEGORY_ORDER = [
   'Falda',

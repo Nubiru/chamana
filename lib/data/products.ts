@@ -1,28 +1,8 @@
+import type { ChamanaModel, Variante } from '@/lib/domain/catalog';
+export type { Variante, ChamanaModel } from '@/lib/domain/catalog';
+
 import { formatPrice } from '@/lib/utils';
-import { TELAS, type Tela } from './fabrics';
-
-export interface Variante {
-  id: string;
-  tela1: Tela;
-  tela2?: Tela;
-  precio?: number;
-  precioAnterior?: number;
-  descuento?: number;
-  sinStock?: boolean;
-}
-
-export interface ChamanaModel {
-  slug: string;
-  nombre: string;
-  tipo: string;
-  detalle?: string;
-  descripcion: string;
-  variantes: Variante[];
-  imagenes?: string[];
-  badge?: string;
-  featured?: boolean;
-  bundleId?: string;
-}
+import { TELAS } from './fabrics';
 
 function v(id: string, tela1Key: string, tela2Key?: string, precio?: number): Variante {
   return {

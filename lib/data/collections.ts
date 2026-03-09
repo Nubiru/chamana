@@ -1,13 +1,5 @@
-export interface CollectionMeta {
-  slug: string;
-  nombre: string;
-  nombreCompleto: string;
-  temporada: 'primavera-verano' | 'otono-invierno';
-  anio: number;
-  estado: 'planificacion' | 'produccion' | 'activa' | 'archivo';
-  descripcion: string;
-  ejes: string[];
-}
+import type { CollectionMeta } from '@/lib/domain/catalog';
+export type { CollectionMeta } from '@/lib/domain/catalog';
 
 export const COLECCIONES: CollectionMeta[] = [
   {

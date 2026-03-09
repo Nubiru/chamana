@@ -1,19 +1,9 @@
 'use client';
 
+import type { CartItem } from '@/lib/domain/sales';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-
-export interface CartItem {
-  modelSlug: string;
-  modelNombre: string;
-  modelTipo: string;
-  varianteId: string;
-  tela1Desc: string;
-  tela2Desc?: string;
-  precio?: number;
-  modelImageUrl?: string;
-  quantity: number;
-}
+export type { CartItem } from '@/lib/domain/sales';
 
 interface CartStore {
   items: CartItem[];

@@ -1,10 +1,5 @@
-export interface FAQ {
-  id: string;
-  pregunta: string;
-  respuesta: string;
-  categorias?: string[];
-  global?: boolean;
-}
+import type { FAQ } from '@/lib/domain/content';
+export type { FAQ } from '@/lib/domain/content';
 
 export const FAQS: FAQ[] = [
   {

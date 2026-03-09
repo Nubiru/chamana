@@ -13,7 +13,7 @@ export function GuaranteeBadges() {
   return (
     <div className="rounded-lg border border-border/30 bg-muted/20 p-4 space-y-0 divide-y divide-border/20">
       {GARANTIAS.map((g) => {
-        const Icon = ICONS[g.iconName];
+        const Icon = ICONS[g.iconName as keyof typeof ICONS];
         return (
           <div key={g.id} className="flex items-start gap-3 py-3 first:pt-0 last:pb-0">
             <Icon className="h-5 w-5 text-cta shrink-0 mt-0.5" />

@@ -1,9 +1,5 @@
-export interface SizeGuideEntry {
-  tipo: string;
-  talleUnico: boolean;
-  medidas: { label: string; valor: string }[];
-  notas?: string;
-}
+import type { SizeGuideEntry } from '@/lib/domain/content';
+export type { SizeGuideEntry } from '@/lib/domain/content';
 
 export const SIZE_GUIDE: SizeGuideEntry[] = [
   {

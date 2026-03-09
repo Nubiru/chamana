@@ -1,17 +1,5 @@
-export interface DesfileImage {
-  id: number;
-  src: string;
-  alt: string;
-}
-
-export interface DesfileEvent {
-  slug: string;
-  title: string;
-  displayDate: string;
-  location: string;
-  description: string;
-  images: DesfileImage[];
-}
+import type { DesfileEvent, DesfileImage } from '@/lib/domain/content';
+export type { DesfileImage, DesfileEvent } from '@/lib/domain/content';
 
 const utopiaImages: DesfileImage[] = Array.from({ length: 19 }, (_, i) => ({
   id: i + 1,

@@ -1,11 +1,5 @@
-export interface Guarantee {
-  id: string;
-  nombre: string;
-  titulo: string;
-  descripcion: string;
-  detalle: string;
-  iconName: 'Repeat' | 'ShieldCheck' | 'Scissors';
-}
+import type { Guarantee } from '@/lib/domain/content';
+export type { Guarantee } from '@/lib/domain/content';
 
 export const GARANTIAS: Guarantee[] = [
   {
