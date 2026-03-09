@@ -1,3 +1,5 @@
+import { FAQAccordion } from '@/components/store/FAQAccordion';
+import { ProductCard } from '@/components/store/ProductCard';
 import { ProductoPageClient } from '@/components/store/ProductoPageClient';
 import {
   getModelMaxPrice,
@@ -95,7 +97,27 @@ export default async function ProductoPage({ params }: Props) {
         // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(model)) }}
       />
-      <ProductoPageClient model={model} faqs={faqs} relatedModels={related} />
+      <ProductoPageClient model={model} />
+
+      {/* FAQ — rendered at server level */}
+      {faqs.length > 0 && (
+        <div className="container px-4 mt-12">
+          <h2 className="text-xl font-bold font-titles mb-4">Preguntas Frecuentes</h2>
+          <FAQAccordion faqs={faqs} />
+        </div>
+      )}
+
+      {/* Related — rendered at server level */}
+      {related.length > 0 && (
+        <div className="container px-4 mt-16 pb-6">
+          <h2 className="text-xl font-bold font-titles mb-6">También te puede gustar</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
+            {related.map((m) => (
+              <ProductCard key={m.slug} model={m} />
+            ))}
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -1,39 +1,33 @@
 'use client';
 
 import { AddToCartButton } from '@/components/store/AddToCartButton';
-import { FAQAccordion } from '@/components/store/FAQAccordion';
 import { GuaranteeBadges } from '@/components/store/GuaranteeBadges';
-import { ProductCard } from '@/components/store/ProductCard';
+import { ProductImageGallery } from '@/components/store/ProductImageGallery';
 import { SizeGuideModal } from '@/components/store/SizeGuideModal';
 import { TrustBadges } from '@/components/store/TrustBadges';
 import { VariantSelector } from '@/components/store/VariantSelector';
 import { Button } from '@/components/ui/button';
 import { trackProductView, trackWhatsAppClick } from '@/lib/analytics';
 import { getCategoryColor } from '@/lib/data/categories';
-import type { FAQ } from '@/lib/data/faqs';
 import type { ChamanaModel, Variante } from '@/lib/data/products';
 import { getModelMinPrice } from '@/lib/data/products';
 import { isProximamente, telaDescripcion } from '@/lib/domain/catalog';
 import { formatPrice } from '@/lib/utils';
 import { generateSingleProductUrl } from '@/lib/whatsapp';
-import { ArrowLeft, MessageCircle, Sparkles } from 'lucide-react';
-import Image from 'next/image';
+import { ArrowLeft, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 interface ProductoPageClientProps {
   model: ChamanaModel;
-  faqs: FAQ[];
-  relatedModels: ChamanaModel[];
 }
 
-export function ProductoPageClient({ model, faqs, relatedModels }: ProductoPageClientProps) {
+export function ProductoPageClient({ model }: ProductoPageClientProps) {
   const proximamente = isProximamente(model);
   const modelImages = model.imagenes ?? [];
   const [selectedVariante, setSelectedVariante] = useState<Variante | undefined>(
     model.variantes[0]
   );
-  const [selectedImageIdx, setSelectedImageIdx] = useState(0);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
 
   useEffect(() => {
@@ -67,57 +61,8 @@ export function ProductoPageClient({ model, faqs, relatedModels }: ProductoPageC
       </Link>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-        {/* Image */}
-        <div className="space-y-3">
-          <div
-            className="aspect-square earth-gradient rounded-2xl flex items-center justify-center relative overflow-hidden"
-            style={{ '--cat-color': catColor } as React.CSSProperties}
-          >
-            {modelImages.length > 0 ? (
-              <Image
-                src={modelImages[selectedImageIdx]}
-                alt={`${model.nombre} - Foto ${selectedImageIdx + 1}`}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-contain"
-                priority
-              />
-            ) : (
-              <div className="text-center">
-                <Sparkles className="h-16 w-16 mx-auto text-foreground/10 mb-2" />
-                <span className="text-7xl font-titles text-foreground/10">
-                  {model.nombre.charAt(0)}
-                </span>
-              </div>
-            )}
-          </div>
-
-          {/* Thumbnail row */}
-          {modelImages.length > 1 && (
-            <div className="flex gap-2 overflow-x-auto pb-1">
-              {modelImages.map((src, idx) => (
-                <button
-                  key={src}
-                  type="button"
-                  onClick={() => setSelectedImageIdx(idx)}
-                  className={`relative w-16 h-16 rounded-lg overflow-hidden shrink-0 border-2 transition-all ${
-                    idx === selectedImageIdx
-                      ? 'border-primary ring-1 ring-primary'
-                      : 'border-transparent opacity-70 hover:opacity-100'
-                  }`}
-                >
-                  <Image
-                    src={src}
-                    alt={`${model.nombre} - Miniatura ${idx + 1}`}
-                    fill
-                    sizes="64px"
-                    className="object-cover"
-                  />
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
+        {/* Image Gallery */}
+        <ProductImageGallery images={modelImages} nombre={model.nombre} catColor={catColor} />
 
         {/* Info */}
         <div className="flex flex-col">
@@ -213,29 +158,9 @@ export function ProductoPageClient({ model, faqs, relatedModels }: ProductoPageC
         </div>
       </div>
 
-      {/* FAQ */}
-      {faqs.length > 0 && (
-        <div className="mt-12">
-          <h2 className="text-xl font-bold font-titles mb-4">Preguntas Frecuentes</h2>
-          <FAQAccordion faqs={faqs} />
-        </div>
-      )}
-
       {/* Size Guide Modal */}
       {showSizeGuide && (
         <SizeGuideModal tipo={model.tipo} onClose={() => setShowSizeGuide(false)} />
-      )}
-
-      {/* Related */}
-      {relatedModels.length > 0 && (
-        <div className="mt-16">
-          <h2 className="text-xl font-bold font-titles mb-6">También te puede gustar</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
-            {relatedModels.map((m) => (
-              <ProductCard key={m.slug} model={m} />
-            ))}
-          </div>
-        </div>
       )}
     </div>
   );
