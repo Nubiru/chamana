@@ -1,21 +1,6 @@
+import { getAvailableTransitions, validateTransition } from '@/lib/domain/sales/state-machine';
+import type { VentaEstado } from '@/lib/domain/sales/types';
 import type { CollectionBeforeChangeHook } from 'payload';
-
-/**
- * Valid state transitions for Ventas (ported from src/domains/order-management/entities/Order.ts)
- *
- * pendiente  → pagada | cancelada
- * pagada     → enviada | cancelada
- * enviada    → entregada
- * entregada  → (terminal)
- * cancelada  → (terminal)
- */
-const VALID_TRANSITIONS: Record<string, string[]> = {
-  pendiente: ['pagada', 'cancelada'],
-  pagada: ['enviada', 'cancelada'],
-  enviada: ['entregada'],
-  entregada: [],
-  cancelada: [],
-};
 
 export const ventasStateMachine: CollectionBeforeChangeHook = ({
   data,
@@ -24,13 +9,13 @@ export const ventasStateMachine: CollectionBeforeChangeHook = ({
 }) => {
   if (operation === 'create') return data;
 
-  const oldStatus = originalDoc?.estado;
-  const newStatus = data.estado;
+  const oldStatus = originalDoc?.estado as VentaEstado | undefined;
+  const newStatus = data.estado as VentaEstado | undefined;
 
   if (!oldStatus || !newStatus || oldStatus === newStatus) return data;
 
-  const allowed = VALID_TRANSITIONS[oldStatus] || [];
-  if (!allowed.includes(newStatus)) {
+  if (!validateTransition(oldStatus, newStatus)) {
+    const allowed = getAvailableTransitions(oldStatus);
     throw new Error(
       `No se puede cambiar el estado de "${oldStatus}" a "${newStatus}". ` +
         `Transiciones permitidas: ${allowed.length ? allowed.join(', ') : 'ninguna (estado final)'}`

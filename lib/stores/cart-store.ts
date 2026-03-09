@@ -1,6 +1,7 @@
 'use client';
 
 import type { CartItem } from '@/lib/domain/sales';
+import { computeCartTotal, computeItemCount } from '@/lib/domain/sales';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 export type { CartItem } from '@/lib/domain/sales';
@@ -45,16 +46,9 @@ export const useCartStore = create<CartStore>()(
         set({ items: [] });
       },
 
-      getItemCount: () => {
-        return get().items.reduce((count, item) => count + item.quantity, 0);
-      },
+      getItemCount: () => computeItemCount(get().items),
 
-      getTotal: () => {
-        const { items } = get();
-        if (items.length === 0) return 0;
-        if (items.some((item) => item.precio == null)) return null;
-        return items.reduce((sum, item) => sum + (item.precio ?? 0) * item.quantity, 0);
-      },
+      getTotal: () => computeCartTotal(get().items),
     }),
     {
       name: 'chamana-cart',
