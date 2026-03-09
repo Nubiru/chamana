@@ -1,5 +1,6 @@
 'use client';
 
+import { shouldShowPopup as domainShouldShowPopup } from '@/lib/domain/engagement/lead-rules';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -12,8 +13,6 @@ interface LeadStore {
   dismiss: () => void;
   shouldShowPopup: () => boolean;
 }
-
-const DISMISS_COOLDOWN_DAYS = 7;
 
 export const useLeadStore = create<LeadStore>()(
   persist(
@@ -40,13 +39,8 @@ export const useLeadStore = create<LeadStore>()(
       },
 
       shouldShowPopup: () => {
-        const { email, dismissed, dismissedAt } = get();
-        if (email) return false;
-        if (!dismissed) return true;
-        if (!dismissedAt) return true;
-        const daysSinceDismiss =
-          (Date.now() - new Date(dismissedAt).getTime()) / (1000 * 60 * 60 * 24);
-        return daysSinceDismiss >= DISMISS_COOLDOWN_DAYS;
+        const state = get();
+        return domainShouldShowPopup(state, Date.now());
       },
     }),
     {

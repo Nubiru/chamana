@@ -1,13 +1,5 @@
+import { slugify } from '@/lib/domain/shared/slug';
 import type { FieldHook } from 'payload';
-
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/\p{Diacritic}/gu, '') // remove accents
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
 
 export const autoSlug =
   (sourceField: string): FieldHook =>
