@@ -18,7 +18,7 @@
     "validate": "npm run lint && npm run typecheck && npm run build",
     "optimize:desfile": "node scripts/optimize-desfile-images.mjs",
     "prepare": "husky || true",
-    "seed": "tsx scripts/seed-payload.ts"
+    "seed": "node --env-file=.env.local --require ./scripts/patch-next-env.cjs --import tsx scripts/seed-payload.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.73.0",
