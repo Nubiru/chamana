@@ -33,7 +33,6 @@
     "components/**/*.tsx",
     "lib/**/*.ts",
     "lib/**/*.tsx",
-    "middleware.ts",
     "types/**/*.ts",
     "payload.config.ts",
     "payload-types.ts",
