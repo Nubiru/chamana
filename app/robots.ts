@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/carrito'],
+      disallow: ['/admin', '/api', '/carrito'],
     },
     sitemap: 'https://chamana.app/sitemap.xml',
   };

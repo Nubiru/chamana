@@ -14,6 +14,7 @@ import { Eventos } from './collections/Eventos.ts';
 import { Media } from './collections/Media.ts';
 import { Modelos } from './collections/Modelos.ts';
 import { Prototipos } from './collections/Prototipos.ts';
+import { Publicaciones } from './collections/Publicaciones.ts';
 import { Telas } from './collections/Telas.ts';
 import { Users } from './collections/Users.ts';
 import { Ventas } from './collections/Ventas.ts';
@@ -57,7 +58,17 @@ export default buildConfig({
     fallbackLanguage: 'es',
   },
 
-  collections: [Users, Media, Telas, Modelos, Colecciones, Prototipos, Eventos, Ventas],
+  collections: [
+    Users,
+    Media,
+    Telas,
+    Modelos,
+    Colecciones,
+    Prototipos,
+    Eventos,
+    Ventas,
+    Publicaciones,
+  ],
 
   globals: [ConfiguracionSitio, ContenidoInicio, PreguntasFrecuentes, Garantias, GuiaTalles],
 
@@ -78,7 +89,11 @@ export default buildConfig({
 
   editor: lexicalEditor(),
 
-  secret: process.env.PAYLOAD_SECRET || 'CHANGE-ME-IN-PRODUCTION',
+  secret:
+    process.env.PAYLOAD_SECRET ??
+    (() => {
+      throw new Error('PAYLOAD_SECRET env var is required');
+    })(),
 
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
