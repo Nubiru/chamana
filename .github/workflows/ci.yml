@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 env:
-  NODE_VERSION: '20.x'
+  NODE_VERSION: '22.x'
 
 jobs:
   quality:
@@ -31,6 +31,9 @@ jobs:
 
       - name: Run TypeScript compiler
         run: npm run typecheck
+
+      - name: Run tests
+        run: npm run test
 
       - name: Build application
         run: npm run build
