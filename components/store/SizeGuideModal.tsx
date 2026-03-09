@@ -2,7 +2,7 @@
 
 import { getSizeGuide } from '@/lib/data/size-guide';
 import { X } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 interface SizeGuideModalProps {
   tipo: string;
@@ -11,6 +11,8 @@ interface SizeGuideModalProps {
 
 export function SizeGuideModal({ tipo, onClose }: SizeGuideModalProps) {
   const guide = getSizeGuide(tipo);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -20,10 +22,40 @@ export function SizeGuideModal({ tipo, onClose }: SizeGuideModalProps) {
     return () => document.removeEventListener('keydown', handleKey);
   }, [onClose]);
 
+  useEffect(() => {
+    const previouslyFocused = document.activeElement as HTMLElement;
+    closeButtonRef.current?.focus();
+
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+      const focusable = modalRef.current?.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (!focusable || focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleTab);
+    return () => {
+      document.removeEventListener('keydown', handleTab);
+      previouslyFocused?.focus();
+    };
+  }, []);
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/40"
-      role="presentation"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="size-guide-title"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
@@ -31,10 +63,16 @@ export function SizeGuideModal({ tipo, onClose }: SizeGuideModalProps) {
         if (e.key === 'Escape') onClose();
       }}
     >
-      <div className="bg-background rounded-t-2xl md:rounded-2xl w-full max-w-md max-h-[85vh] overflow-y-auto shadow-xl">
+      <div
+        ref={modalRef}
+        className="bg-background rounded-t-2xl md:rounded-2xl w-full max-w-md max-h-[85vh] overflow-y-auto shadow-xl"
+      >
         <div className="flex items-center justify-between p-4 border-b border-border/30">
-          <h3 className="text-lg font-bold font-titles">Guia de Talles — {tipo}</h3>
+          <h3 id="size-guide-title" className="text-lg font-bold font-titles">
+            Guia de Talles — {tipo}
+          </h3>
           <button
+            ref={closeButtonRef}
             type="button"
             onClick={onClose}
             className="p-1 rounded-full hover:bg-muted/50 transition-colors"

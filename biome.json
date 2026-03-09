@@ -68,7 +68,8 @@
         "noBlankTarget": "error",
         "useAltText": "warn",
         "useButtonType": "error",
-        "useKeyWithClickEvents": "warn"
+        "useKeyWithClickEvents": "warn",
+        "useSemanticElements": "warn"
       },
       "complexity": {
         "noBannedTypes": "error",

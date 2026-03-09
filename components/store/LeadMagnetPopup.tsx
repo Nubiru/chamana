@@ -12,6 +12,8 @@ export function LeadMagnetPopup() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const triggered = useRef(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
 
   const shouldShowPopup = useLeadStore((s) => s.shouldShowPopup);
@@ -56,19 +58,68 @@ export function LeadMagnetPopup() {
     trackLeadCapture('popup');
   };
 
-  const handleDismiss = () => {
+  const handleDismiss = useCallback(() => {
     dismiss();
     setVisible(false);
     trackLeadDismiss();
-  };
+  }, [dismiss]);
+
+  useEffect(() => {
+    if (!visible) return;
+
+    const previouslyFocused = document.activeElement as HTMLElement;
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleDismiss();
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      const focusable = modalRef.current?.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (!focusable || focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      previouslyFocused?.focus();
+    };
+  }, [visible, handleDismiss]);
 
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/40">
-      <div className="bg-background rounded-t-2xl md:rounded-2xl w-full max-w-md shadow-xl animate-slide-up">
+    <div
+      className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/40"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Suscribite al newsletter de CHAMANA"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) handleDismiss();
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') handleDismiss();
+      }}
+    >
+      <div
+        ref={modalRef}
+        className="bg-background rounded-t-2xl md:rounded-2xl w-full max-w-md shadow-xl animate-slide-up"
+      >
         <div className="flex justify-end p-3 pb-0">
           <button
+            ref={closeButtonRef}
             type="button"
             onClick={handleDismiss}
             className="p-1 rounded-full hover:bg-muted/50 transition-colors"
