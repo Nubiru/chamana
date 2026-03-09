@@ -9,6 +9,8 @@ const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: {
+    '^@payload-config$': '<rootDir>/tests/__mocks__/payload-config.ts',
+    '^.*/payload\\.config(\\.ts)?$': '<rootDir>/tests/__mocks__/payload-config.ts',
     '^@/components/(.*)$': '<rootDir>/components/$1',
     '^@/(.*)$': '<rootDir>/$1'
   },
