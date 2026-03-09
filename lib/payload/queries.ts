@@ -256,29 +256,33 @@ export async function getGarantias(): Promise<Guarantee[]> {
 // ─── Size guide queries ───
 
 export async function getSizeGuide(tipo: string): Promise<SizeGuideEntry | undefined> {
-  const payload = await getPayloadClient();
-  const result = await payload.findGlobal({ slug: 'guia-talles' });
-  const entradas = (result.entradas as Array<Record<string, unknown>>) || [];
-  const entry = entradas.find((e) => (e.tipo as string).toLowerCase() === tipo.toLowerCase());
-  if (!entry) return undefined;
-  return {
-    tipo: entry.tipo as string,
-    talleUnico: entry.talleUnico as boolean,
-    medidas: (entry.medidas as Array<{ label: string; valor: string }>) || [],
-    notas: (entry.notas as string) || undefined,
-  };
+  return safeQuery(async () => {
+    const payload = await getPayloadClient();
+    const result = await payload.findGlobal({ slug: 'guia-talles' });
+    const entradas = (result.entradas as Array<Record<string, unknown>>) || [];
+    const entry = entradas.find((e) => (e.tipo as string).toLowerCase() === tipo.toLowerCase());
+    if (!entry) return undefined;
+    return {
+      tipo: entry.tipo as string,
+      talleUnico: entry.talleUnico as boolean,
+      medidas: (entry.medidas as Array<{ label: string; valor: string }>) || [],
+      notas: (entry.notas as string) || undefined,
+    };
+  }, undefined);
 }
 
 export async function getAllSizeGuides(): Promise<SizeGuideEntry[]> {
-  const payload = await getPayloadClient();
-  const result = await payload.findGlobal({ slug: 'guia-talles' });
-  const entradas = (result.entradas as Array<Record<string, unknown>>) || [];
-  return entradas.map((entry) => ({
-    tipo: entry.tipo as string,
-    talleUnico: entry.talleUnico as boolean,
-    medidas: (entry.medidas as Array<{ label: string; valor: string }>) || [],
-    notas: (entry.notas as string) || undefined,
-  }));
+  return safeQuery(async () => {
+    const payload = await getPayloadClient();
+    const result = await payload.findGlobal({ slug: 'guia-talles' });
+    const entradas = (result.entradas as Array<Record<string, unknown>>) || [];
+    return entradas.map((entry) => ({
+      tipo: entry.tipo as string,
+      talleUnico: entry.talleUnico as boolean,
+      medidas: (entry.medidas as Array<{ label: string; valor: string }>) || [],
+      notas: (entry.notas as string) || undefined,
+    }));
+  }, []);
 }
 
 // ─── Site config ───
