@@ -22,7 +22,7 @@ Este directorio debe contener los archivos de fuentes de marca para CHAMANA.
 
 ## Carga de Fuentes
 
-Las fuentes se cargan mediante `localFont` de Next.js en `app/layout.tsx`. Si los archivos de fuentes no están presentes, la aplicación usará respaldo a:
+Las fuentes se cargan mediante `localFont` de Next.js en `app/(store)/layout.tsx`. Si los archivos de fuentes no están presentes, la aplicación usará respaldo a:
 
 - **Serif Flowers**: Georgia, serif
 - **Cherolina**: system-ui, -apple-system, sans-serif
