@@ -1,5 +1,5 @@
-import { slugify } from '@/lib/domain/shared/slug';
 import type { FieldHook } from 'payload';
+import { slugify } from '../../domain/shared/slug.ts';
 
 export const autoSlug =
   (sourceField: string): FieldHook =>

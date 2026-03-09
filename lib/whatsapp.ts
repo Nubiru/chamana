@@ -1,7 +1,6 @@
+import { WHATSAPP_NUMBER } from '@/lib/config';
 import type { CartItem } from '@/lib/stores/cart-store';
 import { formatPrice } from '@/lib/utils';
-
-const CINTIA_WHATSAPP = '542215475727';
 
 export function generateWhatsAppUrl(items: CartItem[]): string {
   const allHavePrices = items.length > 0 && items.every((item) => item.precio != null);
@@ -31,7 +30,7 @@ export function generateWhatsAppUrl(items: CartItem[]): string {
       : 'Me gustaría consultar disponibilidad y precios!',
   ].join('\n');
 
-  return `https://wa.me/${CINTIA_WHATSAPP}?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 
 export function generateSingleProductUrl(
@@ -46,10 +45,10 @@ export function generateSingleProductUrl(
   const consultaStr = precio != null ? 'disponibilidad' : 'disponibilidad y precio';
   const message = `Hola Cintia! Me interesa la prenda ${modelNombre} (${modelTipo}) en ${telaInfo}${priceStr}. Me gustaría consultar ${consultaStr}!`;
 
-  return `https://wa.me/${CINTIA_WHATSAPP}?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 
 export function generateGeneralWhatsAppUrl(): string {
   const message = 'Hola Cintia! Quiero consultar sobre la Colección Magia de CHAMANA!';
-  return `https://wa.me/${CINTIA_WHATSAPP}?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }

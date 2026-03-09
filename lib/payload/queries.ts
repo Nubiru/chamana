@@ -1,3 +1,11 @@
+import {
+  BRAND_DESCRIPTION,
+  BRAND_NAME,
+  INSTAGRAM_HANDLE,
+  INSTAGRAM_URL,
+  SITE_URL,
+  WHATSAPP_NUMBER,
+} from '@/lib/config';
 import type { CollectionMeta } from '@/lib/data/collections';
 import type { Tela } from '@/lib/data/fabrics';
 import type { FAQ } from '@/lib/data/faqs';
@@ -303,24 +311,23 @@ export async function getSiteConfig(): Promise<SiteConfig> {
       const payload = await getPayloadClient();
       const result = await payload.findGlobal({ slug: 'configuracion-sitio' });
       return {
-        nombreMarca: (result.nombreMarca as string) || 'CHAMANA',
-        descripcionMarca: (result.descripcionMarca as string) || '',
-        whatsappNumero: (result.whatsappNumero as string) || '542215475727',
+        nombreMarca: (result.nombreMarca as string) || BRAND_NAME,
+        descripcionMarca: (result.descripcionMarca as string) || BRAND_DESCRIPTION,
+        whatsappNumero: (result.whatsappNumero as string) || WHATSAPP_NUMBER,
         whatsappMensajeGeneral: (result.whatsappMensajeGeneral as string) || '',
-        instagramHandle: (result.instagramHandle as string) || '@chamanasomostodas',
-        instagramUrl:
-          (result.instagramUrl as string) || 'https://www.instagram.com/chamanasomostodas',
-        siteUrl: (result.siteUrl as string) || 'https://chamana.app',
+        instagramHandle: (result.instagramHandle as string) || INSTAGRAM_HANDLE,
+        instagramUrl: (result.instagramUrl as string) || INSTAGRAM_URL,
+        siteUrl: (result.siteUrl as string) || SITE_URL,
       };
     },
     {
-      nombreMarca: 'CHAMANA',
-      descripcionMarca: '',
-      whatsappNumero: '542215475727',
+      nombreMarca: BRAND_NAME,
+      descripcionMarca: BRAND_DESCRIPTION,
+      whatsappNumero: WHATSAPP_NUMBER,
       whatsappMensajeGeneral: '',
-      instagramHandle: '@chamanasomostodas',
-      instagramUrl: 'https://www.instagram.com/chamanasomostodas',
-      siteUrl: 'https://chamana.app',
+      instagramHandle: INSTAGRAM_HANDLE,
+      instagramUrl: INSTAGRAM_URL,
+      siteUrl: SITE_URL,
     }
   );
 }

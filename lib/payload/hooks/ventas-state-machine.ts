@@ -1,6 +1,6 @@
-import { getAvailableTransitions, validateTransition } from '@/lib/domain/sales/state-machine';
-import type { VentaEstado } from '@/lib/domain/sales/types';
 import type { CollectionBeforeChangeHook } from 'payload';
+import { getAvailableTransitions, validateTransition } from '../../domain/sales/state-machine.ts';
+import type { VentaEstado } from '../../domain/sales/types.ts';
 
 export const ventasStateMachine: CollectionBeforeChangeHook = ({
   data,
