@@ -427,14 +427,6 @@ export async function getDesfileEvents(): Promise<DesfileEvent[]> {
   }, []);
 }
 
-// ─── Price helpers (replicate existing utility functions) ───
+// ─── Price helpers (delegated to data layer) ───
 
-export function getModelMinPrice(model: ChamanaModel): number | undefined {
-  const prices = model.variantes.map((v) => v.precio).filter((p): p is number => p != null);
-  return prices.length > 0 ? Math.min(...prices) : undefined;
-}
-
-export function getModelMaxPrice(model: ChamanaModel): number | undefined {
-  const prices = model.variantes.map((v) => v.precio).filter((p): p is number => p != null);
-  return prices.length > 0 ? Math.max(...prices) : undefined;
-}
+export { getModelMinPrice, getModelMaxPrice } from '@/lib/data/products';

@@ -10,10 +10,10 @@ import { VariantSelector } from '@/components/store/VariantSelector';
 import { Button } from '@/components/ui/button';
 import { trackProductView, trackWhatsAppClick } from '@/lib/analytics';
 import { getCategoryColor } from '@/lib/data/categories';
-import { telaDescripcion } from '@/lib/data/fabrics';
 import type { FAQ } from '@/lib/data/faqs';
 import type { ChamanaModel, Variante } from '@/lib/data/products';
 import { getModelMinPrice } from '@/lib/data/products';
+import { isProximamente, telaDescripcion } from '@/lib/domain/catalog';
 import { formatPrice } from '@/lib/utils';
 import { generateSingleProductUrl } from '@/lib/whatsapp';
 import { ArrowLeft, MessageCircle, Sparkles } from 'lucide-react';
@@ -28,7 +28,7 @@ interface ProductoPageClientProps {
 }
 
 export function ProductoPageClient({ model, faqs, relatedModels }: ProductoPageClientProps) {
-  const isProximamente = model.variantes.length === 0;
+  const proximamente = isProximamente(model);
   const modelImages = model.imagenes ?? [];
   const [selectedVariante, setSelectedVariante] = useState<Variante | undefined>(
     model.variantes[0]
@@ -138,7 +138,7 @@ export function ProductoPageClient({ model, faqs, relatedModels }: ProductoPageC
           <p className="text-sm text-muted-foreground leading-relaxed mb-4">{model.descripcion}</p>
 
           {/* Price */}
-          {!isProximamente && selectedVariante && (
+          {!proximamente && selectedVariante && (
             <div className="flex items-center gap-3 mb-6">
               <p className="text-2xl font-semibold text-foreground">
                 {formatPrice(selectedVariante.precio)}
@@ -156,7 +156,7 @@ export function ProductoPageClient({ model, faqs, relatedModels }: ProductoPageC
             </div>
           )}
 
-          {isProximamente ? (
+          {proximamente ? (
             <div className="mb-8 py-4 px-5 rounded-lg bg-muted/30 border border-border/30 text-center">
               <p className="text-sm font-medium text-muted-foreground">Proximamente</p>
               <p className="text-xs text-muted-foreground/70 mt-1">

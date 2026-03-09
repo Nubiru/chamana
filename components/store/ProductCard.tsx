@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { getCategoryColor } from '@/lib/data/categories';
 import type { ChamanaModel } from '@/lib/data/products';
 import { getModelPriceDisplay } from '@/lib/data/products';
+import { isProximamente } from '@/lib/domain/catalog';
 import { formatPrice } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -54,7 +55,7 @@ export function ProductCard({ model }: { model: ChamanaModel }) {
 
           {/* Color swatches or Proximamente badge */}
           <div className="absolute bottom-2 left-2 flex gap-1">
-            {model.variantes.length === 0 ? (
+            {isProximamente(model) ? (
               <span className="text-[10px] bg-background/80 backdrop-blur-sm text-muted-foreground px-2 py-0.5 rounded-full">
                 Proximamente
               </span>

@@ -183,8 +183,6 @@ export const TELAS: Record<string, Tela> = {
   FibCeleste: { codigo: 'FibCeleste', tipo: 'Fibrana', color: 'Celeste', colorHex: '#87CEEB' },
 };
 
-export function telaDescripcion(tela: Tela): string {
-  return [tela.tipo, tela.subtipo, tela.color].filter(Boolean).join(' ');
-}
+export { telaDescripcion } from '@/lib/domain/catalog';
 
 export const TIPOS_TELA = [...new Set(Object.values(TELAS).map((t) => t.tipo))];

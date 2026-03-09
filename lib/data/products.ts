@@ -1,4 +1,5 @@
 import type { ChamanaModel, Variante } from '@/lib/domain/catalog';
+import { getMaxPrice, getMinPrice } from '@/lib/domain/catalog';
 export type { Variante, ChamanaModel } from '@/lib/domain/catalog';
 
 import { formatPrice } from '@/lib/utils';
@@ -294,13 +295,11 @@ export function getAllProductImages(): { src: string; model: ChamanaModel }[] {
 }
 
 export function getModelMinPrice(model: ChamanaModel): number | undefined {
-  const prices = model.variantes.map((v) => v.precio).filter((p): p is number => p != null);
-  return prices.length > 0 ? Math.min(...prices) : undefined;
+  return getMinPrice(model.variantes) ?? undefined;
 }
 
 export function getModelMaxPrice(model: ChamanaModel): number | undefined {
-  const prices = model.variantes.map((v) => v.precio).filter((p): p is number => p != null);
-  return prices.length > 0 ? Math.max(...prices) : undefined;
+  return getMaxPrice(model.variantes) ?? undefined;
 }
 
 export function getModelPriceDisplay(model: ChamanaModel): string {
