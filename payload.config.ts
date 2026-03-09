@@ -64,7 +64,10 @@ export default buildConfig({
   db: process.env.POSTGRES_URL
     ? postgresAdapter({
         pool: {
-          connectionString: process.env.POSTGRES_URL,
+          connectionString: process.env.POSTGRES_URL.replace(
+            /sslmode=(prefer|require|verify-ca)\b/,
+            'sslmode=verify-full'
+          ),
         },
       })
     : sqliteAdapter({
