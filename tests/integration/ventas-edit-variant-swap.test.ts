@@ -7,8 +7,8 @@
  *   Hook must (a) decrement OLD variant, (b) increment NEW variant, atomically.
  */
 
-import { autoStock } from '@/lib/payload/hooks/auto-stock';
-import { ventasStockSync } from '@/lib/payload/hooks/ventas-stock-sync';
+import { autoStock } from '@/payload/hooks/auto-stock';
+import { ventasStockSync } from '@/payload/hooks/ventas-stock-sync';
 
 type Variante = {
   varianteId: string;

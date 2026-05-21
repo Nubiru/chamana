@@ -13,7 +13,7 @@
  * All DROP statements use IF EXISTS so rollback is idempotent.
  */
 
-import { down } from '@/src/migrations/20260520_230000_add_telas_estado_leadTimeDias';
+import { down } from '@/payload/migrations/20260520_230000_add_telas_estado_leadTimeDias';
 
 type SqlCall = { sql: string };
 

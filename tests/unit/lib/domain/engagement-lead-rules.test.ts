@@ -1,5 +1,5 @@
-import { shouldShowPopup } from '@/lib/domain/engagement/lead-rules';
-import type { LeadState } from '@/lib/domain/engagement/types';
+import { shouldShowPopup } from '@/domain/engagement/lead-rules';
+import type { LeadState } from '@/domain/engagement/types';
 
 const MS_PER_DAY = 86_400_000;
 

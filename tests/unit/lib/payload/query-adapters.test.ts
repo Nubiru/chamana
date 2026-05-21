@@ -32,7 +32,7 @@ jest.mock('@/lib/data/products', () => ({
   getModelMaxPrice: jest.fn(),
 }));
 
-import { getModeloBySlug, getModelos, getModelosFeatured, getTelas } from '@/lib/payload/queries';
+import { getModeloBySlug, getModelos, getModelosFeatured, getTelas } from '@/payload/queries';
 import { getPayload } from 'payload';
 
 const mockGetPayload = getPayload as jest.MockedFunction<typeof getPayload>;

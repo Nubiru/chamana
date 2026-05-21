@@ -12,7 +12,7 @@
  * guarantee only — the structural floor below the state machine.
  */
 
-import { Telas } from '@/collections/Telas';
+import { Telas } from '@/payload/collections/Telas';
 import type { Field, SelectField } from 'payload';
 
 function getEstadoField(): SelectField {

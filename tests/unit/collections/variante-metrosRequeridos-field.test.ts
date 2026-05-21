@@ -16,7 +16,7 @@
  * telasStockProjection (S-8) and cost-per-unit (S-11).
  */
 
-import { Modelos } from '@/collections/Modelos';
+import { Modelos } from '@/payload/collections/Modelos';
 import type { ArrayField, Field, NumberField } from 'payload';
 
 function findTopLevel(name: string): Field | undefined {

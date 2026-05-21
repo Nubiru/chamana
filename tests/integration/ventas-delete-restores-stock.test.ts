@@ -6,8 +6,8 @@
  * flip it back to false.
  */
 
-import { autoStock } from '@/lib/payload/hooks/auto-stock';
-import { ventasStockSyncDelete } from '@/lib/payload/hooks/ventas-stock-sync';
+import { autoStock } from '@/payload/hooks/auto-stock';
+import { ventasStockSyncDelete } from '@/payload/hooks/ventas-stock-sync';
 
 type Variante = {
   varianteId: string;

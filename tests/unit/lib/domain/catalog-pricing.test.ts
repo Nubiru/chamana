@@ -1,10 +1,5 @@
-import {
-  calculateDiscount,
-  getMaxPrice,
-  getMinPrice,
-  hasPricing,
-} from '@/lib/domain/catalog/pricing';
-import type { ChamanaModel, Tela, Variante } from '@/lib/domain/catalog/types';
+import { calculateDiscount, getMaxPrice, getMinPrice, hasPricing } from '@/domain/catalog/pricing';
+import type { ChamanaModel, Tela, Variante } from '@/domain/catalog/types';
 
 // --- Inline factories ---
 

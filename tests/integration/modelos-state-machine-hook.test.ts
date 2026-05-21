@@ -12,7 +12,7 @@
  * originalDoc + data, what it throws, what it returns).
  */
 
-import { modelosStateMachine } from '@/lib/payload/hooks/modelos-state-machine';
+import { modelosStateMachine } from '@/payload/hooks/modelos-state-machine';
 
 function callHook(
   operation: 'create' | 'update',

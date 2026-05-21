@@ -1,4 +1,4 @@
-import type { ChamanaModel, Tela, Variante } from '@/lib/domain/catalog';
+import type { ChamanaModel, Tela, Variante } from '@/domain/catalog';
 import {
   breadcrumbJsonLd,
   organizationJsonLd,

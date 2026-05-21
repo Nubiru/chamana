@@ -14,7 +14,7 @@
  * unrelated edit.
  */
 
-import { telasStateMachine } from '@/lib/payload/hooks/telas-state-machine';
+import { telasStateMachine } from '@/payload/hooks/telas-state-machine';
 
 function callHook(data: Record<string, unknown>, originalDoc?: Record<string, unknown>) {
   return telasStateMachine({

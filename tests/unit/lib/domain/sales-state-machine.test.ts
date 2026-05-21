@@ -3,8 +3,8 @@ import {
   getAvailableTransitions,
   isTerminal,
   validateTransition,
-} from '@/lib/domain/sales/state-machine';
-import type { VentaEstado } from '@/lib/domain/sales/types';
+} from '@/domain/sales/state-machine';
+import type { VentaEstado } from '@/domain/sales/types';
 
 const ALL_STATES: VentaEstado[] = ['pendiente', 'pagada', 'enviada', 'entregada', 'cancelada'];
 

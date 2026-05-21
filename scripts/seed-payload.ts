@@ -9,14 +9,14 @@
  */
 
 import { getPayload } from 'payload';
-import config from '../payload.config';
+import config from '../src/payload/payload.config';
 
-import { COLECCIONES } from '../lib/data/collections';
-import { TELAS } from '../lib/data/fabrics';
-import { FAQS } from '../lib/data/faqs';
-import { GARANTIAS } from '../lib/data/guarantees';
-import { MODELOS } from '../lib/data/products';
-import { SIZE_GUIDE } from '../lib/data/size-guide';
+import { COLECCIONES } from '../src/lib/data/collections';
+import { TELAS } from '../src/lib/data/fabrics';
+import { FAQS } from '../src/lib/data/faqs';
+import { GARANTIAS } from '../src/lib/data/guarantees';
+import { MODELOS } from '../src/lib/data/products';
+import { SIZE_GUIDE } from '../src/lib/data/size-guide';
 
 // ---------------------------------------------------------------------------
 // Helpers

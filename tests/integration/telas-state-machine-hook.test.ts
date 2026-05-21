@@ -11,7 +11,7 @@
  * originalDoc + data, what it throws, what it returns).
  */
 
-import { telasStateMachine } from '@/lib/payload/hooks/telas-state-machine';
+import { telasStateMachine } from '@/payload/hooks/telas-state-machine';
 
 function callHook(
   operation: 'create' | 'update',

@@ -8,7 +8,7 @@
  * the field-label translation.
  */
 
-import { Telas } from '@/collections/Telas';
+import { Telas } from '@/payload/collections/Telas';
 import type { Field, NumberField } from 'payload';
 
 function getLead(): NumberField {

@@ -15,7 +15,7 @@
  * Mirror of tests/integration/telas-migration-rollback.test.ts (G-13).
  */
 
-import { down } from '@/src/migrations/20260521_030000_add_modelo_estado_variante_metros';
+import { down } from '@/payload/migrations/20260521_030000_add_modelo_estado_variante_metros';
 
 type SqlCall = { sql: string };
 

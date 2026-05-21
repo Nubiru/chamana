@@ -15,7 +15,7 @@
  * (pure hook logic) — this file pins the *wiring* contract.
  */
 
-import { Modelos } from '@/collections/Modelos';
+import { Modelos } from '@/payload/collections/Modelos';
 import type { CollectionConfig, Field } from 'payload';
 
 // ── Helpers to walk the sanitized collection field tree ──────────────────

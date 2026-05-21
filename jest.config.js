@@ -11,13 +11,13 @@ const customJestConfig = {
   moduleNameMapper: {
     '^@payload-config$': '<rootDir>/tests/__mocks__/payload-config.ts',
     '^.*/payload\\.config(\\.ts)?$': '<rootDir>/tests/__mocks__/payload-config.ts',
-    '^@/components/(.*)$': '<rootDir>/components/$1',
-    '^@/(.*)$': '<rootDir>/$1'
+    '^@/components/(.*)$': '<rootDir>/src/components/$1',
+    '^@/domain/(.*)$': '<rootDir>/src/domain/$1',
+    '^@/payload/(.*)$': '<rootDir>/src/payload/$1',
+    '^@/(.*)$': '<rootDir>/src/$1'
   },
   collectCoverageFrom: [
-    'app/**/*.{js,jsx,ts,tsx}',
-    'lib/**/*.{js,jsx,ts,tsx}',
-    'components/**/*.{js,jsx,ts,tsx}',
+    'src/**/*.{js,jsx,ts,tsx}',
     '!**/*.d.ts',
     '!**/node_modules/**',
     '!**/.next/**',

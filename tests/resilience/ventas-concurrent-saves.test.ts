@@ -12,8 +12,8 @@
  * neutralized here is the "lost-update during back-to-back saves" class.
  */
 
-import { autoStock } from '@/lib/payload/hooks/auto-stock';
-import { ventasStockSync } from '@/lib/payload/hooks/ventas-stock-sync';
+import { autoStock } from '@/payload/hooks/auto-stock';
+import { ventasStockSync } from '@/payload/hooks/ventas-stock-sync';
 
 type Variante = {
   varianteId: string;

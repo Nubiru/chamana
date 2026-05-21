@@ -12,8 +12,8 @@
  * was) so downstream storefront filters continue to hide the variant.
  */
 
-import { autoStock } from '@/lib/payload/hooks/auto-stock';
-import { ventasStockSync } from '@/lib/payload/hooks/ventas-stock-sync';
+import { autoStock } from '@/payload/hooks/auto-stock';
+import { ventasStockSync } from '@/payload/hooks/ventas-stock-sync';
 
 describe('resilience — venta logged against already-exhausted variant', () => {
   it('hook still increments (Cintia controls oversell decision); autoStock keeps sinStock=true', async () => {

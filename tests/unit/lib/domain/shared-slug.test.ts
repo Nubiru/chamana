@@ -1,4 +1,4 @@
-import { slugify } from '@/lib/domain/shared/slug';
+import { slugify } from '@/domain/shared/slug';
 
 describe('slugify', () => {
   it('converts simple text to lowercase slug', () => {

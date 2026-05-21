@@ -21,8 +21,8 @@ import {
   invalidTransitionError,
   isTerminal,
   validateTransition,
-} from '@/lib/domain/textiles/state-machine';
-import { ESTADO_LABELS, type TelaEstado } from '@/lib/domain/textiles/types';
+} from '@/domain/textiles/state-machine';
+import { ESTADO_LABELS, type TelaEstado } from '@/domain/textiles/types';
 
 const ALL_ESTADOS: TelaEstado[] = [
   'disponible',

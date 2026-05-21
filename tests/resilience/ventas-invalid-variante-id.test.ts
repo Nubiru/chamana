@@ -7,7 +7,7 @@
  * back the operation, NOT silently save with no Modelo update.
  */
 
-import { ventasStockSync } from '@/lib/payload/hooks/ventas-stock-sync';
+import { ventasStockSync } from '@/payload/hooks/ventas-stock-sync';
 
 describe('resilience — unknown varianteId rejects with Spanish error (AC-5)', () => {
   function payloadWithModelo() {

@@ -8,9 +8,9 @@
  * (estado final)" trailer.
  */
 
-import { isTerminal } from '@/lib/domain/textiles/state-machine';
-import type { TelaEstado } from '@/lib/domain/textiles/types';
-import { telasStateMachine } from '@/lib/payload/hooks/telas-state-machine';
+import { isTerminal } from '@/domain/textiles/state-machine';
+import type { TelaEstado } from '@/domain/textiles/types';
+import { telasStateMachine } from '@/payload/hooks/telas-state-machine';
 
 const TARGETS: TelaEstado[] = ['disponible', 'por_agotarse', 'agotada', 'pedida'];
 

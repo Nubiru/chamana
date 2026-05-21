@@ -20,8 +20,8 @@
  * Mirror of tests/integration/telas-migration-apply.test.ts (G-13).
  */
 
-import { migrations } from '@/src/migrations';
-import { up } from '@/src/migrations/20260521_030000_add_modelo_estado_variante_metros';
+import { migrations } from '@/payload/migrations';
+import { up } from '@/payload/migrations/20260521_030000_add_modelo_estado_variante_metros';
 
 type SqlCall = { sql: string };
 

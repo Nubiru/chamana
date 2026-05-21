@@ -19,7 +19,7 @@
  * Companion: variante-metrosRequeridos-field.test.ts.
  */
 
-import { Modelos } from '@/collections/Modelos';
+import { Modelos } from '@/payload/collections/Modelos';
 import type { Field, SelectField } from 'payload';
 
 function findField(name: string): Field | undefined {

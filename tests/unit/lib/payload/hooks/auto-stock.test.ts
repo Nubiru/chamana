@@ -5,7 +5,7 @@
  * for each variante based on stockVendido and stockTotal.
  */
 
-import { autoStock } from '@/lib/payload/hooks/auto-stock';
+import { autoStock } from '@/payload/hooks/auto-stock';
 
 describe('autoStock hook', () => {
   // Helper to call the hook with minimal mock args

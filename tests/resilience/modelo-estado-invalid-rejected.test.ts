@@ -14,7 +14,7 @@
  * Mirror of tests/resilience/telas-invalid-estado-rejected.test.ts (G-13).
  */
 
-import { Modelos } from '@/collections/Modelos';
+import { Modelos } from '@/payload/collections/Modelos';
 import type { Field, SelectField } from 'payload';
 
 function getEstadoField(): SelectField {

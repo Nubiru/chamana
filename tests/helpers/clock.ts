@@ -1,5 +1,5 @@
-import { fixedClock } from '@/lib/domain/shared/clock';
-import type { Clock } from '@/lib/domain/shared/clock';
+import { fixedClock } from '@/domain/shared/clock';
+import type { Clock } from '@/domain/shared/clock';
 
 export { fixedClock };
 export type { Clock };

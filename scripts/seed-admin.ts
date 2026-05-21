@@ -1,5 +1,5 @@
 import { getPayload } from 'payload';
-import config from '../payload.config';
+import config from '../src/payload/payload.config';
 
 async function seed() {
   const payload = await getPayload({ config });

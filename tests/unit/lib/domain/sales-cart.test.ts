@@ -1,5 +1,5 @@
-import { computeCartTotal, computeItemCount } from '@/lib/domain/sales/cart';
-import type { CartItem } from '@/lib/domain/sales/types';
+import { computeCartTotal, computeItemCount } from '@/domain/sales/cart';
+import type { CartItem } from '@/domain/sales/types';
 
 function makeItem(overrides: Partial<CartItem> = {}): CartItem {
   return {

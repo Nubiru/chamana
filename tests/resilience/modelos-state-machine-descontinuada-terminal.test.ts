@@ -10,9 +10,9 @@
  * (G-14).
  */
 
-import { isTerminal } from '@/lib/domain/models/state-machine';
-import type { ModeloEstado } from '@/lib/domain/models/types';
-import { modelosStateMachine } from '@/lib/payload/hooks/modelos-state-machine';
+import { isTerminal } from '@/domain/models/state-machine';
+import type { ModeloEstado } from '@/domain/models/types';
+import { modelosStateMachine } from '@/payload/hooks/modelos-state-machine';
 
 const TARGETS: ModeloEstado[] = ['nueva', 'en_produccion', 'en_stock', 'sin_stock'];
 

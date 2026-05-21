@@ -18,8 +18,8 @@
  * the SQL shape; the live run is documented in G-13 report §7.
  */
 
-import { migrations } from '@/src/migrations';
-import { up } from '@/src/migrations/20260520_230000_add_telas_estado_leadTimeDias';
+import { migrations } from '@/payload/migrations';
+import { up } from '@/payload/migrations/20260520_230000_add_telas_estado_leadTimeDias';
 
 type SqlCall = { sql: string };
 

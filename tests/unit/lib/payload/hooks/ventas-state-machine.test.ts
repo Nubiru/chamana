@@ -5,7 +5,7 @@
  * valid state transitions for the Ventas (sales) collection.
  */
 
-import { ventasStateMachine } from '@/lib/payload/hooks/ventas-state-machine';
+import { ventasStateMachine } from '@/payload/hooks/ventas-state-machine';
 
 describe('ventasStateMachine hook', () => {
   // Helper to call the hook with minimal mock args

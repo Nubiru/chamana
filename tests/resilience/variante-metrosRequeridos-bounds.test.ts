@@ -15,7 +15,7 @@
  * return string in Cintia's UI.
  */
 
-import { Modelos } from '@/collections/Modelos';
+import { Modelos } from '@/payload/collections/Modelos';
 import type { ArrayField, Field, NumberField } from 'payload';
 
 type ValidateFn = (value: number | null | undefined) => true | string;

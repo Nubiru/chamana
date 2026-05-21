@@ -1,6 +1,6 @@
-import type { ChamanaModel, Tela, Variante } from '@/lib/domain/catalog/types';
-import type { LeadState } from '@/lib/domain/engagement/types';
-import type { CartItem } from '@/lib/domain/sales/types';
+import type { ChamanaModel, Tela, Variante } from '@/domain/catalog/types';
+import type { LeadState } from '@/domain/engagement/types';
+import type { CartItem } from '@/domain/sales/types';
 
 export function buildTela(overrides?: Partial<Tela>): Tela {
   return {

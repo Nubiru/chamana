@@ -17,11 +17,11 @@
  * S-11 #2 live-column-name verification documented in the migration header.
  */
 
-import { migrations } from '@/src/migrations';
+import { migrations } from '@/payload/migrations';
 import {
   down,
   up,
-} from '@/src/migrations/20260521_040000_rename_telas_precioPorMetro_to_costoPorMetro';
+} from '@/payload/migrations/20260521_040000_rename_telas_precioPorMetro_to_costoPorMetro';
 
 type SqlCall = { sql: string };
 

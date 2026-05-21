@@ -11,7 +11,7 @@
  * correct delta to the matching variant, and re-saves via payload.update.
  */
 
-import { ventasStockSync, ventasStockSyncDelete } from '@/lib/payload/hooks/ventas-stock-sync';
+import { ventasStockSync, ventasStockSyncDelete } from '@/payload/hooks/ventas-stock-sync';
 
 type Variante = {
   varianteId: string;

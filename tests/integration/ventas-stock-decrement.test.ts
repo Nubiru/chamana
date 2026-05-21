@@ -15,8 +15,8 @@
  *   AC-2: 5 successive Ventas on stockTotal=5 → final variant.sinStock === true
  */
 
-import { autoStock } from '@/lib/payload/hooks/auto-stock';
-import { ventasStockSync } from '@/lib/payload/hooks/ventas-stock-sync';
+import { autoStock } from '@/payload/hooks/auto-stock';
+import { ventasStockSync } from '@/payload/hooks/ventas-stock-sync';
 
 type Variante = {
   varianteId: string;

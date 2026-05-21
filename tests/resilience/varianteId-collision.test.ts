@@ -13,7 +13,7 @@
  * is caught.
  */
 
-import { Modelos } from '@/collections/Modelos';
+import { Modelos } from '@/payload/collections/Modelos';
 import type { CollectionConfig, Field } from 'payload';
 
 function findField(fields: Field[], name: string): Field | undefined {

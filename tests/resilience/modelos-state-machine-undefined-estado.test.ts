@@ -15,7 +15,7 @@
  * unrelated edit.
  */
 
-import { modelosStateMachine } from '@/lib/payload/hooks/modelos-state-machine';
+import { modelosStateMachine } from '@/payload/hooks/modelos-state-machine';
 
 function callHook(data: Record<string, unknown>, originalDoc?: Record<string, unknown>) {
   return modelosStateMachine({

@@ -22,8 +22,8 @@ import {
   invalidTransitionError,
   isTerminal,
   validateTransition,
-} from '@/lib/domain/models/state-machine';
-import { ESTADO_LABELS, type ModeloEstado } from '@/lib/domain/models/types';
+} from '@/domain/models/state-machine';
+import { ESTADO_LABELS, type ModeloEstado } from '@/domain/models/types';
 
 const ALL_ESTADOS: ModeloEstado[] = [
   'nueva',

@@ -5,7 +5,7 @@
  * We call the returned hook with mock { data, value } objects.
  */
 
-import { autoSlug } from '@/lib/payload/hooks/auto-slug';
+import { autoSlug } from '@/payload/hooks/auto-slug';
 
 describe('autoSlug hook', () => {
   const hook = autoSlug('nombre');

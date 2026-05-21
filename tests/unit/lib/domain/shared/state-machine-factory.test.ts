@@ -25,7 +25,7 @@
  * trivially-true assertions; throw-paths use expect().toThrow.
  */
 
-import { type StateMachine, createStateMachine } from '@/lib/domain/shared/state-machine-factory';
+import { type StateMachine, createStateMachine } from '@/domain/shared/state-machine-factory';
 
 // ── Mock A — WITH labels, includes a terminal state (Telas/Modelos shape) ──
 type FlujoEstado = 'inicial' | 'medio' | 'final';

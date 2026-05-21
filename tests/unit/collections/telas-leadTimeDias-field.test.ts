@@ -11,7 +11,7 @@
  * Companion: telas-estado-field.test.ts.
  */
 
-import { Telas } from '@/collections/Telas';
+import { Telas } from '@/payload/collections/Telas';
 import type { Field, NumberField } from 'payload';
 
 function findField(name: string): Field | undefined {

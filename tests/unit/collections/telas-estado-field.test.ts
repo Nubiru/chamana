@@ -14,7 +14,7 @@
  * Companion: telas-leadTimeDias-field.test.ts.
  */
 
-import { Telas } from '@/collections/Telas';
+import { Telas } from '@/payload/collections/Telas';
 import type { Field, SelectField } from 'payload';
 
 function findField(name: string): Field | undefined {

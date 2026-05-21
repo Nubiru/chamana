@@ -1,5 +1,5 @@
-import { isProximamente, isReversible, telaDescripcion } from '@/lib/domain/catalog/rules';
-import type { ChamanaModel, Tela, Variante } from '@/lib/domain/catalog/types';
+import { isProximamente, isReversible, telaDescripcion } from '@/domain/catalog/rules';
+import type { ChamanaModel, Tela, Variante } from '@/domain/catalog/types';
 
 // --- Inline factories ---
 

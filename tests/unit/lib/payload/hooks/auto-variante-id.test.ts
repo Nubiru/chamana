@@ -5,7 +5,7 @@
  * by looking up tela codes via req.payload.findByID.
  */
 
-import { autoVarianteId } from '@/lib/payload/hooks/auto-variante-id';
+import { autoVarianteId } from '@/payload/hooks/auto-variante-id';
 
 describe('autoVarianteId hook', () => {
   // Helper to build mock req with payload.findByID
