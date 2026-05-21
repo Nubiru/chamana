@@ -1,9 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import type { ChamanaModel, Variante } from '@/domain/catalog';
 import { trackAddToCart } from '@/lib/analytics';
 import { telaDescripcion } from '@/lib/data/fabrics';
-import type { ChamanaModel, Variante } from '@/lib/data/products';
 import { useCartStore } from '@/lib/stores/cart-store';
 import { Check, ShoppingBag } from 'lucide-react';
 import { useState } from 'react';

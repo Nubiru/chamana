@@ -1,12 +1,13 @@
 'use client';
 
-import { CATEGORIAS, getCategoryColor } from '@/lib/data/categories';
+import type { Category } from '@/domain/catalog';
+import { getCategoryColor } from '@/lib/data/categories';
 import Link from 'next/link';
 
-export function CategoryCircles() {
+export function CategoryCircles({ categorias }: { categorias: Category[] }) {
   return (
     <div className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide px-2">
-      {CATEGORIAS.map((cat) => (
+      {categorias.map((cat) => (
         <Link
           key={cat.slug}
           href={`/tienda?categoria=${cat.slug}`}

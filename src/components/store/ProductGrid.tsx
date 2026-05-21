@@ -1,6 +1,6 @@
 'use client';
 
-import type { ChamanaModel } from '@/lib/data/products';
+import type { ChamanaModel } from '@/domain/catalog';
 import { ProductCard } from './ProductCard';
 
 interface ProductGridProps {

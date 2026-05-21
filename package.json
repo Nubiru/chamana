@@ -16,7 +16,7 @@
     "test:e2e": "playwright test",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "qa": "npm run format && npm run lint && npm run typecheck && npm run test:unit",
+    "qa": "npm run format && npm run lint && npm run typecheck && npm run test:unit && npm run build",
     "qa:check": "npm run lint && npm run typecheck && npm run test:unit",
     "qa:fix": "npm run format && npm run lint:fix",
     "qa:full": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build",

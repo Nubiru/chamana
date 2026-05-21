@@ -1,4 +1,12 @@
-import { calculateDiscount, getMaxPrice, getMinPrice, hasPricing } from '@/domain/catalog/pricing';
+import {
+  calculateDiscount,
+  getMaxPrice,
+  getMinPrice,
+  getModelMaxPrice,
+  getModelMinPrice,
+  getModelPriceDisplay,
+  hasPricing,
+} from '@/domain/catalog/pricing';
 import type { ChamanaModel, Tela, Variante } from '@/domain/catalog/types';
 
 // --- Inline factories ---
@@ -180,5 +188,80 @@ describe('calculateDiscount', () => {
   it('handles current price higher than original (negative discount)', () => {
     // Implementation: (100 - 120) / 100 = -20% -> rounds to -20
     expect(calculateDiscount(100, 120)).toBe(-20);
+  });
+});
+
+// --- Model-level helpers (relocated from lib/data/products in G-30) ---
+
+describe('getModelMinPrice', () => {
+  it('returns the minimum price across a model variantes', () => {
+    const model = makeModel({
+      variantes: [
+        makeVariante({ id: 'a', precio: 20000 }),
+        makeVariante({ id: 'b', precio: 30000 }),
+      ],
+    });
+    expect(getModelMinPrice(model)).toBe(20000);
+  });
+
+  it('returns undefined (NOT null, NOT NaN) for an all-unpriced model', () => {
+    const model = makeModel({
+      variantes: [makeVariante({ id: 'a' }), makeVariante({ id: 'b' })],
+    });
+    const result = getModelMinPrice(model);
+    expect(result).toBeUndefined();
+    expect(result).not.toBeNull();
+    expect(Number.isNaN(result as number)).toBe(false);
+  });
+
+  it('returns undefined for a model with no variantes', () => {
+    expect(getModelMinPrice(makeModel({ variantes: [] }))).toBeUndefined();
+  });
+});
+
+describe('getModelMaxPrice', () => {
+  it('returns the maximum price across a model variantes', () => {
+    const model = makeModel({
+      variantes: [
+        makeVariante({ id: 'a', precio: 20000 }),
+        makeVariante({ id: 'b', precio: 30000 }),
+      ],
+    });
+    expect(getModelMaxPrice(model)).toBe(30000);
+  });
+
+  it('returns undefined (NOT null, NOT NaN) for an all-unpriced model', () => {
+    const model = makeModel({ variantes: [makeVariante({ id: 'a' })] });
+    const result = getModelMaxPrice(model);
+    expect(result).toBeUndefined();
+    expect(result).not.toBeNull();
+    expect(Number.isNaN(result as number)).toBe(false);
+  });
+});
+
+describe('getModelPriceDisplay', () => {
+  it('returns "Consultar precio" when no variante has a price', () => {
+    const model = makeModel({ variantes: [makeVariante({ id: 'a' })] });
+    expect(getModelPriceDisplay(model)).toBe('Consultar precio');
+  });
+
+  it('returns the single formatted price when min === max', () => {
+    const model = makeModel({
+      variantes: [
+        makeVariante({ id: 'a', precio: 25000 }),
+        makeVariante({ id: 'b', precio: 25000 }),
+      ],
+    });
+    expect(getModelPriceDisplay(model)).toBe('$25.000');
+  });
+
+  it('returns "Desde <min>" when prices differ', () => {
+    const model = makeModel({
+      variantes: [
+        makeVariante({ id: 'a', precio: 20000 }),
+        makeVariante({ id: 'b', precio: 30000 }),
+      ],
+    });
+    expect(getModelPriceDisplay(model)).toBe('Desde $20.000');
   });
 });

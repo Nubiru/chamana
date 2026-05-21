@@ -1,6 +1,6 @@
+import type { ChamanaModel } from '@/domain/catalog';
+import { getModelMaxPrice, getModelMinPrice } from '@/domain/catalog';
 import { BRAND_NAME, INSTAGRAM_URL, SITE_URL, WHATSAPP_NUMBER } from '@/lib/config';
-import type { ChamanaModel } from '@/lib/data/products';
-import { getModelMaxPrice, getModelMinPrice } from '@/lib/data/products';
 
 export function organizationJsonLd() {
   return {

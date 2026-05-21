@@ -1,38 +1,19 @@
-import { CATEGORIAS, getCategoryBySlug } from '@/lib/data/categories';
+import { getCategoryColor } from '@/lib/data/categories';
 
-describe('categories data', () => {
-  it('has categories derived from products', () => {
-    expect(CATEGORIAS.length).toBeGreaterThanOrEqual(5);
+// Post G-30: the static CATEGORIAS array + getCategoryBySlug were removed (category counts
+// now come from the Payload-derived getCategorias() and are prop-drilled). Only the pure
+// getCategoryColor CSS-var helper survives in this module.
+
+describe('getCategoryColor', () => {
+  it('returns the earthy CSS variable for a category tipo', () => {
+    expect(getCategoryColor('Falda')).toBe('var(--earth-falda)');
   });
 
-  it('every category has a positive count', () => {
-    for (const cat of CATEGORIAS) {
-      expect(cat.count).toBeGreaterThan(0);
-    }
+  it('lowercases the tipo when building the variable name', () => {
+    expect(getCategoryColor('PALAZZO')).toBe('var(--earth-palazzo)');
   });
 
-  it('every category has a slug and nombre', () => {
-    for (const cat of CATEGORIAS) {
-      expect(cat.slug).toBeTruthy();
-      expect(cat.nombre).toBeTruthy();
-    }
-  });
-
-  it('slugs are lowercase with no accents', () => {
-    for (const cat of CATEGORIAS) {
-      expect(cat.slug).toMatch(/^[a-z]+$/);
-    }
-  });
-});
-
-describe('getCategoryBySlug', () => {
-  it('returns category for valid slug', () => {
-    const cat = getCategoryBySlug('falda');
-    expect(cat).toBeDefined();
-    expect(cat?.nombre).toBe('Falda');
-  });
-
-  it('returns undefined for invalid slug', () => {
-    expect(getCategoryBySlug('zapato')).toBeUndefined();
+  it('produces distinct variables for distinct tipos', () => {
+    expect(getCategoryColor('Top')).not.toBe(getCategoryColor('Kimono'));
   });
 });

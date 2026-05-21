@@ -2,7 +2,7 @@ import { CategoryCircles } from '@/components/store/CategoryCircles';
 import { HeroCarousel3D } from '@/components/store/HeroCarousel3D';
 import { ProductCard } from '@/components/store/ProductCard';
 import { Button } from '@/components/ui/button';
-import { getModelos, getModelosFeatured } from '@/payload/queries';
+import { getCategorias, getModelos, getModelosFeatured } from '@/payload/queries';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,7 +13,11 @@ const fadeEdges = {
 } as React.CSSProperties;
 
 export default async function HomePage() {
-  const [modelos, featured] = await Promise.all([getModelos(), getModelosFeatured()]);
+  const [modelos, featured, categorias] = await Promise.all([
+    getModelos(),
+    getModelosFeatured(),
+    getCategorias(),
+  ]);
   return (
     <div className="flex min-h-screen flex-col">
       {/* ===== BG 1: Woman's back (thread) ===== */}
@@ -126,7 +130,7 @@ export default async function HomePage() {
 
         {/* Category Circles */}
         <div className="py-8 px-4">
-          <CategoryCircles />
+          <CategoryCircles categorias={categorias} />
         </div>
       </section>
 

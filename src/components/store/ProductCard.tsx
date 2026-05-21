@@ -1,10 +1,9 @@
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
-import { isProximamente } from '@/domain/catalog';
+import type { ChamanaModel } from '@/domain/catalog';
+import { getModelPriceDisplay, isProximamente } from '@/domain/catalog';
 import { getCategoryColor } from '@/lib/data/categories';
-import type { ChamanaModel } from '@/lib/data/products';
-import { getModelPriceDisplay } from '@/lib/data/products';
 import { formatPrice } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';

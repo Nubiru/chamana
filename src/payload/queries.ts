@@ -1,3 +1,4 @@
+import type { ChamanaModel, Variante } from '@/domain/catalog';
 import {
   BRAND_DESCRIPTION,
   BRAND_NAME,
@@ -10,9 +11,8 @@ import type { CollectionMeta } from '@/lib/data/collections';
 import type { Tela } from '@/lib/data/fabrics';
 import type { FAQ } from '@/lib/data/faqs';
 import type { Guarantee } from '@/lib/data/guarantees';
-import { MODELOS } from '@/lib/data/products';
-import type { ChamanaModel, Variante } from '@/lib/data/products';
 import type { SizeGuideEntry } from '@/lib/data/size-guide';
+import { STATIC_MODEL_IMAGES } from '@/payload/static-image-fallback';
 import config from '@payload-config';
 import { getPayload } from 'payload';
 
@@ -96,7 +96,7 @@ function adaptModelo(doc: Record<string, unknown>): ChamanaModel {
     variantes: variantes.map(adaptVariante),
     ...(imageUrls.length > 0
       ? { imagenes: imageUrls }
-      : { imagenes: MODELOS.find((m) => m.slug === (doc.slug as string))?.imagenes ?? [] }),
+      : { imagenes: STATIC_MODEL_IMAGES[doc.slug as string] ?? [] }),
     ...(doc.badge ? { badge: doc.badge as string } : {}),
     ...(doc.featured ? { featured: true } : {}),
     ...(doc.bundleId ? { bundleId: doc.bundleId as string } : {}),
@@ -438,6 +438,6 @@ export async function getDesfileEvents(): Promise<DesfileEvent[]> {
   }, []);
 }
 
-// ─── Price helpers (delegated to data layer) ───
+// ─── Price helpers (re-exported from the catalog domain for server-page convenience) ───
 
-export { getModelMinPrice, getModelMaxPrice } from '@/lib/data/products';
+export { getModelMinPrice, getModelMaxPrice } from '@/domain/catalog';

@@ -11,4 +11,7 @@ export {
   getMaxPrice,
   hasPricing,
   calculateDiscount,
+  getModelMinPrice,
+  getModelMaxPrice,
+  getModelPriceDisplay,
 } from './pricing';

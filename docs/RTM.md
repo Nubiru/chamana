@@ -1,7 +1,7 @@
 # RTM — Requirements Traceability Matrix (v0.1)
 
 **Version**: 0.1
-**Last Updated**: 2026-05-20
+**Last Updated**: 2026-05-21 (D-23 — repointed source-file cites to the post-`src/`-consolidation tree per ADR-010; test paths under `tests/` unchanged)
 **Owner**: SIGMA (initial); MEGA + DELTA refresh per cycle
 **Substrate origin**: Tier 3 of BlockSight migration (`.context/blocksi-migration.md`). Grounded in OMEGA O-1 forensic audit §11 (top-5 flows) + §10 (9 drift hazards H1–H9).
 **Scope**: user-flow × test-layer matrix. Each cell records the EMPIRICAL state of test coverage at HEAD, not the aspirational state. `FULL` / `PARTIAL` / `GAP` only — no half-measures.
@@ -52,11 +52,11 @@
 
 | Layer | Status | Evidence at HEAD |
 |---|---|---|
-| 1. Unidad | PARTIAL | `lib/whatsapp.test.ts` (15 cases) covers URL composition; `lib/payload/queries.test.ts`-equivalent (`query-adapters.test.ts` 790L) covers adapters. Static-data fallback path mixed into `adaptModelo` (`lib/payload/queries.ts:99`) is asserted at unit level only against synthetic docs — not against an empty/missing-image Payload doc. |
+| 1. Unidad | PARTIAL | `tests/unit/lib/whatsapp.test.ts` (15 cases) covers URL composition; `tests/unit/lib/payload/query-adapters.test.ts` (790L) covers adapters. Static-data fallback path mixed into `adaptModelo` (`src/payload/queries.ts:80`) is asserted at unit level only against synthetic docs — not against an empty/missing-image Payload doc. |
 | 2. Integracion | GAP | No integration test that exercises `getModelos()` against a real Payload SQLite + verifies the rendered `/producto/[slug]` server output equals Payload data (no static drift). |
 | 3. E2E | GAP | No Playwright. No browser-driven assertion that the "Pedir por WhatsApp" button on `/producto/[slug]` generates the same URL as the cart path with the same modelo. |
 | 4. Recorrido de Usuario | GAP | No documented Gabriel/Cintia manual walkthrough script for this flow. No analytics-event acceptance assertion (`whatsapp_product` event fires with correct payload). |
-| 5. Resiliencia | GAP | No empty-DB-fallback test for `/producto/[slug]` (H8 silent fallback). No assertion that the `lib/config.ts` hardcoded `WHATSAPP_NUMBER` matches `ConfiguracionSitio.whatsappNumero` Payload global (H6 hardcoded-config drift). No drift test that `MODELOS.length === payload.find('modelos').docs.length` to surface H1 in CI. |
+| 5. Resiliencia | GAP | No empty-DB-fallback test for `/producto/[slug]` (H8 silent fallback). No assertion that the `src/lib/config.ts` hardcoded `WHATSAPP_NUMBER` matches `ConfiguracionSitio.whatsappNumero` Payload global (H6 hardcoded-config drift). No drift test that `MODELOS.length === payload.find('modelos').docs.length` to surface H1 in CI. |
 
 **Cell counts**: PARTIAL=1, GAP=4, FULL=0. Flow is RED on every customer-correctness surface.
 
@@ -139,10 +139,10 @@ Per-hazard closure tracking. A hazard is CLOSED when (a) the implementation that
 |---|---|---|---|
 | H1 | Static-MODELOS leak into customer view despite Payload migration | OPEN | F1 + F3 cells GAP |
 | H2 | `telaDescripcion` drift between static fabrics and Payload | OPEN | F1 + F2 cells GAP |
-| H3 | Silent stock-drift — `Ventas.varianteId` validator ships but stockVendido never decremented | **CLOSED 2026-05-20** | G-10: `lib/payload/hooks/ventas-stock-sync.ts` + Ventas wiring + tests across 4 layers (unit FULL / resilience FULL / user-journey FULL; integration + E2E PARTIAL on infra gate, not on H3 logic). Cross-ref `.context/active/agents/gamma/pool-a/G-10-REPORT.md`. |
+| H3 | Silent stock-drift — `Ventas.varianteId` validator ships but stockVendido never decremented | **CLOSED 2026-05-20** | G-10: `src/payload/hooks/ventas-stock-sync.ts` + Ventas wiring + tests across 4 layers (unit FULL / resilience FULL / user-journey FULL; integration + E2E PARTIAL on infra gate, not on H3 logic). Cross-ref `.context/active/agents/gamma/pool-a/G-10-REPORT.md`. |
 | H4 | `autoVarianteId` orphan — same "validator-shipped-effect-missing" family as H3 | OPEN (G-7 queued) | G-7 will close per same pattern as G-10; family stops accumulating per Pillar 5 observation (see `memory/feedback_pillar_5_structural_growth_trigger.md`). |
 | H5 | sitemap.ts leaks static-MODELOS rather than deriving from Payload | OPEN | F3 cells GAP |
-| H6 | Hardcoded `WHATSAPP_NUMBER` in `lib/config.ts` drifts from `ConfiguracionSitio.whatsappNumero` global | OPEN | F1 cells GAP |
+| H6 | Hardcoded `WHATSAPP_NUMBER` in `src/lib/config.ts` drifts from `ConfiguracionSitio.whatsappNumero` global | OPEN | F1 cells GAP |
 | H7 | (reserved per O-1 §10) | — | — |
 | H8 | Empty-DB silent fallback masks Payload-side failures at customer view | OPEN | F1 + F3 + F4 + F5 (cross-cutting); F4 retains H8 in open-list because the empty-DB-fallback path on `getModelos()` is not asserted at resilience layer for the venta-stock-sync read path. |
 | H9 | `ContenidoInicio` global neither fully read nor removed | OPEN | F3 cells GAP |

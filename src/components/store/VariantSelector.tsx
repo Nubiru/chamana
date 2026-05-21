@@ -1,7 +1,7 @@
 'use client';
 
+import type { Variante } from '@/domain/catalog';
 import { telaDescripcion } from '@/lib/data/fabrics';
-import type { Variante } from '@/lib/data/products';
 import { cn, formatPrice } from '@/lib/utils';
 
 interface VariantSelectorProps {

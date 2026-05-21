@@ -14,22 +14,12 @@ jest.mock('payload', () => ({
   getPayload: jest.fn(),
 }));
 
-// Mock the static MODELOS import used as image fallback in adaptModelo
-jest.mock('@/lib/data/products', () => ({
-  MODELOS: [
-    {
-      slug: 'intuicion',
-      nombre: 'Intuicion',
-      imagenes: ['/images/models/intuicion/intuicion-1.webp'],
-    },
-    {
-      slug: 'hechizo',
-      nombre: 'Hechizo',
-      imagenes: ['/images/models/hechizo/hechizo-1.webp', '/images/models/hechizo/hechizo-2.webp'],
-    },
-  ],
-  getModelMinPrice: jest.fn(),
-  getModelMaxPrice: jest.fn(),
+// Mock the static image fallback (queries.ts:99) used by adaptModelo when CMS has no images
+jest.mock('@/payload/static-image-fallback', () => ({
+  STATIC_MODEL_IMAGES: {
+    intuicion: ['/images/models/intuicion/intuicion-1.webp'],
+    hechizo: ['/images/models/hechizo/hechizo-1.webp', '/images/models/hechizo/hechizo-2.webp'],
+  },
 }));
 
 import { getModeloBySlug, getModelos, getModelosFeatured, getTelas } from '@/payload/queries';
@@ -196,14 +186,14 @@ describe('Payload query adapters', () => {
       expect(result[0]).not.toHaveProperty('bundleId');
     });
 
-    it('falls back to static MODELOS images when CMS has no images', async () => {
+    it('falls back to STATIC_MODEL_IMAGES paths when CMS has no images', async () => {
       const doc = makeModeloDoc({ slug: 'hechizo', imagenes: [] });
       const mockPayload = makeMockPayload({ docs: [doc] });
       mockGetPayload.mockResolvedValue(mockPayload);
 
       const result = await getModelos();
 
-      // Should fall back to the mocked MODELOS data for slug 'hechizo'
+      // Should fall back to the mocked STATIC_MODEL_IMAGES entry for slug 'hechizo'
       expect(result[0].imagenes).toEqual([
         '/images/models/hechizo/hechizo-1.webp',
         '/images/models/hechizo/hechizo-2.webp',
@@ -246,7 +236,7 @@ describe('Payload query adapters', () => {
       expect(result[0].imagenes).toEqual(['/uploads/real.webp']);
     });
 
-    it('returns empty imagenes array when slug not found in static MODELOS and CMS has no images', async () => {
+    it('returns empty imagenes array when slug absent from STATIC_MODEL_IMAGES and CMS has no images', async () => {
       const doc = makeModeloDoc({ slug: 'unknown-slug', imagenes: [] });
       const mockPayload = makeMockPayload({ docs: [doc] });
       mockGetPayload.mockResolvedValue(mockPayload);

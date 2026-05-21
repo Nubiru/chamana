@@ -1,4 +1,4 @@
-import type { ChamanaModel } from '@/lib/data/products';
+import type { ChamanaModel } from '@/domain/catalog';
 import Image from 'next/image';
 import Link from 'next/link';
 

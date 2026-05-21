@@ -2,14 +2,8 @@
 
 import { ProductFilters } from '@/components/store/ProductFilters';
 import { ProductGrid } from '@/components/store/ProductGrid';
-import type { ChamanaModel } from '@/lib/data/products';
+import type { Category, ChamanaModel } from '@/domain/catalog';
 import { useSearchParams } from 'next/navigation';
-
-interface Category {
-  slug: string;
-  nombre: string;
-  count: number;
-}
 
 interface TiendaContentProps {
   modelos: ChamanaModel[];
@@ -37,7 +31,7 @@ export function TiendaContent({ modelos, categorias }: TiendaContentProps) {
       </div>
 
       <div className="mb-6">
-        <ProductFilters />
+        <ProductFilters categorias={categorias} />
       </div>
 
       <ProductGrid models={filteredModels} />

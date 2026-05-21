@@ -1,11 +1,11 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { CATEGORIAS } from '@/lib/data/categories';
+import type { Category } from '@/domain/catalog';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 
-export function ProductFilters() {
+export function ProductFilters({ categorias }: { categorias: Category[] }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentCategory = searchParams.get('categoria');
@@ -33,7 +33,7 @@ export function ProductFilters() {
       >
         Todas
       </Button>
-      {CATEGORIAS.map((cat) => (
+      {categorias.map((cat) => (
         <Button
           key={cat.slug}
           variant={currentCategory === cat.slug ? 'default' : 'outline'}
