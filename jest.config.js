@@ -27,7 +27,7 @@ const customJestConfig = {
     '<rootDir>/tests/**/*.test.{js,jsx,ts,tsx}',
     '<rootDir>/tests/**/*.spec.{js,jsx,ts,tsx}'
   ],
-  testPathIgnorePatterns: ['/node_modules/', '/.next/', '/coverage/'],
+  testPathIgnorePatterns: ['/node_modules/', '/.next/', '/coverage/', '/tests/e2e/'],
   passWithNoTests: true,
   maxWorkers: '50%',
   cache: true,

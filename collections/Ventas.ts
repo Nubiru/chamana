@@ -1,11 +1,14 @@
 import type { CollectionConfig } from 'payload';
 import { isAdmin } from '../lib/payload/access.ts';
 import { ventasStateMachine } from '../lib/payload/hooks/ventas-state-machine.ts';
+import { ventasStockSync, ventasStockSyncDelete } from '../lib/payload/hooks/ventas-stock-sync.ts';
 
 export const Ventas: CollectionConfig = {
   slug: 'ventas',
   hooks: {
     beforeChange: [ventasStateMachine],
+    afterChange: [ventasStockSync],
+    afterDelete: [ventasStockSyncDelete],
   },
   labels: { singular: 'Venta', plural: 'Ventas' },
   admin: {

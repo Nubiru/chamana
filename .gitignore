@@ -59,16 +59,6 @@ next-env.d.ts
 *.swo
 *~
 
-# Project tooling
-.human/
-.claude/
-.context/
-.cursor/
-.snapshots/
-.dashboard/
-.dev/
-.archive/
-
 # Biome
 .biome/
 
@@ -85,3 +75,22 @@ next-env.d.ts
 
 # Old university project artifacts
 gabriel_osemberg_trabajo_final_db_chamana/
+
+# Agentic dev-substrate — local dev tooling, NEVER committed (Gabriel decision
+# 2026-05-21; supersedes D-13 inversion). Cross-conversation state persists on
+# the local filesystem, not git — gitignoring .context/state/ does NOT break
+# /mega --bootstrap (state files live locally on Gabriel's dev machine). The
+# only loss is fresh-clone-on-a-new-machine carrying no state, which is
+# acceptable: the agentic substrate is dev-machine-bound tooling; the product
+# ships via git. NOTE: docs/ is intentionally NOT listed here — pending Gabriel
+# classification (dev-process docs vs product docs); see .context/state/WORRIES.md.
+.claude/
+.context/
+memory/
+tools/
+.human/
+.cursor/
+.snapshots/
+.dashboard/
+.dev/
+.archive/

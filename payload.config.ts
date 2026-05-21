@@ -28,6 +28,12 @@ import { PreguntasFrecuentes } from './globals/PreguntasFrecuentes.ts';
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
+// Explicit migration binding (ADR-007 §6 / GAP-1). Payload otherwise discovers
+// migrations implicitly by convention; pinning the path makes the binding
+// survive any future structure change and prevents silent prod-schema desync.
+// Shared by both db adapters below — same migration ledger regardless of driver.
+const migrationDir = path.resolve(dirname, 'src/migrations');
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -74,6 +80,7 @@ export default buildConfig({
 
   db: process.env.POSTGRES_URL
     ? postgresAdapter({
+        migrationDir,
         pool: {
           connectionString: process.env.POSTGRES_URL.replace(
             /sslmode=(prefer|require|verify-ca)\b/,
@@ -82,6 +89,7 @@ export default buildConfig({
         },
       })
     : sqliteAdapter({
+        migrationDir,
         client: {
           url: 'file:./chamana.db',
         },

@@ -103,6 +103,7 @@ export function LeadMagnetPopup() {
   return (
     <div
       className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/40"
+      // biome-ignore lint/a11y/useSemanticElements: custom overlay modal with manual focus-trap, Escape handling, and backdrop click-to-close; native <dialog> swap risks focus/scroll-lock regressions and is tracked as a follow-up
       role="dialog"
       aria-modal="true"
       aria-label="Suscribite al newsletter de CHAMANA"

@@ -21,12 +21,14 @@ describe('autoVarianteId hook', () => {
   async function callHook(
     value: unknown,
     siblingData: Record<string, unknown> | undefined,
-    req: ReturnType<typeof mockReq>
+    req: ReturnType<typeof mockReq>,
+    data?: Record<string, unknown>
   ) {
     return (autoVarianteId as (args: Record<string, unknown>) => unknown)({
       value,
       siblingData,
       req,
+      data,
     });
   }
 
@@ -314,5 +316,53 @@ describe('autoVarianteId hook', () => {
     );
     // The whole try block fails, so we get the original value
     expect(result).toBeUndefined();
+  });
+
+  // ── G-7: canonical Payload field-hook shape (modelSlug read from `data.slug`) ──
+
+  it('G-7 wiring-shape: reads modelSlug from data.slug (Payload field-hook contract) for single tela', async () => {
+    const req = mockReq(() => ({ codigo: 'LinSpanBei' }));
+    const result = await callHook(undefined, { tela1: 'tela1-id' }, req, { slug: 'hechizo' });
+    expect(result).toBe('hechizo-linspanbei');
+  });
+
+  it('G-7 wiring-shape: reads modelSlug from data.slug for reversible (two telas)', async () => {
+    const req = mockReq(({ id }: { id: unknown }) => {
+      if (id === 'tela1-id') return { codigo: 'LinMar' };
+      if (id === 'tela2-id') return { codigo: 'AlgVer' };
+      return {};
+    });
+    const result = await callHook(undefined, { tela1: 'tela1-id', tela2: 'tela2-id' }, req, {
+      slug: 'espejo',
+    });
+    expect(result).toBe('espejo-linmar-algver');
+  });
+
+  it('G-7 wiring-shape: data.slug wins over siblingData._parentSlug when both present', async () => {
+    const req = mockReq(() => ({ codigo: 'ABC' }));
+    const result = await callHook(
+      undefined,
+      { tela1: 'tela1-id', _parentSlug: 'stale-fallback' },
+      req,
+      { slug: 'canonical-slug' }
+    );
+    expect(result).toBe('canonical-slug-abc');
+  });
+
+  it('G-7 wiring-shape: falls back to siblingData._parentSlug when data is undefined', async () => {
+    const req = mockReq(() => ({ codigo: 'ABC' }));
+    const result = await callHook(
+      undefined,
+      { tela1: 'tela1-id', _parentSlug: 'fallback-slug' },
+      req,
+      undefined
+    );
+    expect(result).toBe('fallback-slug-abc');
+  });
+
+  it('G-7 wiring-shape: falls back to "model" when neither data.slug nor _parentSlug is present', async () => {
+    const req = mockReq(() => ({ codigo: 'XYZ' }));
+    const result = await callHook(undefined, { tela1: 'tela1-id' }, req, {});
+    expect(result).toBe('model-xyz');
   });
 });

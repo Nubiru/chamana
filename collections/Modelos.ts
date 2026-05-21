@@ -2,6 +2,8 @@ import type { CollectionConfig } from 'payload';
 import { isAdmin, isPublic } from '../lib/payload/access.ts';
 import { autoSlug } from '../lib/payload/hooks/auto-slug.ts';
 import { autoStock } from '../lib/payload/hooks/auto-stock.ts';
+import { autoVarianteId } from '../lib/payload/hooks/auto-variante-id.ts';
+import { modelosStateMachine } from '../lib/payload/hooks/modelos-state-machine.ts';
 
 export const Modelos: CollectionConfig = {
   slug: 'modelos',
@@ -9,12 +11,12 @@ export const Modelos: CollectionConfig = {
   admin: {
     group: 'Catalogo',
     useAsTitle: 'nombre',
-    defaultColumns: ['nombre', 'tipo', 'detalle', 'featured'],
+    defaultColumns: ['nombre', 'tipo', 'detalle', 'featured', 'estado'],
     listSearchableFields: ['nombre', 'slug', 'tipo'],
     description: 'Modelos de prendas de la marca',
   },
   hooks: {
-    beforeChange: [autoStock],
+    beforeChange: [autoStock, modelosStateMachine],
   },
   fields: [
     {
@@ -120,10 +122,13 @@ export const Modelos: CollectionConfig = {
           type: 'text',
           label: 'ID de variante',
           required: true,
+          hooks: {
+            beforeValidate: [autoVarianteId],
+          },
           admin: {
             placeholder: 'hechizo-linmenchoc',
             description:
-              'Identificador unico. CRITICO: no cambiar despues de publicar (clave del carrito)',
+              'Se genera automaticamente del slug del modelo + codigos de tela. Dejar vacio para autogenerar. CRITICO: no cambiar despues de publicar (clave del carrito)',
           },
         },
         {
@@ -170,6 +175,26 @@ export const Modelos: CollectionConfig = {
           label: 'Descuento %',
           min: 0,
           max: 100,
+        },
+        {
+          name: 'metrosRequeridos',
+          type: 'number',
+          label: 'Metros requeridos por unidad',
+          required: false,
+          min: 0,
+          max: 50,
+          admin: {
+            placeholder: '1.25',
+            step: 0.05,
+            description:
+              'Cuantos metros de tela consume UNA unidad de esta variante (ej: XL Falda ~ 1.4 m). Decimal con 2 digitos. Opcional para variantes legacy; obligatorio para variantes nuevas a partir de la proxima Coleccion.',
+          },
+          validate: (value: number | null | undefined) => {
+            if (value == null) return true;
+            if (value < 0) return 'metros requeridos no puede ser negativo';
+            if (value > 50) return 'metros requeridos no puede superar 50 (limite de seguridad)';
+            return true;
+          },
         },
         {
           type: 'row',
@@ -226,6 +251,27 @@ export const Modelos: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description: 'Mostrar en la seccion de destacados en la pagina principal',
+      },
+    },
+    // --- F-Variante-metrosRequeridos-Modelo-estado AC-3 ---
+    {
+      name: 'estado',
+      type: 'select',
+      label: 'Estado',
+      required: true,
+      defaultValue: 'nueva',
+      index: true,
+      options: [
+        { label: 'Nueva', value: 'nueva' },
+        { label: 'En produccion', value: 'en_produccion' },
+        { label: 'En stock', value: 'en_stock' },
+        { label: 'Sin stock', value: 'sin_stock' },
+        { label: 'Descontinuada', value: 'descontinuada' },
+      ],
+      admin: {
+        position: 'sidebar',
+        description:
+          'Estado del ciclo de vida del Modelo. Nueva = idea/diseno; En produccion = taller la esta cosiendo; En stock = vendible; Sin stock = todas las variantes agotadas; Descontinuada = retirada terminal.',
       },
     },
     {
