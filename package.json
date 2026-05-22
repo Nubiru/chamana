@@ -4,7 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON node_modules/.bin/payload generate:importmap --disable-transpile && next build",
+    "build": "npm run migrate:deploy && node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON node_modules/.bin/payload generate:importmap --disable-transpile && next build",
+    "migrate:deploy": "if [ \"$VERCEL_ENV\" = \"production\" ]; then npm run migrate; else echo 'skip migrate (VERCEL_ENV != production)'; fi",
+    "migrate": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON node_modules/.bin/payload migrate",
+    "migrate:status": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON node_modules/.bin/payload migrate:status",
+    "migrate:create": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON node_modules/.bin/payload migrate:create",
     "start": "next start",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
