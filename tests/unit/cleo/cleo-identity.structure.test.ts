@@ -42,7 +42,11 @@ const describeIfPresent = cleoExists ? describe : describe.skip;
 describeIfPresent(
   'CLEO.md — Cleo identity structure (git-ignored substrate; runs where present)',
   () => {
-    const source = readFileSync(cleoPath, 'utf8');
+    // Jest evaluates a describe.skip callback body to register its nested `it`s,
+    // so this read runs even when skipped. Guard it: where CLEO.md is git-ignored-
+    // absent (CI, D-20) the `it`s never execute, so '' is never asserted against;
+    // where the file is present (Gabriel's machine) the assertions run for real.
+    const source = cleoExists ? readFileSync(cleoPath, 'utf8') : '';
 
     it('is non-empty (the identity file actually has content)', () => {
       expect(source.trim().length).toBeGreaterThan(500);
