@@ -1,2 +1,6 @@
 export PATH="/home/gabiota/.nvm/versions/node/v22.21.1/bin:$PATH"
-npm run typecheck
+# CAND-13 / G-45: run the SAME gate CI runs (lint + typecheck + test + build) so a
+# push that would fail CI fails HERE first. Supersedes the prior typecheck-only gate
+# (qa:ci is a superset). Residual env-parity gaps (CI builds an EMPTY DB; CI checkout
+# lacks git-ignored .claude/) are CI-only backstops -- see CONTRIBUTING.md "Pre-push gate".
+npm run verify:like-ci

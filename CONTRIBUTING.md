@@ -1,5 +1,39 @@
 # Contributing to Chamana
 
+## Pre-push gate — local == CI (read before you `git push`)
+
+The `.husky/pre-push` hook runs **`npm run verify:like-ci`**, which is an explicit
+alias for `npm run qa:ci` — the *exact* gate CI runs in `.github/workflows/ci.yml`:
+
+```
+lint  →  typecheck  →  test (FULL jest, not test:unit)  →  build
+```
+
+So a push that would turn CI red fails on your machine **first**. This closes the
+"green locally / red in CI" class of surprise (CAND-13) whose largest axis was
+verifying with the narrower `test:unit` scope locally while CI runs the full `test`.
+
+> The full gate (including `next build`) makes each push slower. That is the
+> **accepted** cost of the guardrail — do **not** drop `build` from the gate to
+> make pushes fast; that re-opens the build-compile divergence class (G-39). A
+> fast/slow split, if ever wanted, is a separate decision.
+
+### Residual env-parity gap — what a green pre-push still does NOT prove (CI-only backstops)
+
+A green `verify:like-ci` is **necessary but not sufficient**. Two divergence
+classes are structural to the local machine and CI remains the **authoritative**
+gate for them — never claim "CI can no longer surprise us":
+
+1. **Empty-DB build.** CI builds against an empty/unseeded SQLite fallback and can
+   hit prerender crashes like `no such table: colecciones`. Your local `next build`
+   reads the **populated** `chamana.db`, so it structurally cannot replicate this.
+2. **Absent git-ignored files.** CI checks out a fresh tree **without** git-ignored
+   substrate (e.g. `.claude/`). A file present on your disk but git-ignored will be
+   absent in CI — a passing local read of it is not a passing CI read.
+
+A green pre-push means "the test-scope + lint/typecheck/build-compile classes pass";
+CI is still the final word on the two classes above.
+
 ## Database migrations & deploy (read before merging a schema change)
 
 Schema reaches production through committed Payload migrations under

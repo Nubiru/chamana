@@ -24,6 +24,7 @@
     "qa:fix": "npm run format && npm run lint:fix",
     "qa:full": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build",
     "qa:ci": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "verify:like-ci": "npm run qa:ci",
     "validate": "npm run qa:ci",
     "optimize:desfile": "node scripts/optimize-desfile-images.mjs",
     "prepare": "husky || true",

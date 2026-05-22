@@ -2,7 +2,12 @@ import { CategoryCircles } from '@/components/store/CategoryCircles';
 import { HeroCarousel3D } from '@/components/store/HeroCarousel3D';
 import { ProductCard } from '@/components/store/ProductCard';
 import { Button } from '@/components/ui/button';
-import { getCategorias, getModelos, getModelosFeatured } from '@/payload/queries';
+import {
+  getCategorias,
+  getContenidoInicio,
+  getModelos,
+  getModelosFeatured,
+} from '@/payload/queries';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,10 +22,11 @@ const fadeEdges = {
 } as React.CSSProperties;
 
 export default async function HomePage() {
-  const [modelos, featured, categorias] = await Promise.all([
+  const [modelos, featured, categorias, contenido] = await Promise.all([
     getModelos(),
     getModelosFeatured(),
     getCategorias(),
+    getContenidoInicio(),
   ]);
   return (
     <div className="flex min-h-screen flex-col">
@@ -77,10 +83,10 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Description */}
+            {/* Description — bound to ContenidoInicio.subtitulo (Daniela edits in admin;
+                getContenidoInicio falls back to the current copy if the global is empty). */}
             <p className="text-sm md:text-base text-foreground/70 max-w-xl mx-auto leading-relaxed">
-              Ropa femenina artesanal inspirada en la naturaleza. Cada prenda es una expresión de
-              sensibilidad, fluidez y fuerza.
+              {contenido.subtitulo}
             </p>
 
             {/* CTA */}

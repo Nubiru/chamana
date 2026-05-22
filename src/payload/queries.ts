@@ -401,6 +401,34 @@ export async function getSiteConfig(): Promise<SiteConfig> {
   );
 }
 
+// ─── Homepage content ───
+
+export interface ContenidoInicio {
+  subtitulo: string;
+}
+
+// The current homepage hero copy. Doubles as the fallback so an unseeded global
+// (first deploy before seed) or an empty subtitulo field never renders a blank
+// hero — the storefront keeps today's copy until Daniela edits it in admin
+// (DATA TRUTH: no blank-on-empty). Mirrors getSiteConfig's constant-fallback shape.
+export const HERO_SUBTITULO_FALLBACK =
+  'Ropa femenina artesanal inspirada en la naturaleza. Cada prenda es una expresión de sensibilidad, fluidez y fuerza.';
+
+export async function getContenidoInicio(): Promise<ContenidoInicio> {
+  return safeQuery(
+    async () => {
+      const payload = await getPayloadClient();
+      const result = await payload.findGlobal({ slug: 'contenido-inicio' });
+      return {
+        subtitulo: (result.subtitulo as string) || HERO_SUBTITULO_FALLBACK,
+      };
+    },
+    {
+      subtitulo: HERO_SUBTITULO_FALLBACK,
+    }
+  );
+}
+
 // ─── Desfile/Event queries ───
 
 export interface DesfileImage {
