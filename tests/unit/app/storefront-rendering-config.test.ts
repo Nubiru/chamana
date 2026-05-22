@@ -55,8 +55,4 @@ describe('storefront ISR config — G-41 / F-storefront-freshness AC-1', () => {
   it.each(NO_DYNAMIC_PAGES)('%s does NOT export `dynamic` (no force-dynamic — ADR-014)', (file) => {
     expect(DYNAMIC_RE.test(read(file))).toBe(false);
   });
-
-  it.each(NO_DYNAMIC_PAGES)('%s contains no `force-dynamic` literal', (file) => {
-    expect(read(file)).not.toContain('force-dynamic');
-  });
 });

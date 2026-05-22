@@ -1,10 +1,14 @@
 /**
  * Unit test — G-40 / SIGMA F-migrate-path-wiring.md §6 (Test-A/B/D); ADR-013 §5.
+ * G-44 (2026-05-22) — Test-B INVERTED: build decoupled from the unverified migrate.
  *
- * Guards the migrate/deploy apply-path wiring in package.json + the deploy note,
- * so committed migrations reach prod Neon DETERMINISTICALLY (the recados table +
- * notasCintia→notasRevision rename were un-applied because the apply leg of the
- * pipeline was never built — F §2 root-cause).
+ * Guards the migrate script family in package.json + the deploy note. The G-40
+ * auto-apply-on-build coupling was REMOVED by G-44 because `migrate` crashes on
+ * config-load (ERR_REQUIRE_ASYNC_MODULE / TLA in the static config graph) and was
+ * never executed end-to-end — a never-run command must not gate the prod build.
+ * Migrations now apply manually via `npm run migrate` (Gabriel-terminal) until the
+ * correct CLI invocation is diagnosed (--experimental-print-required-tla) + verified
+ * (migrate:status green), then re-wired. Decouple-first is safe + reversible.
  *
  * package.json-shape / doc-presence tests (a NEW idiom — F §0 grep-empty for any
  * existing one). They read the repo file and assert; no DB, no network, no
@@ -14,8 +18,10 @@
  *            and the value does NOT contain `npm run payload` (anti-fabrication
  *            guard institutionalizing the correction of MEGA's earlier
  *            `npm run payload migrate` fabrication — DATA-TRUTH).
- *   Test-B — migrate:deploy carries the VERCEL_ENV=production guard, and build
- *            invokes migrate:deploy BEFORE next build (fail-closed ordering).
+ *   Test-B — [INVERTED by G-44] build does NOT chain migrate:deploy/migrate, the
+ *            importmap step still precedes next build (pre-G-40 form), and the
+ *            migrate:deploy auto-apply hook is removed (no orphan to silently
+ *            re-wire). The migrate apply returns once the CLI invocation is verified.
  *   Test-D — the deploy note records the expand/contract + Gabriel-pre-verify
  *            discipline for rename/drop migrations.
  *
@@ -66,27 +72,35 @@ describe('migrate script family — package.json shape (G-40 / F §3.1; Test-A)'
   });
 });
 
-describe('production-guarded apply on deploy (G-40 / F §3.2; Test-B)', () => {
-  it('migrate:deploy gates the apply on VERCEL_ENV = production', () => {
-    const deploy = scripts['migrate:deploy'];
-    expect(deploy).toBeDefined();
-    expect(deploy).toContain('VERCEL_ENV');
-    expect(deploy).toContain('production');
-    expect(deploy).toContain('if [');
-    // the production branch runs the real migrate; the else branch no-ops
-    expect(deploy).toContain('npm run migrate');
-    expect(deploy).toContain('skip migrate');
-  });
-
-  it('build chains migrate:deploy BEFORE next build (fail-closed ordering)', () => {
+describe('build decoupled from the unverified migrate (G-44 de-risk; Test-B inverted)', () => {
+  // G-40 chained `npm run migrate:deploy && …` into build, but `migrate` was only
+  // ever tested for SCRIPT SHAPE — never executed. Gabriel running migrate:status
+  // (G-42 cycle) proved it crashes loading payload.config.ts via the Payload CLI
+  // require-loader (ERR_REQUIRE_ASYNC_MODULE — a TLA in the static config graph;
+  // G-42's next/cache lazy-import did NOT fix it, so next/cache was not the source).
+  // A never-executed command in the prod build's critical path would FAIL every
+  // production deploy, so it is removed. The migrate-path returns once the correct
+  // CLI invocation is diagnosed (--experimental-print-required-tla) AND verified
+  // (migrate:status green) — that re-wire is a separate step, not this one.
+  it('build does NOT chain migrate:deploy/migrate (the unverified migrate is off the prod critical path)', () => {
     const build = scripts.build;
     expect(build).toBeDefined();
-    expect(build).toContain('migrate:deploy');
+    expect(build).not.toContain('migrate:deploy');
+    expect(build).not.toContain('npm run migrate');
+  });
+
+  it('build still generates the importmap before next build (pre-G-40 form preserved)', () => {
+    const build = scripts.build;
+    expect(build).toContain('generate:importmap');
     expect(build).toContain('next build');
-    const deployAt = build.indexOf('migrate:deploy');
+    const importmapAt = build.indexOf('generate:importmap');
     const nextBuildAt = build.indexOf('next build');
-    expect(deployAt).toBeGreaterThanOrEqual(0);
-    expect(nextBuildAt).toBeGreaterThan(deployAt);
+    expect(importmapAt).toBeGreaterThanOrEqual(0);
+    expect(nextBuildAt).toBeGreaterThan(importmapAt);
+  });
+
+  it('migrate:deploy is removed (no orphaned auto-apply deploy hook to silently re-wire)', () => {
+    expect(scripts['migrate:deploy']).toBeUndefined();
   });
 });
 
