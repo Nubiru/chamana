@@ -10,6 +10,10 @@ import {
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
+// ISR self-heal net (F-storefront-freshness AC-1 / ADR-014). The Colecciones/Modelos
+// afterChange hooks do the instant refresh; this hourly window is the fallback. NO force-dynamic.
+export const revalidate = 3600;
+
 interface Props {
   params: Promise<{ slug: string }>;
 }

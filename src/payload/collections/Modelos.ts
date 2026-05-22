@@ -4,6 +4,16 @@ import { autoSlug } from '../hooks/auto-slug.ts';
 import { autoStock } from '../hooks/auto-stock.ts';
 import { autoVarianteId } from '../hooks/auto-variante-id.ts';
 import { modelosStateMachine } from '../hooks/modelos-state-machine.ts';
+import { makeRevalidateHook } from '../hooks/revalidate-storefront.ts';
+
+// F-storefront-freshness AC-3 — a Modelo edit/delete is the highest-freshness path
+// (covers the sale cascade too: ventasStockSync payload.update's modelos → this fires).
+const revalidateModelos = makeRevalidateHook([
+  '/',
+  '/tienda',
+  ['/producto/[slug]', 'page'],
+  ['/colecciones/[slug]', 'page'],
+]);
 
 export const Modelos: CollectionConfig = {
   slug: 'modelos',
@@ -17,6 +27,8 @@ export const Modelos: CollectionConfig = {
   },
   hooks: {
     beforeChange: [autoStock, modelosStateMachine],
+    afterChange: [revalidateModelos],
+    afterDelete: [revalidateModelos],
   },
   fields: [
     // G-35 (O-16 §4a item 2): de-scroll the 23-field form into 2 deliberate panes.

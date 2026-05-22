@@ -2,6 +2,10 @@ import { TiendaContent } from '@/components/store/TiendaContent';
 import { getCategorias, getModelos } from '@/payload/queries';
 import { Suspense } from 'react';
 
+// ISR self-heal net (F-storefront-freshness AC-1 / ADR-014). On-mutation Payload
+// hooks do the instant refresh; this hourly window is the fallback. NO force-dynamic.
+export const revalidate = 3600;
+
 export default async function TiendaPage() {
   const [modelos, categorias] = await Promise.all([getModelos(), getCategorias()]);
 

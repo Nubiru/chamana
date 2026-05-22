@@ -3,6 +3,10 @@ import { coleccionesIndexJsonLd } from '@/lib/structured-data';
 import { getColecciones } from '@/payload/queries';
 import type { Metadata } from 'next';
 
+// ISR self-heal net (F-storefront-freshness AC-1 / ADR-014). On-mutation Payload
+// hooks do the instant refresh; this hourly window is the fallback. NO force-dynamic.
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: 'Colecciones | CHAMANA',
   description:

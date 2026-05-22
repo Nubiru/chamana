@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload';
 import { isAdmin, isPublic } from '../access.ts';
+import { makeRevalidateHook } from '../hooks/revalidate-storefront.ts';
 
 export const GuiaTalles: GlobalConfig = {
   slug: 'guia-talles',
@@ -7,6 +8,10 @@ export const GuiaTalles: GlobalConfig = {
   admin: {
     group: 'Contenido',
     description: 'Tabla de medidas por tipo de prenda',
+  },
+  // F-storefront-freshness AC-4 — la guia de talles render on product pages; revalidate the layout.
+  hooks: {
+    afterChange: [makeRevalidateHook([['/', 'layout']])],
   },
   fields: [
     {

@@ -1,5 +1,9 @@
 import type { CollectionConfig } from 'payload';
 import { isAdmin, isPublic } from '../access.ts';
+import { makeRevalidateHook } from '../hooks/revalidate-storefront.ts';
+
+// F-storefront-freshness AC-3 — eventos feed the /desfile page only.
+const revalidateEventos = makeRevalidateHook(['/desfile']);
 
 export const Eventos: CollectionConfig = {
   slug: 'eventos',
@@ -9,6 +13,10 @@ export const Eventos: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'displayDate', 'location'],
     description: 'Desfiles, ferias y eventos de la marca',
+  },
+  hooks: {
+    afterChange: [revalidateEventos],
+    afterDelete: [revalidateEventos],
   },
   fields: [
     {

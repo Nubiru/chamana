@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload';
 import { isAdmin, isPublic } from '../access.ts';
+import { makeRevalidateHook } from '../hooks/revalidate-storefront.ts';
 
 export const ConfiguracionSitio: GlobalConfig = {
   slug: 'configuracion-sitio',
@@ -7,6 +8,11 @@ export const ConfiguracionSitio: GlobalConfig = {
   admin: {
     group: 'Configuracion',
     description: 'Ajustes generales del sitio web',
+  },
+  // F-storefront-freshness AC-4 — global edits are rare + blast across every page
+  // (layout-level: nav/footer/site config), so revalidate the whole layout.
+  hooks: {
+    afterChange: [makeRevalidateHook([['/', 'layout']])],
   },
   fields: [
     {

@@ -7,6 +7,10 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+// ISR self-heal net (F-storefront-freshness AC-1 / ADR-014). On-mutation Payload
+// hooks do the instant refresh; this hourly window is the fallback. NO force-dynamic.
+export const revalidate = 3600;
+
 const fadeEdges = {
   maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)',
   WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)',

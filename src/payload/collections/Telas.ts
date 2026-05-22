@@ -1,12 +1,19 @@
 import type { CollectionConfig } from 'payload';
 import { isAdmin, isPublic } from '../access.ts';
+import { makeRevalidateHook } from '../hooks/revalidate-storefront.ts';
 import { telasStateMachine } from '../hooks/telas-state-machine.ts';
+
+// F-storefront-freshness AC-3 — a tela (color/name) edit changes how variants render
+// across the catalog + product pages (variants are tela combinations).
+const revalidateTelas = makeRevalidateHook(['/', '/tienda', ['/producto/[slug]', 'page']]);
 
 export const Telas: CollectionConfig = {
   slug: 'telas',
   labels: { singular: 'Tela', plural: 'Telas' },
   hooks: {
     beforeChange: [telasStateMachine],
+    afterChange: [revalidateTelas],
+    afterDelete: [revalidateTelas],
   },
   admin: {
     group: 'Catalogo',

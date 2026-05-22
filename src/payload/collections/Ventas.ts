@@ -7,6 +7,10 @@ export const Ventas: CollectionConfig = {
   slug: 'ventas',
   hooks: {
     beforeChange: [ventasStateMachine],
+    // F-storefront-freshness AC-3: NO revalidate hook here BY DESIGN. ventasStockSync
+    // payload.update's the linked Modelo (ventas-stock-sync.ts:97-102), which fires the
+    // Modelos afterChange revalidate hook → the sale's stock change reaches the storefront
+    // via that cascade. Adding one here would be redundant. Do not "fix" this apparent gap.
     afterChange: [ventasStockSync],
     afterDelete: [ventasStockSyncDelete],
   },

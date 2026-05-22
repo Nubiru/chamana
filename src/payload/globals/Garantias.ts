@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload';
 import { isAdmin, isPublic } from '../access.ts';
+import { makeRevalidateHook } from '../hooks/revalidate-storefront.ts';
 
 export const Garantias: GlobalConfig = {
   slug: 'garantias',
@@ -7,6 +8,10 @@ export const Garantias: GlobalConfig = {
   admin: {
     group: 'Contenido',
     description: 'Garantias de compra que se muestran en las paginas de producto',
+  },
+  // F-storefront-freshness AC-4 — garantias render on product pages; revalidate the layout.
+  hooks: {
+    afterChange: [makeRevalidateHook([['/', 'layout']])],
   },
   fields: [
     {

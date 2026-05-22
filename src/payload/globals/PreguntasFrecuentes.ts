@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload';
 import { isAdmin, isPublic } from '../access.ts';
+import { makeRevalidateHook } from '../hooks/revalidate-storefront.ts';
 
 const TIPOS_PRENDA = [
   { label: 'Falda', value: 'Falda' },
@@ -20,6 +21,10 @@ export const PreguntasFrecuentes: GlobalConfig = {
   admin: {
     group: 'Contenido',
     description: 'Preguntas y respuestas que aparecen en la tienda y paginas de producto',
+  },
+  // F-storefront-freshness AC-4 — FAQs render on product pages; revalidate the layout.
+  hooks: {
+    afterChange: [makeRevalidateHook([['/', 'layout']])],
   },
   fields: [
     {

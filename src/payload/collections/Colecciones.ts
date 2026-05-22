@@ -1,6 +1,10 @@
 import type { CollectionConfig } from 'payload';
 import { isAdmin, isPublic } from '../access.ts';
 import { autoSlug } from '../hooks/auto-slug.ts';
+import { makeRevalidateHook } from '../hooks/revalidate-storefront.ts';
+
+// F-storefront-freshness AC-3 — coleccion edits feed the index + each detail page.
+const revalidateColecciones = makeRevalidateHook(['/colecciones', ['/colecciones/[slug]', 'page']]);
 
 export const Colecciones: CollectionConfig = {
   slug: 'colecciones',
@@ -10,6 +14,10 @@ export const Colecciones: CollectionConfig = {
     useAsTitle: 'nombreCompleto',
     defaultColumns: ['nombre', 'temporada', 'anio', 'estado'],
     description: 'Colecciones de la marca (ej: Magia, Transmutacion)',
+  },
+  hooks: {
+    afterChange: [revalidateColecciones],
+    afterDelete: [revalidateColecciones],
   },
   fields: [
     {

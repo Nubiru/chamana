@@ -5,6 +5,10 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
+// ISR self-heal net (F-storefront-freshness AC-1 / ADR-014). Events change rarely →
+// daily window; the Eventos afterChange hook does the instant refresh. NO force-dynamic.
+export const revalidate = 86400;
+
 export const metadata: Metadata = {
   title: 'Desfile en Utopia - CHAMANA',
   description:

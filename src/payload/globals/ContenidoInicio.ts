@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload';
 import { isAdmin, isPublic } from '../access.ts';
+import { makeRevalidateHook } from '../hooks/revalidate-storefront.ts';
 
 export const ContenidoInicio: GlobalConfig = {
   slug: 'contenido-inicio',
@@ -7,6 +8,10 @@ export const ContenidoInicio: GlobalConfig = {
   admin: {
     group: 'Contenido',
     description: 'Textos y configuracion de la pagina principal',
+  },
+  // F-storefront-freshness AC-4 — global edits are rare + blast across pages.
+  hooks: {
+    afterChange: [makeRevalidateHook([['/', 'layout']])],
   },
   fields: [
     {
