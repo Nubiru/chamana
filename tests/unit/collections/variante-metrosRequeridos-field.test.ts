@@ -19,20 +19,38 @@
 import { Modelos } from '@/payload/collections/Modelos';
 import type { ArrayField, Field, NumberField } from 'payload';
 
-function findTopLevel(name: string): Field | undefined {
-  return (Modelos.fields as Field[]).find(
-    (f): f is Field & { name?: string } =>
-      typeof (f as { name?: unknown }).name === 'string' && (f as { name: string }).name === name
-  );
+/**
+ * Recursively locate a named field, descending through G-35's PRESENTATIONAL
+ * containers — the unnamed `tabs` panes (Basico / Variantes) and the unnamed
+ * `collapsible` ('Precio avanzado') / `row` groups that regroup the admin form
+ * WITHOUT changing the data shape (G-35 was config-only, migration-free). Named
+ * data containers (the `variantes` array) are returned on name match; the search
+ * does not auto-descend into them, so the caller controls the lookup scope.
+ */
+function findField(fields: Field[], name: string): Field | undefined {
+  for (const f of fields) {
+    if ((f as { name?: unknown }).name === name) return f;
+    const tabs = (f as { tabs?: { fields: Field[] }[] }).tabs;
+    if (Array.isArray(tabs)) {
+      for (const t of tabs) {
+        const hit = findField(t.fields as Field[], name);
+        if (hit) return hit;
+      }
+    }
+    // Descend only into UNNAMED presentational groups (collapsible / row), never
+    // into a named data container — that keeps each caller's scope explicit.
+    const nested = (f as { fields?: Field[] }).fields;
+    if (Array.isArray(nested) && (f as { name?: unknown }).name == null) {
+      const hit = findField(nested, name);
+      if (hit) return hit;
+    }
+  }
+  return undefined;
 }
 
 function getMetros(): NumberField {
-  const variantes = findTopLevel('variantes') as ArrayField;
-  return (variantes.fields as Field[]).find(
-    (f): f is NumberField =>
-      typeof (f as { name?: unknown }).name === 'string' &&
-      (f as { name: string }).name === 'metrosRequeridos'
-  ) as NumberField;
+  const variantes = findField(Modelos.fields as Field[], 'variantes') as ArrayField;
+  return findField(variantes.fields as Field[], 'metrosRequeridos') as NumberField;
 }
 
 describe('Variante.metrosRequeridos — F-Variante-metrosRequeridos-Modelo-estado AC-1 field shape', () => {

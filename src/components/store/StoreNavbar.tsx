@@ -17,6 +17,7 @@ export function StoreNavbar() {
 
   const navLinks = [
     { href: '/tienda', label: 'Tienda' },
+    { href: '/colecciones', label: 'Colecciones' },
     { href: '/desfile', label: 'Desfile' },
     { href: '/carrito', label: 'Carrito' },
   ];

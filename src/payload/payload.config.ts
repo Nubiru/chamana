@@ -15,6 +15,7 @@ import { Media } from './collections/Media.ts';
 import { Modelos } from './collections/Modelos.ts';
 import { Prototipos } from './collections/Prototipos.ts';
 import { Publicaciones } from './collections/Publicaciones.ts';
+import { Recados } from './collections/Recados.ts';
 import { Telas } from './collections/Telas.ts';
 import { Users } from './collections/Users.ts';
 import { Ventas } from './collections/Ventas.ts';
@@ -77,6 +78,7 @@ export default buildConfig({
     Eventos,
     Ventas,
     Publicaciones,
+    Recados,
   ],
 
   globals: [ConfiguracionSitio, ContenidoInicio, PreguntasFrecuentes, Garantias, GuiaTalles],

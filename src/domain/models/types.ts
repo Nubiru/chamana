@@ -4,7 +4,7 @@ export type ModeloEstado = 'nueva' | 'en_produccion' | 'en_stock' | 'sin_stock' 
  * Spanish labels for the Modelo lifecycle states.
  *
  * Labels match the unaccented Spanish convention used by collections/Modelos.ts
- * (G-16 ship). Cintia sees these strings verbatim both in the admin select
+ * (G-16 ship). Daniela sees these strings verbatim both in the admin select
  * dropdown and in transition-error messages thrown by the state-machine hook.
  */
 export const ESTADO_LABELS: Record<ModeloEstado, string> = {

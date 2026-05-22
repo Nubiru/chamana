@@ -199,23 +199,85 @@ export async function getCategorias(): Promise<{ slug: string; nombre: string; c
 
 // ─── Collection queries ───
 
+// Collection visibility — single source of truth. `archivo` is hidden from the storefront;
+// drafts (planificacion) + produccion + activa all surface.
+export const PUBLIC_COLECCION_ESTADOS = ['planificacion', 'produccion', 'activa'] as const;
+
+export function isPublicColeccion(estado: CollectionMeta['estado']): boolean {
+  return (PUBLIC_COLECCION_ESTADOS as readonly string[]).includes(estado);
+}
+
+// Within-year ordering: otono-invierno (the later season) sorts before primavera-verano so the
+// newest collection of a given year leads. Combined with anio-desc this yields newest-first.
+const TEMPORADA_ORDINAL: Record<CollectionMeta['temporada'], number> = {
+  'primavera-verano': 0,
+  'otono-invierno': 1,
+};
+
+// Extracted so getColecciones + getColeccionBySlug share one Payload→CollectionMeta mapping.
+function adaptColeccion(doc: Record<string, unknown>): CollectionMeta {
+  return {
+    slug: doc.slug as string,
+    nombre: doc.nombre as string,
+    nombreCompleto: doc.nombreCompleto as string,
+    temporada: doc.temporada as CollectionMeta['temporada'],
+    anio: doc.anio as number,
+    estado: doc.estado as CollectionMeta['estado'],
+    descripcion: doc.descripcion as string,
+    ejes: ((doc.ejes as Array<{ eje: string }>) || []).map((e) => e.eje),
+  };
+}
+
 export async function getColecciones(): Promise<CollectionMeta[]> {
   return safeQuery(async () => {
     const payload = await getPayloadClient();
     const result = await payload.find({
       collection: 'colecciones',
-      limit: 10,
+      where: { estado: { in: [...PUBLIC_COLECCION_ESTADOS] } },
+      limit: 50,
     });
-    return result.docs.map((doc) => ({
-      slug: doc.slug,
-      nombre: doc.nombre,
-      nombreCompleto: doc.nombreCompleto,
-      temporada: doc.temporada as CollectionMeta['temporada'],
-      anio: doc.anio,
-      estado: doc.estado as CollectionMeta['estado'],
-      descripcion: doc.descripcion,
-      ejes: ((doc.ejes as Array<{ eje: string }>) || []).map((e) => e.eje),
-    }));
+    return result.docs
+      .map((doc) => adaptColeccion(doc as unknown as Record<string, unknown>))
+      .sort(
+        (a, b) => b.anio - a.anio || TEMPORADA_ORDINAL[b.temporada] - TEMPORADA_ORDINAL[a.temporada]
+      );
+  }, []);
+}
+
+export async function getColeccionBySlug(slug: string): Promise<CollectionMeta | undefined> {
+  return safeQuery(async () => {
+    const payload = await getPayloadClient();
+    const result = await payload.find({
+      collection: 'colecciones',
+      where: { slug: { equals: slug } },
+      limit: 1,
+    });
+    if (result.docs.length === 0) return undefined;
+    return adaptColeccion(result.docs[0] as unknown as Record<string, unknown>);
+  }, undefined);
+}
+
+// Two-step join (mirrors getModelosByTipo): resolve the coleccion doc id from the slug, then
+// read the modelos whose `coleccion` relationship equals that id. The relation stores the id,
+// so `equals: id` is the adapter-agnostic filter.
+export async function getModelosByColeccion(coleccionSlug: string): Promise<ChamanaModel[]> {
+  return safeQuery(async () => {
+    const payload = await getPayloadClient();
+    const coleccionResult = await payload.find({
+      collection: 'colecciones',
+      where: { slug: { equals: coleccionSlug } },
+      limit: 1,
+    });
+    if (coleccionResult.docs.length === 0) return [];
+    const coleccionId = (coleccionResult.docs[0] as { id: number | string }).id;
+    const result = await payload.find({
+      collection: 'modelos',
+      where: { coleccion: { equals: coleccionId } },
+      depth: 2,
+      limit: 100,
+      sort: 'nombre',
+    });
+    return result.docs.map((doc) => adaptModelo(doc as unknown as Record<string, unknown>));
   }, []);
 }
 

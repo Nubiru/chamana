@@ -8,7 +8,7 @@ export const Publicaciones: CollectionConfig = {
     group: 'Contenido',
     useAsTitle: 'titulo',
     defaultColumns: ['titulo', 'estado', 'plataforma', 'fechaProgramada'],
-    description: 'Contenido para redes sociales — revision con Cintia',
+    description: 'Contenido para redes sociales — revision con Daniela',
   },
   fields: [
     // What
@@ -74,11 +74,11 @@ export const Publicaciones: CollectionConfig = {
       ],
     },
     {
-      name: 'notasCintia',
+      name: 'notasRevision',
       type: 'textarea',
-      label: 'Notas de Cintia',
+      label: 'Notas de revisión',
       admin: {
-        description: 'Cintia: escribi aca que cambios necesitas',
+        description: 'Daniela: escribi aca que cambios necesitas',
       },
     },
 

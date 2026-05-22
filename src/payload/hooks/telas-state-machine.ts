@@ -13,14 +13,14 @@ import type { TelaEstado } from '../../domain/textiles/types.ts';
  * Semantics (matches G-10):
  *   - operation 'create' → no transition to validate (estado is whatever
  *     defaultValue or admin-form picked from the closed enum). Return data.
- *   - operation 'update' AND oldStatus === newStatus → no-op (Cintia edited
+ *   - operation 'update' AND oldStatus === newStatus → no-op (Daniela edited
  *     some other field). Return data unchanged.
  *   - operation 'update' AND oldStatus !== newStatus → call validateTransition.
  *     Invalid → throw with Spanish error message (Payload bubbles it as a
  *     save failure visible in admin). Valid → return data.
  *
  * Defensive: missing oldStatus / newStatus (legacy row pre-migration, or
- * Cintia editing a field that does not touch estado) → no-op. Symmetric to
+ * Daniela editing a field that does not touch estado) → no-op. Symmetric to
  * G-10's behavior.
  */
 export const telasStateMachine: CollectionBeforeChangeHook = ({ data, originalDoc, operation }) => {

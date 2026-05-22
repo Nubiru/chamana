@@ -1,13 +1,14 @@
 'use client';
 
 import { useCartStore } from '@/lib/stores/cart-store';
-import { Home, ShoppingBag, Sparkles, Store } from 'lucide-react';
+import { Home, Layers, ShoppingBag, Sparkles, Store } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const tabs = [
   { href: '/', label: 'Inicio', icon: Home },
   { href: '/tienda', label: 'Tienda', icon: Store },
+  { href: '/colecciones', label: 'Colecciones', icon: Layers },
   { href: '/desfile', label: 'Desfile', icon: Sparkles },
   { href: '/carrito', label: 'Carrito', icon: ShoppingBag },
 ];
@@ -40,7 +41,9 @@ export function BottomNav() {
                   </span>
                 )}
               </div>
-              <span className="text-[10px]">{tab.label}</span>
+              <span className="text-[10px] leading-tight text-center truncate w-full px-0.5">
+                {tab.label}
+              </span>
               {isActive && (
                 <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-primary rounded-full" />
               )}

@@ -5,7 +5,7 @@ import type { VentaEstado } from '../../domain/sales/types.ts';
  * F4 / H3 — atomic stock invariant.
  *
  * A Venta record represents a unit decrement on the linked Modelo's matching
- * variant. The hooks below enforce that invariant in code so Cintia performs
+ * variant. The hooks below enforce that invariant in code so Daniela performs
  * ONE write (saving the Venta), not two (Venta + manual Modelo edit).
  *
  * Semantics:

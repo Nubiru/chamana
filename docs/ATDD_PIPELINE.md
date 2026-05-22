@@ -115,7 +115,7 @@ Gabriel-confirmed RED on Phase 2 tests.
 ### Tool / Language
 - TypeScript strict per `tsconfig.json`. `src/` is currently `exclude`'d (per O-1 §2) — Tier 5 task may lift this exclusion when CRM lands.
 - Payload collections in `collections/*.ts`; hooks in `lib/payload/hooks/`; storefront queries in `lib/payload/queries.ts`.
-- Brand voice in customer-facing strings comes from `CINTIA_VOICE_GUIDE.md` (Tier 3 deliverable; consult before writing any Spanish copy in JSX).
+- Brand voice in customer-facing strings comes from `DANIELA_VOICE_GUIDE.md` (Tier 3 deliverable; consult before writing any Spanish copy in JSX).
 
 ### Acceptance gate
 Gabriel runs the tests again → GREEN. Outputs pasted to task `result`. If GREEN but tests pass against a regressed expectation, GAMMA opens a Pillar 5 trigger — the spec was wrong or the test was over-fit; SIGMA revises.

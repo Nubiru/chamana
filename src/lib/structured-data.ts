@@ -1,4 +1,4 @@
-import type { ChamanaModel } from '@/domain/catalog';
+import type { ChamanaModel, CollectionMeta } from '@/domain/catalog';
 import { getModelMaxPrice, getModelMinPrice } from '@/domain/catalog';
 import { BRAND_NAME, INSTAGRAM_URL, SITE_URL, WHATSAPP_NUMBER } from '@/lib/config';
 
@@ -85,6 +85,72 @@ export function breadcrumbJsonLd(model: ChamanaModel) {
         position: 3,
         name: model.nombre,
         item: `${SITE_URL}/producto/${model.slug}`,
+      },
+    ],
+  };
+}
+
+// ─── Collection structured data ───
+
+export function coleccionesIndexJsonLd(colecciones: CollectionMeta[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Colecciones | CHAMANA',
+    url: `${SITE_URL}/colecciones`,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: colecciones.map((coleccion, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: coleccion.nombreCompleto,
+        url: `${SITE_URL}/colecciones/${coleccion.slug}`,
+      })),
+    },
+  };
+}
+
+export function coleccionJsonLd(coleccion: CollectionMeta, modelos: ChamanaModel[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: coleccion.nombreCompleto,
+    description: coleccion.descripcion,
+    url: `${SITE_URL}/colecciones/${coleccion.slug}`,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: modelos.map((model, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: model.nombre,
+        url: `${SITE_URL}/producto/${model.slug}`,
+      })),
+    },
+  };
+}
+
+export function coleccionBreadcrumbJsonLd(coleccion: CollectionMeta) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Inicio',
+        item: SITE_URL,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Colecciones',
+        item: `${SITE_URL}/colecciones`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: coleccion.nombre,
+        item: `${SITE_URL}/colecciones/${coleccion.slug}`,
       },
     ],
   };

@@ -1,35 +1,6 @@
-import type { CollectionMeta } from '@/domain/catalog';
+// Collection data is owned by the Payload SoT (the `colecciones` collection). Read it through
+// `@/payload/queries` (getColecciones / getColeccionBySlug / getModelosByColeccion).
+// The former static `COLECCIONES` array + getCollectionBySlug + getActiveCollection were a dead
+// parallel source (the G-30 anti-pattern, 2nd manifestation) and were removed (G-34 / AC-9).
+// Only the type re-export remains.
 export type { CollectionMeta } from '@/domain/catalog';
-
-export const COLECCIONES: CollectionMeta[] = [
-  {
-    slug: 'magia',
-    nombre: 'Magia',
-    nombreCompleto: 'Coleccion Magia',
-    temporada: 'primavera-verano',
-    anio: 2025,
-    estado: 'activa',
-    descripcion:
-      'Primera coleccion de CHAMANA. 14 modelos inspirados en la intuicion, la naturaleza y lo sagrado femenino.',
-    ejes: ['intuicion', 'naturaleza', 'sagrado femenino', 'magia'],
-  },
-  {
-    slug: 'transmutacion',
-    nombre: 'Transmutacion',
-    nombreCompleto: 'Coleccion Transmutacion',
-    temporada: 'otono-invierno',
-    anio: 2026,
-    estado: 'planificacion',
-    descripcion:
-      '18 prendas artesanales inspiradas en la transmutacion de la naturaleza. 4 capas elementales: Tierra, Fuego, Agua, Aire.',
-    ejes: ['transmutacion', 'naturaleza', 'renacer', 'elementos'],
-  },
-];
-
-export function getCollectionBySlug(slug: string): CollectionMeta | undefined {
-  return COLECCIONES.find((c) => c.slug === slug);
-}
-
-export function getActiveCollection(): CollectionMeta | undefined {
-  return COLECCIONES.find((c) => c.estado === 'activa');
-}

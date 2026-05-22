@@ -11,13 +11,13 @@ import { ESTADO_LABELS, type TelaEstado } from './types.ts';
  * `lib/payload/hooks/telas-state-machine.ts`.
  *
  * `labels: ESTADO_LABELS` is passed, so `invalidTransitionError` renders human
- * Spanish strings ("Disponible") + trailing period — the format Cintia reads in
+ * Spanish strings ("Disponible") + trailing period — the format Daniela reads in
  * admin save errors. Byte-stable exports preserve the 18 Telas assertions.
  *
  * Realism notes per S-6 §3:
  *   - disponible → por_agotarse / agotada / discontinuada (natural depletion).
- *   - por_agotarse → disponible (Cintia recibió buffer no contabilizado),
- *     agotada, pedida (Cintia ya pidió reposición), discontinuada.
+ *   - por_agotarse → disponible (Daniela recibió buffer no contabilizado),
+ *     agotada, pedida (Daniela ya pidió reposición), discontinuada.
  *   - agotada → pedida (reposición) o discontinuada. NUNCA → disponible
  *     directo (la tela no resucita sin un pedido intermedio).
  *   - pedida → disponible (llegó el pedido), por_agotarse (llegó parcial),

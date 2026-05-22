@@ -12,15 +12,15 @@ import { ESTADO_LABELS, type ModeloEstado } from './types.ts';
  * `lib/payload/hooks/modelos-state-machine.ts`.
  *
  * `labels: ESTADO_LABELS` is passed, so `invalidTransitionError` renders human
- * Spanish strings ("En stock") + trailing period — the format Cintia reads in
+ * Spanish strings ("En stock") + trailing period — the format Daniela reads in
  * admin save errors. Byte-stable exports preserve the 40 Modelos assertions.
  *
  * Realism notes per S-7 §3 AC-5:
- *   - nueva → en_produccion (Cintia decides to begin sewing), descontinuada
+ *   - nueva → en_produccion (Daniela decides to begin sewing), descontinuada
  *     (drop the design before any work).
  *   - en_produccion → nueva (cancel the production run, back to design),
  *     en_stock (first batch ready), descontinuada (cancel and retire).
- *   - en_stock ↔ sin_stock bidirectional (stock depletes / Cintia receives
+ *   - en_stock ↔ sin_stock bidirectional (stock depletes / Daniela receives
  *     unaccounted buffer or corrects stockVendido), en_produccion (reopen
  *     production for more units), descontinuada.
  *   - sin_stock → en_produccion (reorder atelier run), en_stock (recovered
