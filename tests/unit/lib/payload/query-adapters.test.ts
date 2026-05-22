@@ -22,7 +22,13 @@ jest.mock('@/payload/static-image-fallback', () => ({
   },
 }));
 
-import { getModeloBySlug, getModelos, getModelosFeatured, getTelas } from '@/payload/queries';
+import {
+  getColecciones,
+  getModeloBySlug,
+  getModelos,
+  getModelosFeatured,
+  getTelas,
+} from '@/payload/queries';
 import { getPayload } from 'payload';
 
 const mockGetPayload = getPayload as jest.MockedFunction<typeof getPayload>;
@@ -577,6 +583,79 @@ describe('Payload query adapters', () => {
       mockGetPayload.mockResolvedValue(mockPayload);
 
       await expect(getModelos()).rejects.toThrow(TypeError);
+    });
+  });
+
+  // ────────────────────────────────────────────
+  // isTableMissingError — SQLite/libsql dialect (G-39 regression guard)
+  //
+  // CI's `next build` has no POSTGRES_URL -> payload.config falls back to
+  // sqliteAdapter against an empty/unmigrated chamana.db. Build-time
+  // getColecciones() then throws LibsqlError 'SQLITE_ERROR: no such table:
+  // colecciones'. The empty-state fallback only triggers if isTableMissingError
+  // recognizes the SQLite dialect ('no such table'), which the Postgres-only
+  // detector ('does not exist'/'relation') did not. These 4 cases pin BOTH the
+  // new SQLite recognition AND the no-over-swallow boundary, in both dialects.
+  // ────────────────────────────────────────────
+
+  describe('isTableMissingError — SQLite/libsql dialect (via getColecciones)', () => {
+    beforeEach(() => {
+      jest.spyOn(console, 'warn').mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+
+    // Case 1 — SQLite direct: message contains 'no such table'.
+    it('returns fallback for a direct SQLite error ("no such table")', async () => {
+      const mockPayload = {
+        find: jest.fn().mockRejectedValue(new Error('SQLITE_ERROR: no such table: colecciones')),
+      } as unknown as Awaited<ReturnType<typeof getPayload>>;
+      mockGetPayload.mockResolvedValue(mockPayload);
+
+      const result = await getColecciones();
+
+      expect(result).toEqual([]);
+    });
+
+    // Case 2 — libsql-wrapped: LibsqlError outer with cause = inner SqliteError.
+    // Proves the cause-chain recursion catches the inner dialect message.
+    it('returns fallback for the libsql-wrapped shape (cause-chain recursion)', async () => {
+      const inner = new Error('SQLITE_ERROR: no such table: colecciones');
+      const outer = new Error('LibsqlError: SQLITE_ERROR');
+      (outer as Error & { cause: Error }).cause = inner;
+
+      const mockPayload = {
+        find: jest.fn().mockRejectedValue(outer),
+      } as unknown as Awaited<ReturnType<typeof getPayload>>;
+      mockGetPayload.mockResolvedValue(mockPayload);
+
+      const result = await getColecciones();
+
+      expect(result).toEqual([]);
+    });
+
+    // Case 3 — Postgres dialect still recognized (no regression for prod-shape).
+    it('still returns fallback for the Postgres dialect ("does not exist")', async () => {
+      const mockPayload = {
+        find: jest.fn().mockRejectedValue(new Error('relation "colecciones" does not exist')),
+      } as unknown as Awaited<ReturnType<typeof getPayload>>;
+      mockGetPayload.mockResolvedValue(mockPayload);
+
+      const result = await getColecciones();
+
+      expect(result).toEqual([]);
+    });
+
+    // Case 4 — no over-swallow boundary: an unrelated error still re-throws.
+    it('re-throws an unrelated error (validation) — no over-swallow', async () => {
+      const mockPayload = {
+        find: jest.fn().mockRejectedValue(new Error('ValidationError: campo requerido')),
+      } as unknown as Awaited<ReturnType<typeof getPayload>>;
+      mockGetPayload.mockResolvedValue(mockPayload);
+
+      await expect(getColecciones()).rejects.toThrow('ValidationError');
     });
   });
 

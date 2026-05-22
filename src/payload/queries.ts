@@ -26,8 +26,15 @@ async function getPayloadClient() {
 function isTableMissingError(err: unknown): boolean {
   if (!(err instanceof Error)) return String(err).includes('does not exist');
   const msg = err.message;
+  // Postgres dialect: relation absent.
   if (msg.includes('does not exist') || msg.includes('relation')) return true;
-  // Payload wraps PostgreSQL errors — check the cause chain
+  // SQLite/libsql dialect: empty/schemaless DB (e.g. CI build with no POSTGRES_URL
+  // falls back to sqliteAdapter against a fresh, unmigrated chamana.db). The libsql
+  // message is 'SQLITE_ERROR: no such table: <name>'; match the dialect's missing-
+  // table signature only — NOT the generic SQLITE_ERROR code (which also covers
+  // syntax errors), so genuine errors still surface.
+  if (msg.includes('no such table')) return true;
+  // Payload wraps PostgreSQL/libsql errors — check the cause chain
   const cause = (err as Error & { cause?: unknown }).cause;
   if (cause) return isTableMissingError(cause);
   return false;
